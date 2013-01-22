@@ -1,11 +1,11 @@
 cd dbmodel;
-ant clean build-db -v;
+ant clean build-db -v > ../intlog.txt;
 cd ..;
 
 cd integrate;
-ant -v -Dsource=celegans-gff3-gene,celegans-gff3-mrna,celegans-gff3-cds > ../intlog.txt;
-#ant -v -Dsource=celegans-gff3-gene,celegans-gff3-mrna > ../intlog.txt 2> ../intlog.txt;
-#ant -v -Dsource=celegans-gff3-gene > ../intlog.txt 2> ../intlog.txt;
+ant -v -Dsource=celegans-gff3-gene,celegans-gff3-mrna,celegans-gff3-cds >> ../intlog.txt;
+#ant -v -Dsource=celegans-gff3-gene,celegans-gff3-mrna >> ../intlog.txt;
+#ant -v -Dsource=celegans-gff3-gene >> ../intlog.txt;
 cd ..;
 
 #cd postprocess;

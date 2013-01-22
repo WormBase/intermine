@@ -123,10 +123,6 @@ public class WormbaseGff3CoreGFF3RecordHandler extends GFF3RecordHandler
 	    	addItem(gene, genePID);
 	    	geneID = gene.getIdentifier();
 	    	
-	    	//TODO remove
-	    	if(genePID.equals("WBGene00219306")){
-	    		WMDebug.debug("asdfasdf::"+record.toString());
-	    	}
     	}else{
     		geneID = key2refID.get(genePID);
     	}
