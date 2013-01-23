@@ -608,13 +608,18 @@ public class GFF3Converter extends DataConverter
         return refId;
     }
     
+    /**
+     * Strips "Gene:" off of string.
+     * @param rawName
+     * @return
+     */
     private String stripTypePrefix(String rawName){
     	if( rawName == null ) return null;
     	
-    	if( rawName.contains(":")){
+    	if( rawName.contains("Gene:")){
     		return rawName.substring(rawName.indexOf(':')+1);
     	}else{
-    		System.out.println("ID without a ':':"+rawName); // debug TODO delete
+    		//System.out.println("ID without a ':'="+rawName); // debug TODO delete
     		return rawName;
     	}
     }

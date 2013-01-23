@@ -23,12 +23,14 @@ import wormbase.model.parser.WMDebug;
 public class WormbaseGff3CoreGFF3RecordHandler extends GFF3RecordHandler
 {
 
+	WMDebug wmd;
     /**
      * Create a new WormbaseGff3CoreGFF3RecordHandler for the given data model.
      * @param model the model for which items will be created
      */
     public WormbaseGff3CoreGFF3RecordHandler (Model model) {
         super(model);
+        wmd = new WMDebug();
     }
 
     /**
@@ -63,7 +65,7 @@ public class WormbaseGff3CoreGFF3RecordHandler extends GFF3RecordHandler
     		//sequenceName = stripTypePrefix(ID); // Remove prefix, eg:("Gene:")
     		sequenceName = ID;
     	}catch( Exception e ){
-    		WMDebug.debug("RECORD INVALID FORMAT:"+record.toString());
+    		wmd.debug("RECORD INVALID FORMAT:"+record.toString());
     		return;
     	}
     	
@@ -103,8 +105,17 @@ public class WormbaseGff3CoreGFF3RecordHandler extends GFF3RecordHandler
 //    	System.out.println("JDJDJD:: WormbaseGff3CoreGFF3RecordHandler.process() :\t"+record.toString());
     }
     
+    /**
+     * Strips "Gene:" off of string.
+     * @param rawName
+     * @return
+     */
     public String stripTypePrefix(String rawName){
-    	return rawName.substring(rawName.indexOf(':')+1);
+    	if( rawName.contains("Gene:")){
+    		return rawName.substring(rawName.indexOf(':')+1);
+    	}else{
+    		return rawName;
+    	}
     }
     
     public void processGene(GFF3Record record, Item feature){

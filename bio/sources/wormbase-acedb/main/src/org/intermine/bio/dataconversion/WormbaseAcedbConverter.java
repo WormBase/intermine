@@ -52,6 +52,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	private static final String DATASET_TITLE = "wormbaseAcedb"; //"Add DataSet.title here";
     private static final String DATA_SOURCE_NAME = "wormbaseAcedbFileconverter"; //"Add DataSource.name here";
 
+    private WMDebug wmd;
     private DataMapper dataMapping = null;
     private Model model;
     private ClassDescriptor classCD; // CD of current data type being processed 
@@ -70,7 +71,10 @@ public class WormbaseAcedbConverter extends BioFileConverter
     public WormbaseAcedbConverter(ItemWriter writer, Model _model) {
         super(writer, _model, DATA_SOURCE_NAME, DATASET_TITLE);
         
-        WMDebug.debug("Constructor called");
+        wmd = new WMDebug();
+        wmd.off();
+        
+        wmd.debug("Constructor called");
         
 //        // keyMapping hash block for debugging
 //        keyMapping.put("Organism", "name"); 
@@ -80,7 +84,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
         storedRefItems = new HashMap<String, Item>();
         model = _model;
         
-        classCD = model.getClassDescriptorByName(currentClass);
+        classCD = model.getClassDescriptorByName(currentClass); 
         
 //        // Begin debug code
 //        ClassDescriptor geneCD = model.getClassDescriptorByName("Gene");
@@ -111,7 +115,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
      * {@inheritDoc}
      */
     public void process(Reader reader) throws Exception {
-    	WMDebug.debug("started WormbaseAcedbConverter.process()"); 
+    	wmd.debug("started WormbaseAcedbConverter.process()"); 
     	
     	// Checking for properties
     	if( dataMapping == null ){
@@ -150,12 +154,12 @@ public class WormbaseAcedbConverter extends BioFileConverter
     				 *  "<2_poinnt>"
     				 *  unescaped '&', '<', or '>' inside of tags
     				 */
-    				WMDebug.debug("CALLING XML SANITATION FUNCTION");
+    				wmd.debug("CALLING XML SANITATION FUNCTION");
     				String repairedData = PackageUtils.sanitizeXMLTags(dataString);
     				doc = PackageUtils.loadXMLFrom(repairedData);
     			}catch( SAXParseException e1 ){
 	    			try{
-	    				WMDebug.debug("### SANITATION FAILED: ADDING RECORD TO REJECTS FILE ###");
+	    				wmd.debug("### SANITATION FAILED: ADDING RECORD TO REJECTS FILE ###");
 	    				
 	    				// Add to rejects file
 		    			fw.write("==============================================\n");
@@ -187,7 +191,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        String ID = null;
 	        while( dataPathEnum.hasMoreElements() ){ // foreach property mapping
 	        	dataPath = (String) dataPathEnum.nextElement(); // ex: symbol
-	        	WMDebug.debug("Processing property:["+dataPath+"]");
+	        	wmd.debug("Processing property:["+dataPath+"]");
 	        	String xpathQuery = dataMapping.getProperty(dataPath);
 	        	
 	        	// The XPath object compiles the XPath expression
@@ -215,33 +219,33 @@ public class WormbaseAcedbConverter extends BioFileConverter
 			        	if( rd.relationType() == FieldDescriptor.ONE_ONE_RELATION ||
 			        		rd.relationType() == FieldDescriptor.N_ONE_RELATION   )
 			        	{
-			        		WMDebug.debug("This is a reference");
+			        		wmd.debug("This is a reference");
 			        		
 				        	String xPathValue = StringUtils.strip( expr.evaluate(doc) );
 				        	Item referencedItem = getRefItem(refClassName, xPathValue);
 				        	
-				        	WMDebug.debug("Setting current "+currentClass+"."+fd.getName()+" to: ("+refClassName+")["+xPathValue+"]" );
+				        	wmd.debug("Setting current "+currentClass+"."+fd.getName()+" to: ("+refClassName+")["+xPathValue+"]" );
 				        	item.setReference(rd.getName(), referencedItem.getIdentifier());
 				        	
 				        	if( 		rd.relationType() == FieldDescriptor.ONE_ONE_RELATION ){
-				        		WMDebug.debug("1:1");
+				        		wmd.debug("1:1");
 				        		// UNTESTED
 				        		setRevRefIfExists(item, referencedItem, rd);
 				        	}else if(	rd.relationType() == FieldDescriptor.N_ONE_RELATION){
-				        		WMDebug.debug("N:1");
+				        		wmd.debug("N:1");
 				        		addToRevColIfExists(item, referencedItem, rd);
 				        	}
 			        		
 			        	}else if( 	rd.relationType() == FieldDescriptor.ONE_N_RELATION ||
 			        				rd.relationType() == FieldDescriptor.M_N_RELATION   )
 			        	{
-			        		WMDebug.debug("This is a collection"); 
+			        		wmd.debug("This is a collection"); 
 			        		CollectionDescriptor cd = (CollectionDescriptor) rd;
 			        		
 			        		if( 		cd.relationType() == FieldDescriptor.ONE_N_RELATION ){
-			        			WMDebug.debug("1:N");
+			        			wmd.debug("1:N");
 			        		}else if(	cd.relationType() == FieldDescriptor.M_N_RELATION   ){
-			        			WMDebug.debug("M:N");
+			        			wmd.debug("M:N");
 			        		}
 			        		
 			        		Item referencedItem = createItem(refClassName); // Initialized by necessity
@@ -254,12 +258,12 @@ public class WormbaseAcedbConverter extends BioFileConverter
 				        		referencedItem = getRefItem(refClassName, collectionIDs[i]);
 				        		item.addToCollection(cd.getName(), referencedItem);
 				        		
-					            WMDebug.debug(cd.getName()+":["+collectionIDs[i]+"]");
+					            wmd.debug(cd.getName()+":["+collectionIDs[i]+"]");
 			        		
 				        		if( 		cd.relationType() == FieldDescriptor.ONE_N_RELATION ){
 				        			setRevRefIfExists(item, referencedItem, cd);
 				        		}else if(	cd.relationType() == FieldDescriptor.M_N_RELATION   ){
-				        			WMDebug.debug("M:N");
+				        			wmd.debug("M:N");
 				        			// UNTESTED
 				        			addToRevColIfExists(item, referencedItem, rd);
 				        		}
@@ -279,7 +283,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 		        		throw new Exception("Matching error: ["+dataPath+"] expected to contain '.'");
 		        	}
 		        }else{
-		        	WMDebug.debug("This is an attribute");
+		        	wmd.debug("This is an attribute");
 		        	
 		        	String xPathValue = StringUtils.strip( expr.evaluate(doc) );
 		        	
@@ -288,7 +292,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 			        }
 			        
 		        	// DataPath describes attribute
-					WMDebug.debug("Setting attribute ["+dataPath+"] to ["+xPathValue+"]");
+					wmd.debug("Setting attribute ["+dataPath+"] to ["+xPathValue+"]");
 			        if (!StringUtils.isEmpty(xPathValue)) {
 						item.setAttribute(dataPath, xPathValue);
 					}
@@ -296,28 +300,28 @@ public class WormbaseAcedbConverter extends BioFileConverter
 		        }
 		        
 		        
-		        WMDebug.debug("=======================");
+		        wmd.debug("=======================");
 	        }
 	        
 	        if( ID == null ){
 	        	throw new Exception("InterMine ID not defined");
 	        }
-	        WMDebug.debug("Storing "+currentClass+" with ID:"+ID);
+	        wmd.debug("Storing "+currentClass+" with ID:"+ID);
 	        store(item);
 	    	
 	        if(count == 100){
-		        WMDebug.debug("STOP AFTER 100 GENES FOR TESTING");
+		        wmd.debug("STOP AFTER 100 GENES FOR TESTING");
 		        break;
 	        }
     	}
     	
-    	WMDebug.debug("==== Flushing cached reference items ====");
+    	wmd.debug("==== Flushing cached reference items ====");
     	// Store all items in storedRefItems
     	Iterator<Entry<String, Item>> keySetIter = 
     			storedRefItems.entrySet().iterator();
     	while(keySetIter.hasNext()){
     		Entry<String, Item> keySet = keySetIter.next();
-    		WMDebug.debug("Storing item:["+keySet.getKey()+"]");
+    		wmd.debug("Storing item:["+keySet.getKey()+"]");
     		store(keySet.getValue());
     	}
     
@@ -346,7 +350,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 			referencedItem = storedRefItems.get(className + ":"
 					+ pID);
 		} else {
-			WMDebug.debug("new " + className + " object:" + pID);
+			wmd.debug("new " + className + " object:" + pID);
 			referencedItem = createItem(className);
 
 			referencedItem.setAttribute(getClassPIDField(className), pID);
@@ -381,7 +385,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
     	try {
 			dataMapping.load(new FileReader(mappingFile));
 		} catch (FileNotFoundException e) {
-			WMDebug.debug("ERROR: "+mappingFile+" not found");
+			wmd.debug("ERROR: "+mappingFile+" not found");
 			throw e;
 		}
     	System.out.println("Processed mapping file: "+mappingFile);
@@ -440,9 +444,9 @@ public class WormbaseAcedbConverter extends BioFileConverter
     		ReferenceDescriptor rd){
     	ReferenceDescriptor rrd = rd.getReverseReferenceDescriptor();
 		if(rrd == null){
-			WMDebug.debug("Unidirectional, no reverse reference");
+			wmd.debug("Unidirectional, no reverse reference");
 		}else{
-//			WMDebug.debug(String.format(
+//			wmd.debug(String.format(
 //					"Setting (%s)%s.%s= current item", 
 //					rd.getName(), rd.getReferencedClassName(), 
 //					rrd.getName()));
@@ -454,9 +458,9 @@ public class WormbaseAcedbConverter extends BioFileConverter
     		ReferenceDescriptor rd){
     	CollectionDescriptor rcd = (CollectionDescriptor) rd.getReverseReferenceDescriptor();
 		if(rcd == null){
-			WMDebug.debug("Unidirectional, no reverse reference");
+			wmd.debug("Unidirectional, no reverse reference");
 		}else{
-			WMDebug.debug(String.format(
+			wmd.debug(String.format(
 					"Adding current item to (%s)%s.%s", 
 					rd.getName(), rd.getReferencedClassName(), 
 					rcd.getName()));
