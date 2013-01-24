@@ -186,6 +186,15 @@
 		
 	</source> 
 	
+	<source name="go" type="go">
+		<property name="src.data.file" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
+	</source>
+	
+	<source name="go-annotation" type="go-annotation">
+		<property name="ontologyfile" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
+		<property name="src.data.dir" location="/home/jdmswong/intermine/datadir/go-annotation"/>
+	</source>
+	
    </sources>
 
   <post-processing>

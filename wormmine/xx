@@ -1,9 +1,9 @@
 cd dbmodel;
-ant clean build-db -v;
+ant clean build-db -v > ../intlog.txt;
 cd ..;
 
 cd integrate;
-ant -v -Dsource=all;
+ant -v -Dsource=all >> ../intlog.txt;
 cd ..;
 
 cd postprocess;

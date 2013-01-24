@@ -613,10 +613,11 @@ public class GFF3Converter extends DataConverter
      * @param rawName
      * @return
      */
+    // TODO changes all over
     private String stripTypePrefix(String rawName){
     	if( rawName == null ) return null;
     	
-    	if( rawName.contains("Gene:")){
+    	if( rawName.contains(":")){
     		return rawName.substring(rawName.indexOf(':')+1);
     	}else{
     		//System.out.println("ID without a ':'="+rawName); // debug TODO delete

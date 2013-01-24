@@ -72,7 +72,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
         super(writer, _model, DATA_SOURCE_NAME, DATASET_TITLE);
         
         wmd = new WMDebug();
-        wmd.off();
+        wmd.off(); // turn on for debug output
         
         wmd.debug("Constructor called");
         
@@ -309,8 +309,9 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        wmd.debug("Storing "+currentClass+" with ID:"+ID);
 	        store(item);
 	    	
+	        // TODO remove in final build
 	        if(count == 100){
-		        wmd.debug("STOP AFTER 100 GENES FOR TESTING");
+		        wmd.debug("STOP AFTER 100 RECORDS FOR TESTING");
 		        break;
 	        }
     	}
@@ -430,6 +431,15 @@ public class WormbaseAcedbConverter extends BioFileConverter
     		}
     	}
     	System.out.println("Processed key file: ["+keyFilePath+"]");
+    }
+    
+    /**
+	 * This method is automatically called if "key.file" property set 
+	 * for source in project XML.
+	 * 
+	*/
+    public void setDataType(String dataType){
+    	
     }
     
     /**

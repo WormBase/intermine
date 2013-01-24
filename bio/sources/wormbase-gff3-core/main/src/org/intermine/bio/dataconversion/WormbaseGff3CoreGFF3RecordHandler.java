@@ -110,8 +110,9 @@ public class WormbaseGff3CoreGFF3RecordHandler extends GFF3RecordHandler
      * @param rawName
      * @return
      */
+    // TODO temp fixes all over 
     public String stripTypePrefix(String rawName){
-    	if( rawName.contains("Gene:")){
+    	if( rawName.contains(":")){
     		return rawName.substring(rawName.indexOf(':')+1);
     	}else{
     		return rawName;
