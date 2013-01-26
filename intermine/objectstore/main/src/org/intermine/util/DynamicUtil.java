@@ -358,11 +358,17 @@ public final class DynamicUtil
      */
     public static synchronized String getSimpleClassName(Class<?> clazz) {
         String retval = simpleNameMap.get(clazz);
+        System.out.println("JDJDJD::"+clazz.toString()); // TODO remove
         if (retval == null) {
             Set<Class<?>> decomposedClass = decomposeClass(clazz);
+            
+            System.out.println("JDJDJD::"+decomposedClass.toString()); // TODO remove
+            
             if (decomposedClass.size() > 1) {
-                throw new IllegalArgumentException("No simple name for class: "
-                                                   + getFriendlyName(clazz));
+//                throw new IllegalArgumentException("No simple name for class: " //c'd out by JD
+//                                                   + getFriendlyName(clazz));
+                retval = decomposedClass.iterator().next().getName(); // JD
+                simpleNameMap.put(clazz, retval);
             } else {
                 retval = decomposedClass.iterator().next().getName();
                 simpleNameMap.put(clazz, retval);
