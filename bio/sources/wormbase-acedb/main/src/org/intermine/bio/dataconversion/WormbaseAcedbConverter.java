@@ -45,9 +45,8 @@ import wormbase.model.parser.*;
 public class WormbaseAcedbConverter extends BioFileConverter
 {
     
-	private final String currentClass = "Gene"; 
-	private final String errorFilePath = "/home/jdmswong/website-intermine/acedb-dev/intermine/wormmine/wbconverter_error.txt";
-	private final String rejectFilePath = "/home/jdmswong/intermine/datadir/wormbase-acedb/wormbase-acedb-rejects.xml";
+	private String currentClass = null; 
+	private String rejectFilePath = null;
 
 	private static final String DATASET_TITLE = "wormbaseAcedb"; //"Add DataSet.title here";
     private static final String DATA_SOURCE_NAME = "wormbaseAcedbFileconverter"; //"Add DataSource.name here";
@@ -72,40 +71,13 @@ public class WormbaseAcedbConverter extends BioFileConverter
         super(writer, _model, DATA_SOURCE_NAME, DATASET_TITLE);
         
         wmd = new WMDebug();
-        wmd.off(); // turn on for debug output
+        //wmd.off(); // turn on for debug output
         
         wmd.debug("Constructor called");
-        
-//        // keyMapping hash block for debugging
-//        keyMapping.put("Organism", "name"); 
-//        keyMapping.put("Transcript", "primaryIdentifier"); 
-//        // end keyMapping hash block
         
         storedRefItems = new HashMap<String, Item>();
         model = _model;
         
-        classCD = model.getClassDescriptorByName(currentClass); 
-        
-//        // Begin debug code
-//        ClassDescriptor geneCD = model.getClassDescriptorByName("Gene");
-//        
-//        
-//        String label[] = {
-//        		"Gene attrs",
-//        		"Gene refs",
-//        		"Gene colls",
-//        		"Gene fields"
-//        		};
-//        String value[] = {
-//        		geneCD.getAllAttributeDescriptors().toString(),
-//        		geneCD.getAllReferenceDescriptors().toString(),
-//        		geneCD.getAllCollectionDescriptors().toString(),
-//        		geneCD.getAllFieldDescriptors().toString()
-//        		};
-//        for(int i=0; i<label.length; i++){
-//        	System.out.printf("[%s]\t[%s]\n",label[i],value[i]);
-//        }
-//        // end debug code
         
     }
 
@@ -118,17 +90,25 @@ public class WormbaseAcedbConverter extends BioFileConverter
     	wmd.debug("started WormbaseAcedbConverter.process()"); 
     	
     	// Checking for properties
-    	if( dataMapping == null ){
+    	if( dataMapping == null )
     		throw new Exception("mapping.file property not defined for this"+
     				" source in the project.xml");
-    	}
-    	if( keyMapping == null){
+    	
+    	if( keyMapping == null )
     		throw new Exception("key.file property not defined for this"+
     				" source in the project.xml");
-    	}
     	
+    	if( currentClass == null )
+    		throw new Exception("source.class property not defined for this"+
+    				" source in the project.xml");
+    	
+    	if( rejectFilePath == null )
+    			wmd.debug("rejects.file property not set, rejected XML"+
+    					" elements will be discarded");
 
-		FileWriter fw = new FileWriter(rejectFilePath);
+		FileWriter rejectsFW = null;
+		if(rejectFilePath != null)
+			rejectsFW = new FileWriter(rejectFilePath); // creates file if exists
 		FileParser fp = new FileParser(reader);
     	
     	// foreach XML string
@@ -149,25 +129,23 @@ public class WormbaseAcedbConverter extends BioFileConverter
 				doc = PackageUtils.loadXMLFrom(dataString);
     		}catch(SAXParseException e){
     			try{
-    				/*
-    				 * Possible error sources:
-    				 *  "<2_poinnt>"
-    				 *  unescaped '&', '<', or '>' inside of tags
-    				 */
     				wmd.debug("CALLING XML SANITATION FUNCTION");
     				String repairedData = PackageUtils.sanitizeXMLTags(dataString);
     				doc = PackageUtils.loadXMLFrom(repairedData);
     			}catch( SAXParseException e1 ){
 	    			try{
-	    				wmd.debug("### SANITATION FAILED: ADDING RECORD TO REJECTS FILE ###");
 	    				
-	    				// Add to rejects file
-		    			fw.write("==============================================\n");
-		    			System.out.println("Original error: "+e.getMessage());
-		    			fw.write("\n");
-		    			System.out.println("Post sanitation: "+e1.getMessage());
-		    			fw.write("\n\n");
-		    			fw.write(dataString);
+	    				if(rejectFilePath != null){
+		    				wmd.debug("### SANITATION FAILED: ADDING RECORD TO REJECTS FILE ###");
+		    				
+		    				// Add to rejects file
+			    			rejectsFW.write("==============================================\n");
+			    			System.out.println("Original error: "+e.getMessage());
+			    			rejectsFW.write("\n");
+			    			System.out.println("Post sanitation: "+e1.getMessage());
+			    			rejectsFW.write("\n\n");
+			    			rejectsFW.write(dataString);
+	    				}
 	    			}catch( Exception e2 ){
 	    				System.out.println("Something wrong with the FileWriter");
 	    				throw e2;
@@ -326,7 +304,8 @@ public class WormbaseAcedbConverter extends BioFileConverter
     		store(keySet.getValue());
     	}
     
-    	fw.close();
+		if(rejectFilePath != null)
+			rejectsFW.close();
     	
     }
     
@@ -477,6 +456,16 @@ public class WormbaseAcedbConverter extends BioFileConverter
 			referencedItem.addToCollection(rcd.getName(), currentItem);
 		}
 
+    }
+    
+    public void setSourceClass(String sourceClass){
+    	currentClass = sourceClass;
+        
+        classCD = model.getClassDescriptorByName(currentClass); 
+    }
+    
+    public void setRejectsFile(String rejectsFile){
+    	rejectFilePath = rejectsFile;
     }
     
 }

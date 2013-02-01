@@ -367,8 +367,8 @@ public final class DynamicUtil
             if (decomposedClass.size() > 1) {
 //                throw new IllegalArgumentException("No simple name for class: " //c'd out by JD
 //                                                   + getFriendlyName(clazz));
-                retval = decomposedClass.iterator().next().getName(); // JD
-                simpleNameMap.put(clazz, retval);
+                retval = decomposedClass.iterator().next().getName(); // by JD
+                simpleNameMap.put(clazz, retval); // by JD
             } else {
                 retval = decomposedClass.iterator().next().getName();
                 simpleNameMap.put(clazz, retval);

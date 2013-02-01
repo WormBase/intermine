@@ -179,10 +179,26 @@
 			value="&datadir;/wormbase-acedb/mapping/wormbase-acedb.properties"/> 
 		<!-- 
 		File specifying the primary keys to use for this source
-		Usually this source's keys.properties file
+		Usually this source's keys.properties file.  Keys must end in ".key"
 		-->
 		<property name="key.file" 
 			value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+		
+		<!-- 
+		This property specifies the intermine class type this source loads.
+		Must use proper CamelCase
+		-->
+		<property name="source.class" value="Gene"/>
+		
+		<!--
+		Optional.
+		This specifies where the XML rejects file should go.  This file stores all XML records
+		which could not be parsed
+		-->
+		<!--
+		<property name="rejects.file" 
+			value="&datadir;/wormbase-acedb/wormbase-acedb-rejects.xml"/>
+				-->
 		
 	</source> 
 	
@@ -198,6 +214,10 @@
    </sources>
 
   <post-processing>
+	<post-process name="create-search-index"/>
+        <post-process name="summarise-objectstore"/>
+        <post-process name="create-autocomplete-index"/>
+        <post-process name="create-attribute-indexes"/>
 
 
 
