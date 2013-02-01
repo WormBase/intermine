@@ -58,27 +58,11 @@ public class WormbaseGff3CoreGFF3RecordHandler extends GFF3RecordHandler
         // some identifier. 
 
     	Item feature = getFeature();
-    	String ID = record.getId();
-    	
-    	String sequenceName = "";
-    	try{
-    		//sequenceName = stripTypePrefix(ID); // Remove prefix, eg:("Gene:")
-    		sequenceName = ID;
-    	}catch( Exception e ){
-    		wmd.debug("RECORD INVALID FORMAT:"+record.toString());
-    		return;
-    	}
-    	
-//    	String PID;
-//    	if(feature.getClassName().equals("Gene")){
-//	    	// Convert ID if available
-//			PID = mapThisID(sequenceName);
-//    	}else{
-//    		PID = sequenceName;
-//    	}
-//    	feature.setAttribute("primaryIdentifier", PID);
     	
     	String PID = record.getId();
+    	
+    	// Store unprefixed symbol
+    	feature.setAttribute("symbol", stripTypePrefix(PID));
     	
     	if(key2refID.containsKey(PID)){
     		return;
@@ -146,7 +130,7 @@ public class WormbaseGff3CoreGFF3RecordHandler extends GFF3RecordHandler
     	
     	if( record.getAttributes().get("Parent") != null ){
 	    	// Set transcript parent
-	    	String parentTranscriptName = stripTypePrefix( record.getAttributes().get("Parent").get(0) );
+	    	String parentTranscriptName = record.getAttributes().get("Parent").get(0);
 	    	Item transcript;
 	    	String transcriptID;
 	    	if(!keyAdded(parentTranscriptName)){

@@ -172,7 +172,8 @@ public class GFF3Converter extends DataConverter
             if(record.getType().equalsIgnoreCase("Gene")){ 
             	record.setId( handler.mapThisID(stripTypePrefix(record.getId())) );
             }else{
-            	record.setId(stripTypePrefix(record.getId()));
+//            	record.setId(stripTypePrefix(record.getId()));
+            	record.setId(record.getId());
             }
             
             // we only care about dupes if we are NOT creating locations
@@ -221,7 +222,7 @@ public class GFF3Converter extends DataConverter
      * @throws ObjectStoreException if an error occurs storing items
      */
     public void process(GFF3Record record) throws ObjectStoreException {
-//    	System.out.println("JDJDJD:: GFF3Converter.process() . Record:\t\t\t"+record.toString());  // TODO DEBUG
+//    	System.out.println("JDJDJD:: GFF3Converter.process() . Record:\t\t\t"+record.toString());  
 //    	System.out.println("JDJDJD:: GFF3Converter.process() start");
     	
     	String identifier = record.getId();
