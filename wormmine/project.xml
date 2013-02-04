@@ -171,12 +171,12 @@
 	
 	<!-- WormBase aceDB data loader.  Base dir is wormmine/integrate -->
 	<source name="wb-acedb-gene" type="wormbase-acedb">
-		<property name="src.data.dir" location="&datadir;/wormbase-acedb/XML" />
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb-gene/XML" />
 		<!--
 			This file maps intermine data classes to an XPath query.
 		-->
 		<property name="mapping.file"	
-			value="&datadir;/wormbase-acedb/mapping/wormbase-acedb.properties"/> 
+			value="&datadir;/wormbase-acedb-gene/mapping/wormbase-acedb-gene.properties"/> 
 		<!-- 
 		File specifying the primary keys to use for this source
 		Usually this source's keys.properties file.  Keys must end in ".key"
@@ -195,10 +195,9 @@
 		This specifies where the XML rejects file should go.  This file stores all XML records
 		which could not be parsed
 		-->
-		<!--
 		<property name="rejects.file" 
-			value="&datadir;/wormbase-acedb/wormbase-acedb-rejects.xml"/>
-				-->
+			value="&datadir;/wormbase-acedb-gene/wormbase-acedb-gene-rejects.xml"/>
+			
 		
 	</source> 
 	

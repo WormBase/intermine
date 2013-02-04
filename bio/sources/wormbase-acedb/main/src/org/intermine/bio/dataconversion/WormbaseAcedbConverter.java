@@ -71,7 +71,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
         super(writer, _model, DATA_SOURCE_NAME, DATASET_TITLE);
         
         wmd = new WMDebug();
-        //wmd.off(); // turn on for debug output
+        wmd.off(); // turn on for debug output // TODO toggle switch
         
         wmd.debug("Constructor called");
         
@@ -288,10 +288,10 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        store(item);
 	    	
 	        // TODO remove in final build
-	        if(count == 100){
-		        wmd.debug("STOP AFTER 100 RECORDS FOR TESTING");
-		        break;
-	        }
+//	        if(count == 100){
+//		        wmd.debug("STOP AFTER 100 RECORDS FOR TESTING");
+//		        break;
+//	        }
     	}
     	
     	wmd.debug("==== Flushing cached reference items ====");

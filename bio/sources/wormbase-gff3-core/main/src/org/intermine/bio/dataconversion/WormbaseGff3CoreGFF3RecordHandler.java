@@ -61,6 +61,8 @@ public class WormbaseGff3CoreGFF3RecordHandler extends GFF3RecordHandler
     	
     	String PID = record.getId();
     	
+    	if( PID == null ) return;
+    	
     	// Store unprefixed symbol
     	feature.setAttribute("symbol", stripTypePrefix(PID));
     	

@@ -1,6 +1,13 @@
 *~
 *.jace
+*.kate-swp
+*log.txt
 
+datadir/wormbase-acedb-gene/*XML
+datadir/wormbase-gff3
+datadir/wormbase-acedb-variation/*XML
+
+# Standard patterns
 bin/
 dist/
 client-dist/
