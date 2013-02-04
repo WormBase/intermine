@@ -1,4 +1,4 @@
-cd dbmodel;
+cd dbmodel;;
 ant clean build-db -v > ../intlog.txt;
 cd ..;
 
