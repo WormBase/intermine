@@ -5,8 +5,8 @@ cd ..;
 cd integrate;
 #ant -v -Dsource=wb-acedb-gene,celegans-gff3-gene,celegans-gff3-mrna,celegans-gff3-cds >> ../intlog.txt;
 #ant -v -Dsource=celegans-gff3-cds,celegans-gff3-mrna >> ../intlog.txt;
-ant -v -Dsource=all >> ../intlog.txt;
-#ant -v -Dsource=wb-acedb-gene >> ../intlog.txt
+#ant -v -Dsource=all >> ../intlog.txt;
+ant -v -Dsource=wb-acedb-gene >> ../intlog.txt
 cd ..;
 
 #cd postprocess;

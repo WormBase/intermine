@@ -27,10 +27,15 @@ public class WMDebug {
 	
 	/**
 	 * Prints "JDJDJD:: "+msg to System.out
+	 * turned off by 
 	 * @param msg message to print
 	 */
 	public void debug(String msg){
 		if( debug )
-			System.out.println("JDJDJD:: "+msg);
+			System.out.println("JDJDDEBUG:: "+msg);
+	}
+	
+	public void log(String msg){
+		System.out.println("JDJDLOG:: "+msg);
 	}
 }

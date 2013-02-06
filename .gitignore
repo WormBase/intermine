@@ -1,6 +1,6 @@
 *~
 *.jace
-*.kate-swp
+*swp
 *log.txt
 
 datadir/wormbase-acedb-gene/*XML

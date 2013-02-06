@@ -103,8 +103,12 @@ public class WormbaseAcedbConverter extends BioFileConverter
     				" source in the project.xml");
     	
     	if( rejectFilePath == null )
-    			wmd.debug("rejects.file property not set, rejected XML"+
-    					" elements will be discarded");
+    	{
+			wmd.debug("rejects.file property not set, rejected XML"+
+					" elements will be discarded");
+    	}else{
+    		wmd.log("XML rejects file set to:"+rejectFilePath);
+    	}
 
 		FileWriter rejectsFW = null;
 		if(rejectFilePath != null)
@@ -136,15 +140,11 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	    			try{
 	    				
 	    				if(rejectFilePath != null){
-		    				wmd.debug("### SANITATION FAILED: ADDING RECORD TO REJECTS FILE ###");
+		    				wmd.log("### SANITATION FAILED: ADDING RECORD TO REJECTS FILE ###");
 		    				
 		    				// Add to rejects file
-			    			rejectsFW.write("==============================================\n");
-			    			System.out.println("Original error: "+e.getMessage());
-			    			rejectsFW.write("\n");
-			    			System.out.println("Post sanitation: "+e1.getMessage());
-			    			rejectsFW.write("\n\n");
 			    			rejectsFW.write(dataString);
+			    			rejectsFW.write("\n\n");
 	    				}
 	    			}catch( Exception e2 ){
 	    				System.out.println("Something wrong with the FileWriter");
