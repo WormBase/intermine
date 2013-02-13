@@ -192,13 +192,13 @@ public class TransferSequences
                     continue;
                 }
 
-                if (PostProcessUtil.isInstance(model, feature, "Transcript")) {
-                    continue;
-                }
-
-                if (PostProcessUtil.isInstance(model, feature, "CDS")) {
-                    continue;
-                }
+//                if (PostProcessUtil.isInstance(model, feature, "Transcript")) {
+//                    continue;
+//                }
+//
+//                if (PostProcessUtil.isInstance(model, feature, "CDS")) {
+//                    continue;
+//                }
 
                 if (PostProcessUtil.isInstance(model, feature, "SNP")) {
                     continue;

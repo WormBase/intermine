@@ -42,7 +42,7 @@ while(<$infile>){
 sub processpg{
 	return undef if $strbuffer eq "\n";
 	
-	$strbuffer =~ s/(<Text>|<Txt>)(.*?)(<[^ \d@]+>)/$1<![CDATA[$2]]>$3/sg;
+	$strbuffer =~ s/(<Text>|<Txt>)(.*?)(<[^ \d@-]+>)/$1<![CDATA[$2]]>$3/sg;
 	$strbuffer =~ s/(<\/?)(\d+)(\w*>)/$1$strnum{$2}$3/sg;
 	print $outfile $strbuffer;
 	
