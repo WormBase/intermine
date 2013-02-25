@@ -105,7 +105,7 @@
 	
 	<!-- WormBase aceDB data loader.  Base dir is wormmine/integrate -->
 	<source name="wb-acedb-gene" type="wormbase-acedb" dump="true">
-		<property name="src.data.dir" location="&datadir;/wormbase-acedb-gene/XML" />
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb-gene/TEST_XML" />
 		<!--
 			This file maps intermine data classes to an XPath query.
 		-->
