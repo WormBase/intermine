@@ -169,9 +169,12 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        String dataPath;
 	        String ID = null;
 	        while( dataPathEnum.hasMoreElements() ){ // foreach property mapping
-	        	dataPath = (String) dataPathEnum.nextElement(); // ex: symbol
+	        	dataPath = (String) dataPathEnum.nextElement(); // ex: "symbol"
 	        	wmd.debug("Processing property:["+dataPath+"]");
-	        	String xpathQuery = dataMapping.getProperty(dataPath);
+	        	
+	        	
+	        	
+	        	String xpathQuery = dataMapping.getProperty(dataPath); // ex: "/Transcript/text()[1]"
 	        	
 	        	// The XPath object compiles the XPath expression
 		        XPathExpression expr = xpath.compile( xpathQuery );
@@ -183,7 +186,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 		        	
 		        	Matcher fNMatcher = Pattern.compile("(.*?)\\.").matcher(dataPath);
 		        	if( fNMatcher.find() ){
-			        	String fieldName = fNMatcher.group(1);
+			        	String fieldName = fNMatcher.group(1); // the string before the '.'
 			        	
 				        FieldDescriptor fd = classCD.getFieldDescriptorByName(fieldName);
 				        if( fd == null ){
@@ -311,7 +314,8 @@ public class WormbaseAcedbConverter extends BioFileConverter
     }
     
     /**
-     * Gets ID of referenced object.
+     * Gets ID of referenced object if exists.  It it doesn't exist, creates it
+     * and returns ID of newly created object.
      * @param fieldName The reference or collection this object is referred to in 
      * @param pID Primary ID value of referenced object
      * @return InterMine item identifier for this object
