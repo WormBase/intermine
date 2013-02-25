@@ -6,8 +6,8 @@
 </class>
 <class name="DataSource" is-interface="true">
 	<attribute name="name" type="java.lang.String"/>
-	<attribute name="description" type="java.lang.String"/>
 	<attribute name="url" type="java.lang.String"/>
+	<attribute name="description" type="java.lang.String"/>
 	<collection name="dataSets" referenced-type="DataSet" reverse-reference="dataSource"/>
 </class>
 <class name="ChromosomalDuplication" extends="ChromosomeStructureVariation" is-interface="true"></class>
@@ -58,8 +58,8 @@
 <class name="DataSet" is-interface="true">
 	<attribute name="name" type="java.lang.String"/>
 	<attribute name="version" type="java.lang.String"/>
-	<attribute name="description" type="java.lang.String"/>
 	<attribute name="url" type="java.lang.String"/>
+	<attribute name="description" type="java.lang.String"/>
 	<reference name="dataSource" referenced-type="DataSource" reverse-reference="dataSets"/>
 	<collection name="bioEntities" referenced-type="BioEntity" reverse-reference="dataSets"/>
 </class>
@@ -128,19 +128,19 @@
 </class>
 <class name="PointMutation" extends="SequenceFeature" is-interface="true"></class>
 <class name="GeneFlankingRegion" extends="SequenceFeature" is-interface="true">
-	<attribute name="distance" type="java.lang.String"/>
 	<attribute name="includeGene" type="java.lang.Boolean"/>
+	<attribute name="distance" type="java.lang.String"/>
 	<attribute name="direction" type="java.lang.String"/>
 	<reference name="gene" referenced-type="Gene" reverse-reference="flankingRegions"/>
 </class>
 <class name="ThreePrimeUTR" extends="UTR" is-interface="true"></class>
 <class name="ChromosomeBand" extends="SequenceFeature" is-interface="true"></class>
 <class name="Organism" is-interface="true">
-	<attribute name="shortName" type="java.lang.String"/>
 	<attribute name="taxonId" type="java.lang.Integer"/>
+	<attribute name="shortName" type="java.lang.String"/>
 	<attribute name="genus" type="java.lang.String"/>
-	<attribute name="commonName" type="java.lang.String"/>
 	<attribute name="species" type="java.lang.String"/>
+	<attribute name="commonName" type="java.lang.String"/>
 	<attribute name="name" type="java.lang.String"/>
 </class>
 <class name="Gene" extends="SequenceFeature" is-interface="true">
@@ -186,8 +186,8 @@
 	<attribute name="year" type="java.lang.Integer"/>
 	<attribute name="volume" type="java.lang.String"/>
 	<attribute name="issue" type="java.lang.String"/>
-	<attribute name="pubMedId" type="java.lang.String"/>
 	<attribute name="month" type="java.lang.String"/>
+	<attribute name="pubMedId" type="java.lang.String"/>
 	<attribute name="doi" type="java.lang.String"/>
 	<attribute name="journal" type="java.lang.String"/>
 	<attribute name="title" type="java.lang.String"/>
@@ -270,8 +270,8 @@
 <class name="BindingSite" extends="SequenceFeature" is-interface="true"></class>
 <class name="Author" is-interface="true">
 	<attribute name="name" type="java.lang.String"/>
-	<attribute name="initials" type="java.lang.String"/>
 	<attribute name="lastName" type="java.lang.String"/>
+	<attribute name="initials" type="java.lang.String"/>
 	<attribute name="firstName" type="java.lang.String"/>
 	<collection name="publications" referenced-type="Publication" reverse-reference="authors"/>
 </class>

@@ -47,6 +47,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
     
 	private String currentClass = null; 
 	private String rejectFilePath = null;
+	private String keyFilePath = null;
 
 	private static final String DATASET_TITLE = "wormbaseAcedb"; //"Add DataSet.title here";
     private static final String DATA_SOURCE_NAME = "wormbaseAcedbFileconverter"; //"Add DataSource.name here";
@@ -349,7 +350,8 @@ public class WormbaseAcedbConverter extends BioFileConverter
 		
 		throw new Exception(
 				"keyMapping hash has no \"class key value\" for "
-				+ className);
+				+ className + ". Add a " + className + ".key property in "
+				+ keyFilePath);
 	}
 
 	/**
@@ -390,6 +392,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
      * @throws Exception
      */
     public void setKeyFile(String keyFilePath) throws Exception{
+    	this.keyFilePath = keyFilePath; 
         keyMapping = new HashMap<String, String>();
     	Properties keyFileProps = new Properties();
     	try{
