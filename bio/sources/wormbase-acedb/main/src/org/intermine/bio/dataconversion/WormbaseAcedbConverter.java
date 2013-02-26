@@ -72,7 +72,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
         super(writer, _model, DATA_SOURCE_NAME, DATASET_TITLE);
         
         wmd = new WMDebug();
-//        wmd.off(); // turn on for debug output // TODO toggle switch
+        wmd.off(); // turn on for debug output // TODO toggle switch
         
         wmd.debug("Constructor called");
         
