@@ -137,7 +137,7 @@
 	
 	
 	<source name="wb-acedb-transcript" type="wormbase-acedb">
-		<property name="src.data.dir" location="&datadir;/wormbase-acedb/transcript/TEST_XML" />
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/transcript/XML" />
 		
 		<property name="mapping.file" 
 			value="&datadir;/wormbase-acedb/transcript/mapping/transcript_mapping.properties" />
@@ -149,6 +149,8 @@
 		
 		<property name="rejects.file" 
 			value="&datadir;/wormbase-acedb/transcript/wormbase-acedb-transcript-rejects.xml"/>
+			
+		<property name="debug" value="true" />
 	</source>
 	
 	<!--
