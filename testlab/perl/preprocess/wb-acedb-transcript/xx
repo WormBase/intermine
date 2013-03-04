@@ -1,0 +1,1 @@
+perl prep_wb-acedb-transcript.pl /home/jdmswong/intermine-dev/datadir/wormbase-acedb/transcript/XML/Transcript.xml /home/jdmswong/intermine-dev/datadir/wormbase-acedb/transcript/XML/prepped_Transcript.xml

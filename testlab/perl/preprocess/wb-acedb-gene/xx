@@ -1,0 +1,1 @@
+perl prep_wb-acedb-gene.pl /home/jdmswong/intermine-dev/datadir/wormbase-acedb/gene/XML/purified_gene.xml /home/jdmswong/intermine-dev/datadir/wormbase-acedb/gene/XML/prepped_gene.xml
