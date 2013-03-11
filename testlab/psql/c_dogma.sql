@@ -8,8 +8,9 @@ SELECT
 FROM
 	gene 
 	INNER JOIN transcript ON gene.id = transcript.geneid
---	transcript
-	INNER JOIN cds ON transcript.id = cds.transcriptid
+	INNER JOIN cdsstranscripts 
+		ON transcript.id = cdsstranscripts.transcripts
+	INNER JOIN cds ON cdsstranscripts.cdss = cds.id
 ;
 
 

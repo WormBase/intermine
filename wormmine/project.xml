@@ -136,7 +136,7 @@
 	</source> 
 	
 	
-	<source name="wb-acedb-transcript" type="wormbase-acedb">
+	<source name="wb-acedb-transcript" type="wormbase-acedb" dump="true">
 		<property name="src.data.dir" location="&datadir;/wormbase-acedb/transcript/XML" />
 		
 		<property name="mapping.file" 

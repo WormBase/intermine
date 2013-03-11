@@ -10,6 +10,10 @@ package org.intermine.bio.dataconversion;
  *
  */
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.intermine.bio.io.gff3.GFF3Record;
 import org.intermine.metadata.Model;
 import org.intermine.xml.full.Item;
@@ -132,19 +136,23 @@ public class WormbaseGff3CoreGFF3RecordHandler extends GFF3RecordHandler
     	
     	if( record.getAttributes().get("Parent") != null ){
 	    	// Set transcript parent
-	    	String parentTranscriptName = record.getAttributes().get("Parent").get(0);
+	    	List<String> parentTranscriptNames = record.getAttributes().get("Parent");
 	    	Item transcript;
 	    	String transcriptID;
-	    	if(!keyAdded(parentTranscriptName)){
-		    	transcript = converter.createItem("Transcript");
-		    	transcript.setAttribute("primaryIdentifier", parentTranscriptName);
-		    	addItem(transcript, parentTranscriptName);
-		    	transcriptID = transcript.getIdentifier();
-	    	}else{
-	    		transcriptID = key2refID.get(parentTranscriptName);
+	    	for( int i=0; i<parentTranscriptNames.size(); i++){
+	    		String parentTranscriptName = parentTranscriptNames.get(i);
+		    	wmd.debug(parentTranscriptName); // DELETE
+		    	if(!keyAdded(parentTranscriptName)){
+			    	transcript = converter.createItem("Transcript");
+			    	transcript.setAttribute("primaryIdentifier", parentTranscriptName);
+			    	addItem(transcript, parentTranscriptName);
+			    	transcriptID = transcript.getIdentifier();
+		    	}else{
+		    		transcriptID = key2refID.get(parentTranscriptName);
+		    	}
+		    	
+		    	feature.addToCollection("transcripts", transcriptID);
 	    	}
-	    	
-	    	feature.setReference("transcript", transcriptID);
     	}
     }
 

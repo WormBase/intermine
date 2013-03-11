@@ -51,3 +51,4 @@ exon.transcript
 intron.transcript
 UTR.transcript
 EST.overlapping_EST_set
+CDS.transcript

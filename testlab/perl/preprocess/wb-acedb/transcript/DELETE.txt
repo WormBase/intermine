@@ -1,5 +1,5 @@
 
-<Transcript>Y110A7A.10.1
+<Transcript>Transcript:Y110A7A.10.1
   <SMap>
     <S_parent>
       <Sequence>

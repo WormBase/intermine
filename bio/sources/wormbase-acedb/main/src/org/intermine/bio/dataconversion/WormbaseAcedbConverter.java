@@ -117,26 +117,26 @@ public class WormbaseAcedbConverter extends BioFileConverter
 		FileParser fp = new FileParser(reader);
     	
     	// foreach XML string
-    	String dataString;
+    	String xmlChunk;
     	int count=0; // 
-    	while( (dataString = fp.getDataString()) != null ){
+    	while( (xmlChunk = fp.getDataString()) != null ){
 		
     		count++;
     		wmd.debug("###========== NEW OBJECT ==========###");
     		
 //    		if(count < 1070){
-//    			System.out.println(String.valueOf(count)+":"+dataString.length());
+//    			System.out.println(String.valueOf(count)+":"+xmlChunk.length());
 //    			continue;
 //    		}
     		
     		Document doc;
     		try{
 				// Load XML into org.w3c.dom.Document 
-				doc = PackageUtils.loadXMLFrom(dataString);
+				doc = PackageUtils.loadXMLFrom(xmlChunk);
     		}catch(SAXParseException e){
     			try{
     				wmd.debug("CALLING XML SANITATION FUNCTION");
-    				String repairedData = PackageUtils.sanitizeXMLTags(dataString);
+    				String repairedData = PackageUtils.sanitizeXMLTags(xmlChunk);
     				doc = PackageUtils.loadXMLFrom(repairedData);
     			}catch( SAXParseException e1 ){
 	    			try{
@@ -145,7 +145,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 		    				wmd.log("### SANITATION FAILED: ADDING RECORD TO REJECTS FILE ###");
 		    				
 		    				// Add to rejects file
-			    			rejectsFW.write(dataString);
+			    			rejectsFW.write(xmlChunk);
 			    			rejectsFW.write("\n\n");
 	    				}
 	    			}catch( Exception e2 ){
