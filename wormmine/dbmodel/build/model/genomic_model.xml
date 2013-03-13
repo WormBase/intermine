@@ -63,6 +63,14 @@
 	<reference name="dataSource" referenced-type="DataSource" reverse-reference="dataSets"/>
 	<collection name="bioEntities" referenced-type="BioEntity" reverse-reference="dataSets"/>
 </class>
+<class name="Transcript" extends="SequenceFeature" is-interface="true">
+	<reference name="protein" referenced-type="Protein" reverse-reference="transcripts"/>
+	<reference name="gene" referenced-type="Gene" reverse-reference="transcripts"/>
+	<collection name="introns" referenced-type="Intron" reverse-reference="transcripts"/>
+	<collection name="UTRs" referenced-type="UTR" reverse-reference="transcripts"/>
+	<collection name="exons" referenced-type="Exon" reverse-reference="transcripts"/>
+	<collection name="CDSs" referenced-type="CDS" reverse-reference="transcripts"/>
+</class>
 <class name="Sequence" is-interface="true">
 	<attribute name="md5checksum" type="java.lang.String"/>
 	<attribute name="length" type="int"/>
@@ -79,6 +87,11 @@
 <class name="TRNA" extends="NcRNA" is-interface="true"></class>
 <class name="GOEvidenceCode" is-interface="true">
 	<attribute name="code" type="java.lang.String"/>
+</class>
+<class name="CDS" extends="SequenceFeature" is-interface="true">
+	<reference name="gene" referenced-type="Gene" reverse-reference="CDSs"/>
+	<reference name="protein" referenced-type="Protein" reverse-reference="CDSs"/>
+	<collection name="transcripts" referenced-type="Transcript" reverse-reference="CDSs"/>
 </class>
 <class name="SOTerm" extends="OntologyTerm" is-interface="true"></class>
 <class name="MRNA" extends="Transcript" is-interface="true"></class>
@@ -112,14 +125,6 @@
 <class name="ChromosomalDeletion" extends="ChromosomeStructureVariation" is-interface="true"></class>
 <class name="OverlappingESTSet" extends="SequenceFeature" is-interface="true">
 	<collection name="ESTs" referenced-type="EST" reverse-reference="overlappingESTSets"/>
-</class>
-<class name="Transcript" extends="SequenceFeature" is-interface="true">
-	<reference name="protein" referenced-type="Protein" reverse-reference="transcripts"/>
-	<reference name="gene" referenced-type="Gene" reverse-reference="transcripts"/>
-	<collection name="introns" referenced-type="Intron" reverse-reference="transcripts"/>
-	<collection name="UTRs" referenced-type="UTR" reverse-reference="transcripts"/>
-	<collection name="exons" referenced-type="Exon" reverse-reference="transcripts"/>
-	<collection name="CDSs" referenced-type="CDS" reverse-reference="transcript"/>
 </class>
 <class name="Synonym" is-interface="true">
 	<attribute name="value" type="java.lang.String"/>
@@ -200,11 +205,6 @@
 </class>
 <class name="CloneInsertEnd" extends="SequenceFeature" is-interface="true"></class>
 <class name="FivePrimeUTR" extends="UTR" is-interface="true"></class>
-<class name="CDS" extends="SequenceFeature" is-interface="true">
-	<reference name="gene" referenced-type="Gene" reverse-reference="CDSs"/>
-	<reference name="transcript" referenced-type="Transcript" reverse-reference="CDSs"/>
-	<reference name="protein" referenced-type="Protein" reverse-reference="CDSs"/>
-</class>
 <class name="ChromosomalTransposition" extends="ChromosomeStructureVariation" is-interface="true"></class>
 <class name="SequenceFeature" extends="BioEntity" is-interface="true">
 	<attribute name="length" type="java.lang.Integer"/>

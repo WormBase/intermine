@@ -44,8 +44,8 @@
 		<property name="fasta.dataSetTitle"    value="WormBase C. elegans chromosome sequence (Fasta)"/>
 		<property name="fasta.sequenceType"    value="dna"/>
 		<property name="fasta.includes"        value="*.fa*"/>
-		<property name="src.data.dir"          location="&datadir;/peptides/c_elegans/" />
-	</source>
+		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/genomic" />
+	</source> 
 	 
 	<source name="celegans-protein-fasta" type="fasta">
 		<property name="fasta.taxonId"         value="&c_elegans_taxon_id;"/>
@@ -54,8 +54,10 @@
 		<property name="fasta.dataSourceName"  value="WormBase"/>
 		<property name="fasta.dataSetTitle"    value="WormBase C. elegans protein sequence (Fasta)"/>
 		<property name="fasta.sequenceType"    value="protein"/>
-		<property name="fasta.includes"        value="*.fa*"/>
-		<property name="src.data.dir"          location="&datadir;/peptides/c_elegans/" />
+		<property name="fasta.includes"        value="*.fa*"/> 
+		<property name="fasta.loaderClassName"
+			value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoader"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/proteins/raw" />
 	</source>
 	
 	<!-- CORE GENOMIC ANNOTATION IN GFF3 -->
