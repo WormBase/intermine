@@ -1,1 +1,1 @@
-perl prep-wb-proteins.pl /home/jdmswong/intermine-dev/datadir/peptides/c_elegans/test.fa /home/jdmswong/intermine-dev/datadir/peptides/c_elegans/test2.fa
+perl prep-wb-proteins.pl /home/jdmswong/intermine-dev/datadir/fasta/c_elegans/proteins/raw/c_elegans.WS234.protein.fa /home/jdmswong/intermine-dev/datadir/fasta/c_elegans/proteins/prepped/prepped-c_elegans.WS234.protein.fa

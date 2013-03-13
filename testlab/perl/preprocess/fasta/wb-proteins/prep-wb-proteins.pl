@@ -8,6 +8,6 @@ open( my $infile, $infile_path) or die $infile_path.": $!";
 open( my $outfile, '>'.$outfile_path) or die $outfile_path.": $!"; 
 
 while(<$infile>){
-	s[>(\S+).*$][>Protein:$1]; 
+	s[>(\S+)\s+(\S+).*$][$2|$1]; 
 	print $outfile $_; 
 }

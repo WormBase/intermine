@@ -56,8 +56,8 @@
 		<property name="fasta.sequenceType"    value="protein"/>
 		<property name="fasta.includes"        value="*.fa*"/> 
 		<property name="fasta.loaderClassName"
-			value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoader"/>
-		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/proteins/raw" />
+			value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/proteins/" />
 	</source>
 	
 	<!-- CORE GENOMIC ANNOTATION IN GFF3 -->
