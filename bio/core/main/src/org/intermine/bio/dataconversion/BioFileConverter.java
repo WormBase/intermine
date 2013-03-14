@@ -36,7 +36,7 @@ public abstract class BioFileConverter extends FileConverter
     private Set<String> synonyms = new HashSet<String>();
     private Set<String> crossReferences = new HashSet<String>();
     private Map<String, String> organisms = new HashMap<String, String>();
-    private String sequenceOntologyRefId;
+    protected String sequenceOntologyRefId;
 
     /**
      * Create a new BioFileConverter.

@@ -49,8 +49,9 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	private String rejectFilePath = null;
 	private String keyFilePath = null;
 
-	private static final String DATASET_TITLE = "wormbaseAcedb"; //"Add DataSet.title here";
-    private static final String DATA_SOURCE_NAME = "wormbaseAcedbFileconverter"; //"Add DataSource.name here";
+	// Overridden by setDataSet()
+	private static final String DATASET_TITLE = "WormBaseAcedbConverter"; //"Add DataSet.title here";
+    private static final String DATA_SOURCE_NAME = "AceDB XML"; //"Add DataSource.name here";
 
     private WMDebug wmd;
     private DataMapper dataMapping = null;
@@ -499,6 +500,19 @@ public class WormbaseAcedbConverter extends BioFileConverter
     	}else{
     		wmd.log(debug + "!= true, loader will not print debug messages");
     	}
+    }
+    
+    /**
+     * Sets the dataset for this instance 
+     * @param datasource
+     */
+    public void setDataSet(String dataSet){
+    	System.out.println("DataSet set to:"+dataSet); // DELETE
+    	String dataSourceRefID = getDataSource(DATA_SOURCE_NAME);
+        String dataSetRefID = getDataSet(dataSet, dataSourceRefID);
+    	
+    	BioStoreHook hook = (BioStoreHook) this.storeHook;
+    	hook.setDataSet(dataSetRefID);
     }
     
 }
