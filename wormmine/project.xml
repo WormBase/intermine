@@ -55,6 +55,8 @@
 		<property name="fasta.dataSetTitle"    value="WormBase C. elegans protein sequence (Fasta)"/>
 		<property name="fasta.sequenceType"    value="protein"/>
 		<property name="fasta.includes"        value="*.fa*"/> 
+		<property name="fasta.loaderClassName"
+			value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
 		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/proteins/prepped" />
 	</source>
 	
@@ -144,6 +146,7 @@
 			value="&datadir;/wormbase-acedb/gene/wormbase-acedb-gene-rejects.xml"/>
 			
 		
+		<property name="data.set" value="AceDB XML (Gene)"/>
 	</source> 
 	
 	
@@ -162,6 +165,7 @@
 			value="&datadir;/wormbase-acedb/transcript/wormbase-acedb-transcript-rejects.xml"/>
 			
 				<!--<property name="debug" value="true" />-->
+		<property name="data.set" value="AceDB XML (Transcript)"/>
 	</source>
 	
 	
@@ -178,6 +182,7 @@
 		
 		<property name="rejects.file" 
 			value="&datadir;/wormbase-acedb/cds/wormbase-acedb-cds-rejects.xml"/>
+		<property name="data.set" value="AceDB XML (CDS)"/>
 	</source>
 	
 

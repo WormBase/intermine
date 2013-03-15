@@ -57,7 +57,7 @@
 		<property name="fasta.includes"        value="*.fa*"/> 
 		<property name="fasta.loaderClassName"
 			value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
-		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/proteins/" />
+		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/proteins/prepped" />
 	</source>
 	
 	<!-- CORE GENOMIC ANNOTATION IN GFF3 -->
@@ -185,7 +185,17 @@
 		<property name="data.set" value="AceDB XML (CDS)"/>
 	</source>
 	
-
+	<source name="wb-acedb-protein" type="wormbase-acedb">
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/TEST_XML" />
+		<property name="mapping.file"
+			value="&datadir;/wormbase-acedb/protein/mapping/protein_mapping.properties" />
+		<property name="key.file"
+			value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+		<property name="source.class" value="Protein"/>
+		<property name="rejects.file"
+			value="&datadir;/wormbase-acedb/protein/wormbase-acedb-protein-rejects.xml"/>
+		<property name="data.set" value="AceDB XML (Protein)"/>
+	</source>
 	
 	<!--
 	<source name="wb-acedb-variation" type="wormbase-acedb">
@@ -208,7 +218,7 @@
 		<property name="src.data.file" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
 	</source>
 	
-	<source name="go-annotation" type="go-annotation" dump="true">
+	<source name="go-annotation" type="go-annotation" dump="false">
 		<property name="ontologyfile" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
 		<property name="src.data.dir" location="/home/jdmswong/intermine/datadir/go-annotation"/>
 	</source>
