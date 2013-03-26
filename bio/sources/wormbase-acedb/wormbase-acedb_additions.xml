@@ -22,9 +22,7 @@
 		<attribute name="lastUpdated" type="java.util.Date"/>
 		<!--<reference name="curatedBy" referenced-type="Curator" reverse-reference="entitiesCurated"/>-->
 	</class>
-	<!--
-	<class name="CDS" extends="SequenceFeature" is-interface="true">
-		<collection name="transcripts" referenced-type="Transcript" reverse-reference="CDSs"/>
+	<class name="Protein" is-interface="true">
+		<attribute name="geneName" type="java.lang.String"/>
 	</class>
-	-->
 </classes>

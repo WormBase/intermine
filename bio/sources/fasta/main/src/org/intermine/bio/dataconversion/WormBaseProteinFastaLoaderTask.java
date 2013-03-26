@@ -30,7 +30,7 @@ public class WormBaseProteinFastaLoaderTask extends FastaLoaderTask {
        	bioEntity.setFieldValue("secondaryIdentifier", ids[1]);
        
         
-        System.out.println("JDJDLOG::"+name);
+        //System.out.println("JDJDLOG::"+name);
     }
 
 	

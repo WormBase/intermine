@@ -36,39 +36,50 @@
   <property name="default.intermine.properties.file" location="../default.intermine.integrate.properties"/>
   <sources>
 	  
+	<source name="go" type="go" dump="false">
+		<property name="src.data.file" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
+	</source>
+	
+	<source name="go-annotation" type="go-annotation" dump="true">
+		<property name="ontologyfile" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
+		<property name="src.data.dir" location="/home/jdmswong/intermine/datadir/go-annotation"/>
+	</source>
+	
 	<source name="celegans-genome-fasta" type="fasta">
 		<property name="fasta.taxonId"         value="&c_elegans_taxon_id;"/>
 		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
 		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
-		<property name="fasta.dataSourceName"  value="WormBase"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP"/>
 		<property name="fasta.dataSetTitle"    value="WormBase C. elegans chromosome sequence (Fasta)"/>
 		<property name="fasta.sequenceType"    value="dna"/>
 		<property name="fasta.includes"        value="*.fa*"/>
 		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/genomic" />
 	</source> 
-	 
+	
+<!-- 
 	<source name="celegans-protein-fasta" type="fasta">
 		<property name="fasta.taxonId"         value="&c_elegans_taxon_id;"/>
 		<property name="fasta.className"       value="org.intermine.model.bio.Protein"/>
 		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
-		<property name="fasta.dataSourceName"  value="WormBase"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP"/>
 		<property name="fasta.dataSetTitle"    value="WormBase C. elegans protein sequence (Fasta)"/>
 		<property name="fasta.sequenceType"    value="protein"/>
-		<property name="fasta.includes"        value="*.fa*"/> 
 		<property name="fasta.loaderClassName"
 			value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
 		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/proteins/prepped" />
+		<property name="fasta.includes"        value="*.fa*"/> 
 	</source>
+-->
 	
 	<!-- CORE GENOMIC ANNOTATION IN GFF3 -->
-	<source name="celegans-gff3-gene" type="wormbase-gff3-core" dump="true">
+	<source name="celegans-gff3-gene" type="wormbase-gff3-core" dump="false">
 		<property name="gff3.taxonId"           value="&c_elegans_taxon_id;"/>
 		<property name="gff3.seqDataSourceName" value="WormBase"/>
 		<property name="gff3.dataSourceName"    value="WormBase"/>
 		<property name="gff3.seqClsName"        value="Chromosome"/>
 		<property name="gff3.dataSetTitle"      value="C. elegans genomic annotations (GFF3 Gene)"/>
 		<!--<property name="src.data.dir"           location="&datadir;/c_elegans_gff3"/>-->
-		<property name="src.data.dir"           location="&datadir;/test_gff3"/> 
+		<property name="src.data.dir"           location="&datadir;/wormbase-gff3"/> 
 		
 		<!-- 
 		Only GFF3 records with a third column matching this value 
@@ -86,14 +97,14 @@
 		
 	</source>
 
-	<source name="celegans-gff3-mrna" type="wormbase-gff3-core" dump="true">
+	<source name="celegans-gff3-mrna" type="wormbase-gff3-core" dump="false">
 		<property name="gff3.taxonId"           value="&c_elegans_taxon_id;"/>
 		<property name="gff3.seqDataSourceName" value="WormBase"/>
 		<property name="gff3.dataSourceName"    value="WormBase"/>
 		<property name="gff3.seqClsName"        value="Chromosome"/>
 		<property name="gff3.dataSetTitle"      value="C. elegans genomic annotations (GFF3 mRNA)"/>
 		<!--<property name="src.data.dir"           location="&datadir;/c_elegans_gff3"/>-->
-		<property name="src.data.dir"           location="&datadir;/test_gff3"/> 
+		<property name="src.data.dir"           location="&datadir;/wormbase-gff3"/> 
 		<property name="gff3.allowedClasses" 	value="mrna"/>
 		<property name="gff3.IDMappingFile"	 	value="&datadir;/test_gff3/c_elegans.WS235.geneIDs.wb-gff3.tab"/>
 		<!-- 
@@ -110,7 +121,7 @@
 		<property name="gff3.seqClsName"        value="Chromosome"/>
 		<property name="gff3.dataSetTitle"      value="C. elegans genomic annotations (GFF3 CDS)"/>
 		<!--<property name="src.data.dir"           location="&datadir;/c_elegans_gff3"/>-->
-		<property name="src.data.dir"           location="&datadir;/test_gff3"/> 
+		<property name="src.data.dir"           location="&datadir;/wormbase-gff3"/> 
 		<property name="gff3.allowedClasses" 	 value="cds"/>
 	</source>
 
@@ -169,8 +180,8 @@
 	</source>
 	
 	
-	<source name="wb-acedb-cds" type="wormbase-acedb">
-		<property name="src.data.dir" location="&datadir;/wormbase-acedb/cds/TEST_XML" />
+	<source name="wb-acedb-cds" type="wormbase-acedb" dump="true">
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/cds/XML" />
 		
 		<property name="mapping.file" 
 			value="&datadir;/wormbase-acedb/cds/mapping/cds_mapping.properties" />
@@ -185,7 +196,17 @@
 		<property name="data.set" value="AceDB XML (CDS)"/>
 	</source>
 	
-
+	<source name="wb-acedb-protein" type="wormbase-acedb" dump="true">
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/XML" />
+		<property name="mapping.file"
+			value="&datadir;/wormbase-acedb/protein/mapping/protein_mapping.properties" />
+		<property name="key.file"
+			value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+		<property name="source.class" value="Protein"/>
+		<property name="rejects.file"
+			value="&datadir;/wormbase-acedb/protein/wormbase-acedb-protein-rejects.xml"/>
+		<property name="data.set" value="AceDB XML (Protein)"/>
+	</source>
 	
 	<!--
 	<source name="wb-acedb-variation" type="wormbase-acedb">
@@ -203,15 +224,6 @@
 			value="&datadir;/wormbase-acedb/variation/wormbase-acedb-variation-rejects.xml"/>
 	</source>
 	-->
-	
-	<source name="go" type="go" dump="true">
-		<property name="src.data.file" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
-	</source>
-	
-	<source name="go-annotation" type="go-annotation" dump="false">
-		<property name="ontologyfile" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
-		<property name="src.data.dir" location="/home/jdmswong/intermine/datadir/go-annotation"/>
-	</source>
 	
    </sources>
 

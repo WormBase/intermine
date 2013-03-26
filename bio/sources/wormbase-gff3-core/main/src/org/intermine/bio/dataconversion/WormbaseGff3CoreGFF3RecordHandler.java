@@ -141,7 +141,6 @@ public class WormbaseGff3CoreGFF3RecordHandler extends GFF3RecordHandler
 	    	String transcriptID;
 	    	for( int i=0; i<parentTranscriptNames.size(); i++){
 	    		String parentTranscriptName = parentTranscriptNames.get(i);
-		    	wmd.debug(parentTranscriptName); // DELETE
 		    	if(!keyAdded(parentTranscriptName)){
 			    	transcript = converter.createItem("Transcript");
 			    	transcript.setAttribute("primaryIdentifier", parentTranscriptName);

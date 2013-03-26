@@ -1,0 +1,1 @@
+perl prep_wb-acedb-protein.pl /home/jdmswong/intermine-dev/datadir/wormbase-acedb/protein/Protein.xml /home/jdmswong/intermine-dev/datadir/wormbase-acedb/protein/XML/prepped_protein.xml

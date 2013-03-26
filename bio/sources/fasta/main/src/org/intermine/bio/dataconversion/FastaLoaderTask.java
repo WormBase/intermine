@@ -58,7 +58,8 @@ public class FastaLoaderTask extends FileDirectDataLoaderTask
     private String dataSourceName = null;
     private DataSource dataSource = null;
     private String fastaTaxonId = null;
-    private Map<String, Integer> taxonIds = new HashMap<String, Integer>();
+    private Map<Integer, String> orgNames = new HashMap<Integer, String>(); // taxonid -> org name
+    private Map<String, Integer> taxonIds = new HashMap<String, Integer>(); // org name -> taxonid
 
     /**
      * Append this suffix to the identifier of the BioEnitys that are stored.
@@ -80,7 +81,7 @@ public class FastaLoaderTask extends FileDirectDataLoaderTask
         this.fastaTaxonId = fastaTaxonId;
         parseTaxonIds();
     }
-
+    
     /**
      * Set the sequence type to be passed to the FASTA parser.  The default is "dna".
      * @param sequenceType the sequence type
@@ -246,8 +247,11 @@ public class FastaLoaderTask extends FileDirectDataLoaderTask
      */
     protected Organism getOrganism(Sequence bioJavaSequence) throws ObjectStoreException {
         if (org == null) {
-            org = getDirectDataLoader().createObject(Organism.class);
-            org.setTaxonId(new Integer(fastaTaxonId));
+        	org = getDirectDataLoader().createObject(Organism.class);
+        	Integer taxonId = new Integer(fastaTaxonId);
+            org.setTaxonId(taxonId);
+            org.setName(getName(taxonId));
+            
             getDirectDataLoader().store(org);
         }
         return org;
@@ -415,6 +419,13 @@ public class FastaLoaderTask extends FileDirectDataLoaderTask
     }
 
     /**
+     * Returns organism name associated with taxon id
+     */
+    protected String getName(Integer taxonId){
+    	return orgNames.get(taxonId);
+    }
+    
+    /**
      * some fasta files use organism name instead of taxonId, so we need a lookup map
      * taxons are taken from project.xml.  any entries in the fasta files from organisms not in
      * this list will be ignored
@@ -432,6 +443,7 @@ public class FastaLoaderTask extends FileDirectDataLoaderTask
             OrganismData organismData = repo.getOrganismDataByTaxonInternal(taxonId.intValue());
             String name = organismData.getGenus() + " " + organismData.getSpecies();
             taxonIds.put(name, taxonId);
+            orgNames.put(taxonId, name);
         }
     }
 }
