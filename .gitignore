@@ -2,6 +2,8 @@
 *.jace
 *swp
 *log.txt
+delete.*
+DELETE.*
 
 datadir/wormbase-acedb-gene/*XML
 datadir/wormbase-gff3
