@@ -43,17 +43,6 @@
 <class name="NcRNA" extends="Transcript" is-interface="true"></class>
 <class name="Oligo" extends="SequenceFeature" is-interface="true"></class>
 <class name="SNP" extends="SequenceFeature" is-interface="true"></class>
-<class name="Protein" extends="BioEntity" is-interface="true">
-	<attribute name="molecularWeight" type="java.lang.Float"/>
-	<attribute name="md5checksum" type="java.lang.String"/>
-	<attribute name="length" type="java.lang.Integer"/>
-	<attribute name="geneName" type="java.lang.String"/>
-	<attribute name="primaryAccession" type="java.lang.String"/>
-	<reference name="sequence" referenced-type="Sequence"/>
-	<collection name="CDSs" referenced-type="CDS" reverse-reference="protein"/>
-	<collection name="genes" referenced-type="Gene" reverse-reference="proteins"/>
-	<collection name="transcripts" referenced-type="Transcript" reverse-reference="protein"/>
-</class>
 <class name="EST" extends="Oligo" is-interface="true">
 	<collection name="overlappingESTSets" referenced-type="OverlappingESTSet" reverse-reference="ESTs"/>
 </class>
@@ -166,16 +155,16 @@
 	<reference name="downstreamIntergenicRegion" referenced-type="IntergenicRegion"/>
 	<reference name="upstreamIntergenicRegion" referenced-type="IntergenicRegion"/>
 	<collection name="regulatoryRegions" referenced-type="RegulatoryRegion" reverse-reference="gene"/>
+	<collection name="goAnnotation" referenced-type="GOAnnotation"/>
 	<collection name="proteins" referenced-type="Protein" reverse-reference="genes"/>
 	<collection name="transcripts" referenced-type="Transcript" reverse-reference="gene"/>
-	<collection name="goAnnotation" referenced-type="GOAnnotation"/>
 	<collection name="CDSs" referenced-type="CDS" reverse-reference="gene"/>
 	<collection name="UTRs" referenced-type="UTR" reverse-reference="gene"/>
 	<collection name="exons" referenced-type="Exon" reverse-reference="gene"/>
 	<collection name="alleles" referenced-type="Allele" reverse-reference="gene"/>
-	<collection name="strains" referenced-type="Strain" reverse-reference="gene"/>
 	<collection name="introns" referenced-type="Intron" reverse-reference="genes"/>
 	<collection name="flankingRegions" referenced-type="GeneFlankingRegion" reverse-reference="gene"/>
+	<collection name="strains" referenced-type="Strain" reverse-reference="gene"/>
 </class>
 <class name="OntologyTerm" is-interface="true">
 	<attribute name="identifier" type="java.lang.String"/>
@@ -251,6 +240,16 @@
 	<reference name="CRM" referenced-type="CRM" reverse-reference="TFBindingSites"/>
 </class>
 <class name="SnRNA" extends="NcRNA" is-interface="true"></class>
+<class name="Protein" extends="BioEntity" is-interface="true">
+	<attribute name="molecularWeight" type="java.lang.Integer"/>
+	<attribute name="md5checksum" type="java.lang.String"/>
+	<attribute name="length" type="java.lang.Integer"/>
+	<attribute name="primaryAccession" type="java.lang.String"/>
+	<reference name="sequence" referenced-type="Sequence"/>
+	<collection name="CDSs" referenced-type="CDS" reverse-reference="protein"/>
+	<collection name="genes" referenced-type="Gene" reverse-reference="proteins"/>
+	<collection name="transcripts" referenced-type="Transcript" reverse-reference="protein"/>
+</class>
 <class name="SequenceCollection" extends="BioEntity" is-interface="true">
 	<reference name="sequenceOntologyTerm" referenced-type="SOTerm"/>
 </class>
