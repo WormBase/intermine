@@ -1,12 +1,13 @@
 cd dbmodel;
-ant clean build-db -v > ../pbuild.log;
+ant clean build-db -v > ../pbuild.log;  
 cd ..;
 
 cd integrate;
-#ant -v -Dsource=wb-acedb-gene,celegans-gff3-gene,celegans-gff3-mrna,celegans-gff3-cds >> ../pbuild.log;
-#ant -v -Dsource=celegans-gff3-cds,celegans-gff3-mrna >> ../pbuild.log;
+#ant -v -Dsource=wb-acedb-gene,wb-acedb-transcript,wb-acedb-cds,celegans-protein-fasta >> ../pbuild.log;
+#ant -v -Dsource=celegans-gff3-gene,celegans-gff3-mrna,celegans-gff3-cds >> ../pbuild.log;
 #ant -v -Dsource=all >> ../pbuild.log;
-ant -v -Dsource=wb-acedb-gene >> ../pbuild.log
+#ant -v -Dsource=wb-acedb-protein,celegans-protein-fasta >> ../pbuild.log
+ant -v -Dsource=wb-acedb-variation>> ../pbuild.log
 cd ..;
 
 #cd postprocess;

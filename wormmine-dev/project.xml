@@ -2,7 +2,8 @@
 <!DOCTYPE page [
 
 <!-- Relative path to the data directory, from basedir wormmine/integrate -->
-<!ENTITY datadir "../../datadir">
+<!--<!ENTITY datadir "../../datadir">-->
+<!ENTITY datadir "/nfs/wormbase/intermine/filedumps/datadir">
 
 <!-- Species and their NCBI taxonomy IDs -->
 <!ENTITY          a_suum_taxon_id "6253">
@@ -49,7 +50,7 @@
 		<property name="fasta.taxonId"         value="&c_elegans_taxon_id;"/>
 		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
 		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
-		<property name="fasta.dataSourceName"  value="WormBase"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP"/>
 		<property name="fasta.dataSetTitle"    value="WormBase C. elegans chromosome sequence (Fasta)"/>
 		<property name="fasta.sequenceType"    value="dna"/>
 		<property name="fasta.includes"        value="*.fa*"/>
@@ -57,16 +58,17 @@
 	</source> 
 	 
 	<source name="celegans-protein-fasta" type="fasta">
-		<property name="fasta.taxonId"         value="&c_elegans_taxon_id;"/>
-		<property name="fasta.className"       value="org.intermine.model.bio.Protein"/>
-		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
-		<property name="fasta.dataSourceName"  value="WormBase"/>
-		<property name="fasta.dataSetTitle"    value="WormBase C. elegans protein sequence (Fasta)"/>
-		<property name="fasta.sequenceType"    value="protein"/>
+		<property name="fasta.taxonId"         	value="&c_elegans_taxon_id;"/>
+		<property name="fasta.className"       	value="org.intermine.model.bio.Protein"/>
+		<property name="fasta.classAttribute"  	value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  	value="WormBase FTP"/>
+		<property name="fasta.dataSetTitle"    	value="WormBase C. elegans protein sequence (Fasta)"/>
+		<property name="fasta.sequenceType"    	value="protein"/>
+		<property name="src.data.dir"          	location="&datadir;/fasta/c_elegans/proteins/prepped" />
+		<property name="fasta.includes"        	value="*.fa*"/> 
 		<property name="fasta.loaderClassName"
 			value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
-		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/proteins/prepped" />
-		<property name="fasta.includes"        value="*.fa*"/> 
+		<property name="fasta.PIDPrefix"		value="WP:"/>
 	</source>
 	
 	<!-- CORE GENOMIC ANNOTATION IN GFF3 -->
@@ -196,7 +198,7 @@
 	
 	<!-- FULL DATA FILE -->
 	<source name="wb-acedb-protein" type="wormbase-acedb">
-		<property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/XML" />
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/TEST_XML" />
 		<property name="mapping.file"
 			value="&datadir;/wormbase-acedb/protein/mapping/protein_mapping.properties" />
 		<property name="key.file"

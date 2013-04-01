@@ -60,6 +60,7 @@ public class FastaLoaderTask extends FileDirectDataLoaderTask
     private String fastaTaxonId = null;
     private Map<Integer, String> orgNames = new HashMap<Integer, String>(); // taxonid -> org name
     private Map<String, Integer> taxonIds = new HashMap<String, Integer>(); // org name -> taxonid
+    protected String PIDPrefix = "";
 
     /**
      * Append this suffix to the identifier of the BioEnitys that are stored.
@@ -153,6 +154,11 @@ public class FastaLoaderTask extends FileDirectDataLoaderTask
         this.files = files;
     }
 
+    public void setPIDPrefix( String prefix ){
+    	System.out.println("PrimaryIdentifier prefix set to "+prefix);
+    	this.PIDPrefix = prefix;
+    }
+    
     /**
      * Process and load all of the fasta files.
      */

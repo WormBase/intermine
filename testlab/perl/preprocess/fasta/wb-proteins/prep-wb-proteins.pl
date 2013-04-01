@@ -6,7 +6,7 @@
 # >obj_id|seq_id
 #
 # removes duplicate records sharing obj_id
-
+ 
 use strict;
 
 my ($infile_path,$outfile_path) = @ARGV;

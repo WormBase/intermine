@@ -2,7 +2,8 @@
 <!DOCTYPE page [
 
 <!-- Relative path to the data directory, from basedir wormmine/integrate -->
-<!ENTITY datadir "../../datadir">
+<!--<!ENTITY datadir "../../datadir">-->
+<!ENTITY datadir "/nfs/wormbase/intermine/filedumps/datadir">
 
 <!-- Species and their NCBI taxonomy IDs -->
 <!ENTITY          a_suum_taxon_id "6253">
@@ -56,7 +57,6 @@
 		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/genomic" />
 	</source> 
 	
-<!-- 
 	<source name="celegans-protein-fasta" type="fasta">
 		<property name="fasta.taxonId"         value="&c_elegans_taxon_id;"/>
 		<property name="fasta.className"       value="org.intermine.model.bio.Protein"/>
@@ -69,7 +69,6 @@
 		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/proteins/prepped" />
 		<property name="fasta.includes"        value="*.fa*"/> 
 	</source>
--->
 	
 	<!-- CORE GENOMIC ANNOTATION IN GFF3 -->
 	<source name="celegans-gff3-gene" type="wormbase-gff3-core" dump="false">

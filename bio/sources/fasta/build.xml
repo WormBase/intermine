@@ -42,6 +42,7 @@
                 dataSourceName="${fasta.dataSourceName}"
                 sequenceType="${fasta.sequenceType}"
                 fastaTaxonId="${fasta.taxonId}"
+				pIDPrefix="${fasta.PIDPrefix}"
 				>
 					<!--idPrefix="${fasta.idPrefix}"> -->
       <fileset dir="${src.data.dir}" includes="${fasta.includes}"/>

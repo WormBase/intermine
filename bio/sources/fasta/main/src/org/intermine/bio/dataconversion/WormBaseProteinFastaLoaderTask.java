@@ -26,7 +26,7 @@ public class WormBaseProteinFastaLoaderTask extends FastaLoaderTask {
         String name = bioJavaSequence.getName();
         String[] ids = name.split("\\|");
         
-       	bioEntity.setFieldValue("primaryIdentifier", ids[0]);
+       	bioEntity.setFieldValue("primaryIdentifier", this.PIDPrefix + ids[0]);
        	bioEntity.setFieldValue("secondaryIdentifier", ids[1]);
        
         
