@@ -196,7 +196,7 @@
 		<property name="data.set" value="AceDB XML (CDS)"/>
 	</source>
 	
-	<!-- FULL DATA FILE -->
+	<!-- not ULL DATA FILE -->
 	<source name="wb-acedb-protein" type="wormbase-acedb">
 		<property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/TEST_XML" />
 		<property name="mapping.file"
