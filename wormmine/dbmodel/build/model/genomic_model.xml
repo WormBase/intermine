@@ -12,25 +12,11 @@
 </class>
 <class name="ChromosomalDuplication" extends="ChromosomeStructureVariation" is-interface="true"></class>
 <class name="ReversePrimer" extends="Primer" is-interface="true"></class>
+<class name="SequenceCollection" extends="SequenceFeature" is-interface="true"></class>
 <class name="IntergenicRegion" extends="SequenceFeature" is-interface="true">
 	<collection name="adjacentGenes" referenced-type="Gene"/>
 </class>
 <class name="SnoRNA" extends="NcRNA" is-interface="true"></class>
-<class name="BioEntity" is-interface="true">
-	<attribute name="secondaryIdentifier" type="java.lang.String"/>
-	<attribute name="symbol" type="java.lang.String"/>
-	<attribute name="primaryIdentifier" type="java.lang.String"/>
-	<attribute name="lastUpdated" type="java.util.Date"/>
-	<attribute name="name" type="java.lang.String"/>
-	<reference name="organism" referenced-type="Organism"/>
-	<collection name="synonyms" referenced-type="Synonym" reverse-reference="subject"/>
-	<collection name="publications" referenced-type="Publication" reverse-reference="bioEntities"/>
-	<collection name="ontologyAnnotations" referenced-type="OntologyAnnotation" reverse-reference="subject"/>
-	<collection name="crossReferences" referenced-type="CrossReference" reverse-reference="subject"/>
-	<collection name="dataSets" referenced-type="DataSet" reverse-reference="bioEntities"/>
-	<collection name="locatedFeatures" referenced-type="Location" reverse-reference="locatedOn"/>
-	<collection name="locations" referenced-type="Location" reverse-reference="feature"/>
-</class>
 <class name="Exon" extends="SequenceFeature" is-interface="true">
 	<reference name="gene" referenced-type="Gene" reverse-reference="exons"/>
 	<collection name="transcripts" referenced-type="Transcript" reverse-reference="exons"/>
@@ -124,6 +110,10 @@
 <class name="ChromosomeStructureVariation" extends="SequenceCollection" is-interface="true"></class>
 <class name="RegulatoryRegion" extends="SequenceFeature" is-interface="true">
 	<reference name="gene" referenced-type="Gene" reverse-reference="regulatoryRegions"/>
+</class>
+<class name="Phenotype" extends="BioEntity" is-interface="true">
+	<collection name="observedIn" referenced-type="BioEntity" reverse-reference="phenotypesObserved"/>
+	<collection name="notObservedIn" referenced-type="BioEntity" reverse-reference="phenotypesNotObserved"/>
 </class>
 <class name="TransposableElementInsertionSite" extends="SequenceFeature" is-interface="true"></class>
 <class name="UTR" extends="SequenceFeature" is-interface="true">
@@ -251,8 +241,22 @@
 	<reference name="CRM" referenced-type="CRM" reverse-reference="TFBindingSites"/>
 </class>
 <class name="SnRNA" extends="NcRNA" is-interface="true"></class>
-<class name="SequenceCollection" extends="BioEntity" is-interface="true">
-	<reference name="sequenceOntologyTerm" referenced-type="SOTerm"/>
+<class name="BioEntity" is-interface="true">
+	<attribute name="secondaryIdentifier" type="java.lang.String"/>
+	<attribute name="symbol" type="java.lang.String"/>
+	<attribute name="primaryIdentifier" type="java.lang.String"/>
+	<attribute name="lastUpdated" type="java.util.Date"/>
+	<attribute name="name" type="java.lang.String"/>
+	<reference name="organism" referenced-type="Organism"/>
+	<collection name="synonyms" referenced-type="Synonym" reverse-reference="subject"/>
+	<collection name="publications" referenced-type="Publication" reverse-reference="bioEntities"/>
+	<collection name="ontologyAnnotations" referenced-type="OntologyAnnotation" reverse-reference="subject"/>
+	<collection name="phenotypesObserved" referenced-type="Phenotype" reverse-reference="observedIn"/>
+	<collection name="phenotypesNotObserved" referenced-type="Phenotype" reverse-reference="notObservedIn"/>
+	<collection name="crossReferences" referenced-type="CrossReference" reverse-reference="subject"/>
+	<collection name="dataSets" referenced-type="DataSet" reverse-reference="bioEntities"/>
+	<collection name="locatedFeatures" referenced-type="Location" reverse-reference="locatedOn"/>
+	<collection name="locations" referenced-type="Location" reverse-reference="feature"/>
 </class>
 <class name="Chromosome" extends="SequenceFeature" is-interface="true"></class>
 <class name="Location" is-interface="true">

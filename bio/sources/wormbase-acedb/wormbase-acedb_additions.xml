@@ -21,8 +21,16 @@
 	<class name="BioEntity" is-interface="true">
 		<attribute name="lastUpdated" type="java.util.Date"/>
 		<!--<reference name="curatedBy" referenced-type="Curator" reverse-reference="entitiesCurated"/>-->
+		<collection name="phenotypesObserved" referenced-type="Phenotype" reverse-reference="observedIn"/>
+		<collection name="phenotypesNotObserved" referenced-type="Phenotype" reverse-reference="notObservedIn"/>
 	</class>
 	<class name="Protein" is-interface="true">
 		<attribute name="geneName" type="java.lang.String"/>
+	</class>
+	<class name="Allele" is-interface="true">
+	</class>
+	<class name="Phenotype" extends="BioEntity" is-interface="true">
+		<collection name="observedIn" referenced-type="BioEntity" reverse-reference="phenotypesObserved" />
+		<collection name="notObservedIn" referenced-type="BioEntity" reverse-reference="phenotypesNotObserved" />
 	</class>
 </classes>

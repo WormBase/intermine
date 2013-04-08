@@ -33,6 +33,7 @@ import org.intermine.metadata.*;
 import org.intermine.util.TypeUtil;
 import org.intermine.xml.full.Item;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 
@@ -245,7 +246,23 @@ public class WormbaseAcedbConverter extends BioFileConverter
 					        NodeList resultNodes = (NodeList) expr.evaluate(doc,  XPathConstants.NODESET);
 					        String collectionIDs[] = new String[resultNodes.getLength()]; 
 					        for(int i = 0; i < resultNodes.getLength(); i++) {
-					            collectionIDs[i] = StringUtils.strip(resultNodes.item(i).getTextContent()); 
+					            
+					        	// If the first child is a text node, uses that instead of resolving
+					        	//   whole node (and descendants) to text
+					        	Node resultNode = resultNodes.item(i);
+					        	Node possibleTextNode = resultNode.getFirstChild();
+					        	if(possibleTextNode == null){
+					        		possibleTextNode = resultNode;
+					        	}
+					        	String nodeText = "";
+					        	if(possibleTextNode.getNodeType() == Node.TEXT_NODE){
+					        		nodeText = possibleTextNode.getTextContent();
+					        	}else{
+					        		nodeText = resultNode.getTextContent();
+					        	}
+					        	//wmd.debug("ASDF::"+String.valueOf(resultNode.getNodeType())+"--"+Node.ELEMENT_NODE); // DELETE
+					        	
+					        	collectionIDs[i] = StringUtils.strip(nodeText); 
 				        		
 				        		if(!collectionIDs[i].isEmpty()){
 					        		referencedItem = getRefItem(refClassName, collectionIDs[i]);

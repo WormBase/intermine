@@ -158,6 +158,9 @@
 			
 		
 		<property name="data.set" value="AceDB XML (Gene)"/>
+		
+		<!-- toggle debug messages -->
+		<property name="debug" value="true"/>
 	</source> 
 	
 	
@@ -196,7 +199,7 @@
 		<property name="data.set" value="AceDB XML (CDS)"/>
 	</source>
 	
-	<!-- not ULL DATA FILE -->
+	<!-- not FULL DATA FILE -->
 	<source name="wb-acedb-protein" type="wormbase-acedb">
 		<property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/TEST_XML" />
 		<property name="mapping.file"
@@ -209,6 +212,7 @@
 		<property name="data.set" value="AceDB XML (Protein)"/>
 	</source>
 	
+	<!-- not FULL DATA FILE -->
 	<source name="wb-acedb-variation" type="wormbase-acedb">
 		<property name="src.data.dir" location="&datadir;/wormbase-acedb/variation/TEST_XML" />
 		
@@ -222,6 +226,8 @@
 		
 		<property name="rejects.file" 
 			value="&datadir;/wormbase-acedb/variation/wormbase-acedb-variation-rejects.xml"/>
+		<property name="data.set" value="AceDB XML (Variation)"/>
+		<property name="debug" value="true"/>
 	</source>
 	
    </sources>

@@ -157,7 +157,7 @@
     <attribute name="md5checksum" type="java.lang.String"/>
   </class>
 
-  <class name="SequenceCollection" extends="BioEntity" is-interface="true">
+  <class name="SequenceCollection" extends="SequenceFeature" is-interface="true">
     <reference name="sequenceOntologyTerm" referenced-type="SOTerm"/>
   </class>
 
