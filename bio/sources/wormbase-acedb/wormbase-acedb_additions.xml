@@ -16,6 +16,7 @@
 	</class>
 	<class name="Gene" is-interface="true">
 		<attribute name="operon" type="java.lang.String"/>
+		<reference name="referenceAllele" referenced-type="Allele" />
 		<collection name="strains" referenced-type="Strain" reverse-reference="gene"/>
 	</class>
 	<class name="BioEntity" is-interface="true">
@@ -28,6 +29,7 @@
 		<attribute name="geneName" type="java.lang.String"/>
 	</class>
 	<class name="Allele" is-interface="true">
+		<reference name="naturalVariant" referenced-type="Allele" />
 	</class>
 	<class name="Phenotype" extends="BioEntity" is-interface="true">
 		<collection name="observedIn" referenced-type="BioEntity" reverse-reference="phenotypesObserved" />

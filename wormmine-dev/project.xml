@@ -160,7 +160,7 @@
 		<property name="data.set" value="AceDB XML (Gene)"/>
 		
 		<!-- toggle debug messages -->
-		<property name="debug" value="true"/>
+		<property name="debug" value="false"/>
 	</source> 
 	
 	
