@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -134,7 +135,10 @@ public class WormbaseAcedbConverter extends BioFileConverter
         String dataPath;
         while( dataPathEnum.hasMoreElements() ){ // foreach property mapping
         	dataPath = (String) dataPathEnum.nextElement(); // ex: "symbol"
-	
+        	if(dataPath.length() == 0){
+        		continue;
+        	}
+        	
         	String xpathQuery = dataMapping.getProperty(dataPath); // ex: "/Transcript/text()[1]"
         	
         	// The XPath object compiles the XPath expression
@@ -143,7 +147,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        prop2XpathExpr.put(dataPath, expr);
         }
         
-        
+        Pattern strB4Dot = Pattern.compile("(.*?)\\.(.*)");
 	        
     	// foreach XML string
     	String xmlChunk;
@@ -190,145 +194,181 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        
 	        Iterator prop2XpathExprIter = prop2XpathExpr.keySet().iterator();
 	        String ID = null;
+	        boolean assertIfExists;
 	        while( prop2XpathExprIter.hasNext() ){ // foreach property mapping
-	        	dataPath = (String) prop2XpathExprIter.next(); // ex: "symbol"
+	        	dataPath = (String) prop2XpathExprIter.next(); // ex: "symbol", "organism.name"
+	        	assertIfExists = false;
 	        	wmd.debug("Retrieving:["+dataPath+"]");
 	        	
 	        	// The XPath object compiles the XPath expression
 		        XPathExpression expr = prop2XpathExpr.get(dataPath);
 		        
 		        
+		        Matcher fNMatcher = strB4Dot.matcher(dataPath);
+			    String fieldName;
+		        String suffix = ""; // after .
+		        if( fNMatcher.find() ){
+			        String prefix = fNMatcher.group(1);
+			        if(prefix.equalsIgnoreCase("if")){
+			        	fieldName = fNMatcher.group(2);
+			        	assertIfExists = true;
+			        }else{
+			        	fieldName = prefix;
+			        	suffix = fNMatcher.group(2);
+			        	wmd.debug("suffix:"+suffix);
+			        }
+		        }else{
+		        	fieldName = dataPath;
+		        }
+	        	wmd.debug("fieldname="+fieldName);
+		        
+		        		
 		        // '.' indicates join, aka reference or collection
-		        if( dataPath.contains(".") ){
+	        	
+	        	
+	        	
+	        	
+	        	
+//		       	wmd.debug("This is an attribute");
+	        	
+		        
+		        
+		        
+	        	
+	        	
+		        FieldDescriptor fd = classCD.getFieldDescriptorByName(fieldName);
+		        if( fd == null ){
+		        	throw new Exception("Type not found in model");
+		        }
+		        
+		        if(fd.isAttribute()){
 		        	
-		        	
-		        	Matcher fNMatcher = Pattern.compile("(.*?)\\.").matcher(dataPath);
-		        	if( fNMatcher.find() ){
-			        	String fieldName = fNMatcher.group(1); // the string before the '.'
+		        	if(assertIfExists){
+			        	NodeList resultNode = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			        	
-				        FieldDescriptor fd = classCD.getFieldDescriptorByName(fieldName);
-				        if( fd == null ){
-				        	throw new Exception("Type not found in model");
+			        	wmd.debug(String.valueOf(resultNode.getLength()));
+			        	
+		        		if(resultNode.getLength() == 0){
+		        			wmd.debug("TAG DOESN'T EXIST");
+		        		}else{
+		        			wmd.debug("TAG EXISTS");
+		        		}
+		        		
+		        	}else{
+		        	
+			        	String xPathValue = StringUtils.strip( expr.evaluate(doc) );
+			        	wmd.debug("xpathvalue:"+xPathValue);
+				        if(fieldName.equals("primaryIdentifier")){
+				        	ID = xPathValue;
 				        }
 				        
-			        	ReferenceDescriptor rd = (ReferenceDescriptor) fd; 
-			        	String refClassName = 
-			        			TypeUtil.unqualifiedName(rd.getReferencedClassName());
-			        	
-			        	
-			        	if( rd.relationType() == FieldDescriptor.ONE_ONE_RELATION ||
-			        		rd.relationType() == FieldDescriptor.N_ONE_RELATION   )
-			        	{
-//			        		wmd.debug("This is a reference");
-			        		
-			        		String xPathValue = StringUtils.strip( expr.evaluate(doc) );
-				        	Item referencedItem;
-			        		if(!xPathValue.isEmpty()){
-				        		 referencedItem = getRefItem(refClassName, xPathValue);
-				        	}else{
-				        		wmd.debug("ID not defined, moving on...");
-				        		wmd.debug("=======================");
-				        		continue;
-				        	}
-				        	
-				        	wmd.debug("Setting current "+currentClass+"."+fd.getName()+" to: ("+refClassName+")["+xPathValue+"]" );
-				        	item.setReference(rd.getName(), referencedItem.getIdentifier());
-				        	
-				        	if( 		rd.relationType() == FieldDescriptor.ONE_ONE_RELATION ){
-//				        		wmd.debug("1:1");
-				        		// UNTESTED
-				        		setRevRefIfExists(item, referencedItem, rd);
-				        	}else if(	rd.relationType() == FieldDescriptor.N_ONE_RELATION){
-//				        		wmd.debug("N:1");
-				        		addToRevColIfExists(item, referencedItem, rd);
-				        	}
-			        		
-			        	}else if( 	rd.relationType() == FieldDescriptor.ONE_N_RELATION ||
-			        				rd.relationType() == FieldDescriptor.M_N_RELATION   )
-			        	{
-//			        		wmd.debug("This is a collection"); 
-			        		CollectionDescriptor cd = (CollectionDescriptor) rd;
-			        		
-			        		if( 		cd.relationType() == FieldDescriptor.ONE_N_RELATION ){
-//			        			wmd.debug("1:N");
-			        		}else if(	cd.relationType() == FieldDescriptor.M_N_RELATION   ){
-//			        			wmd.debug("M:N");
-			        		}
-			        		
-			        		Item referencedItem = createItem(refClassName); // Initialized by necessity
-			        		
-				        	// Get set of IDs referenced
-					        NodeList resultNodes = (NodeList) expr.evaluate(doc,  XPathConstants.NODESET);
-					        String collectionIDs[] = new String[resultNodes.getLength()]; 
-					        for(int i = 0; i < resultNodes.getLength(); i++) {
-					            
-					        	// If the first child is a text node, uses that instead of resolving
-					        	//   whole node (and descendants) to text
-					        	Node resultNode = resultNodes.item(i);
-					        	Node possibleTextNode = resultNode.getFirstChild();
-					        	if(possibleTextNode == null){
-					        		possibleTextNode = resultNode;
-					        	}
-					        	String nodeText = "";
-					        	if(possibleTextNode.getNodeType() == Node.TEXT_NODE){
-					        		nodeText = possibleTextNode.getTextContent();
-					        	}else{
-					        		nodeText = resultNode.getTextContent();
-					        	}
-					        	//wmd.debug("ASDF::"+String.valueOf(resultNode.getNodeType())+"--"+Node.ELEMENT_NODE); // DELETE
-					        	
-					        	collectionIDs[i] = StringUtils.strip(nodeText); 
-				        		
-				        		if(!collectionIDs[i].isEmpty()){
-					        		referencedItem = getRefItem(refClassName, collectionIDs[i]);
-					        	}else{
-					        		wmd.debug("ID not defined, moving on...");
-					        		continue;
-					        	}
-
-				        		
-				        		item.addToCollection(cd.getName(), referencedItem);
-				        		
-					            wmd.debug(cd.getName()+":["+collectionIDs[i]+"]");
-			        		
-				        		if( 		cd.relationType() == FieldDescriptor.ONE_N_RELATION ){
-				        			setRevRefIfExists(item, referencedItem, cd);
-				        		}else if(	cd.relationType() == FieldDescriptor.M_N_RELATION   ){
-//				        			wmd.debug("M:N");
-				        			// UNTESTED
-				        			addToRevColIfExists(item, referencedItem, rd);
-				        		}
-			        		
-					        }
-			        		
-			        		
-			        		
+			        	// DataPath describes attribute
+				        if (!StringUtils.isEmpty(xPathValue)) {
+							wmd.debug("Setting attribute ["+fieldName+"] to ["+xPathValue+"]");
+							item.setAttribute(fieldName, xPathValue);
+						}else{
+							wmd.debug("ignoring attribute ["+fieldName+", no value");
+						}
+				        
+		        	}
+		        	
+		        }else{
+		        	
+		        	ReferenceDescriptor rd = (ReferenceDescriptor) fd; 
+		        	String refClassName = 
+		        			TypeUtil.unqualifiedName(rd.getReferencedClassName());
+		        	
+		        	
+		        	if( rd.relationType() == FieldDescriptor.ONE_ONE_RELATION ||
+		        		rd.relationType() == FieldDescriptor.N_ONE_RELATION   )
+		        	{
+	//			        		wmd.debug("This is a reference");
+		        		
+		        		String xPathValue = StringUtils.strip( expr.evaluate(doc) );
+			        	Item referencedItem;
+		        		if(!xPathValue.isEmpty()){
+			        		 referencedItem = getRefItem(refClassName, xPathValue);
 			        	}else{
-			        		throw new Exception(dataPath+" contains a '.', "+
-			        				"but is not a reference or collection");
+			        		wmd.debug("ID not defined, moving on...");
+			        		wmd.debug("=======================");
+			        		continue;
 			        	}
 			        	
-
-
+			        	wmd.debug("Setting current "+currentClass+"."+fd.getName()+" to: ("+refClassName+")["+xPathValue+"]" );
+			        	item.setReference(rd.getName(), referencedItem.getIdentifier());
+			        	
+			        	if( 		rd.relationType() == FieldDescriptor.ONE_ONE_RELATION ){
+	//				        		wmd.debug("1:1");
+			        		setRevRefIfExists(item, referencedItem, rd);
+			        	}else if(	rd.relationType() == FieldDescriptor.N_ONE_RELATION){
+	//				        		wmd.debug("N:1");
+			        		addToRevColIfExists(item, referencedItem, rd);
+			        	}
+		        		
+		        	}else if( rd.isCollection() ){
+	//			        		wmd.debug("This is a collection"); 
+		        		CollectionDescriptor cd = (CollectionDescriptor) rd;
+		        		
+		        		//if(cd.relationType() == FieldDescriptor.ONE_N_RELATION ){wmd.debug("1:N");}else if(cd.relationType() == FieldDescriptor.M_N_RELATION){wmd.debug("M:N");}
+		        		
+		        		Item referencedItem = createItem(refClassName); // Initialized by necessity
+		        		
+			        	// Get set of IDs referenced
+				        NodeList resultNodes = (NodeList) expr.evaluate(doc,  XPathConstants.NODESET);
+				        String collectionIDs[] = new String[resultNodes.getLength()]; 
+				        for(int i = 0; i < resultNodes.getLength(); i++) {
+				            
+				        	// If the first child is a text node, uses that instead of resolving
+				        	//   whole node (and descendants) to text
+				        	Node resultNode = resultNodes.item(i);
+				        	Node possibleTextNode = resultNode.getFirstChild();
+				        	if(possibleTextNode == null){
+				        		possibleTextNode = resultNode;
+				        	}
+				        	String nodeText = "";
+				        	if(possibleTextNode.getNodeType() == Node.TEXT_NODE){
+				        		nodeText = possibleTextNode.getTextContent();
+				        	}else{
+				        		nodeText = resultNode.getTextContent();
+				        	}
+				        	//wmd.debug("ASDF::"+String.valueOf(resultNode.getNodeType())+"--"+Node.ELEMENT_NODE); // DELETE
+				        	
+				        	collectionIDs[i] = StringUtils.strip(nodeText); 
+			        		
+			        		if(!collectionIDs[i].isEmpty()){
+				        		referencedItem = getRefItem(refClassName, collectionIDs[i]);
+				        	}else{
+				        		wmd.debug("ID not defined, moving on...");
+				        		continue;
+				        	}
+	
+			        		
+			        		item.addToCollection(cd.getName(), referencedItem);
+			        		
+				            wmd.debug(cd.getName()+":["+collectionIDs[i]+"]");
+		        		
+			        		if( 		cd.relationType() == FieldDescriptor.ONE_N_RELATION ){
+			        			setRevRefIfExists(item, referencedItem, cd);
+			        		}else if(	cd.relationType() == FieldDescriptor.M_N_RELATION   ){
+	//				        			wmd.debug("M:N");
+			        			// UNTESTED
+			        			addToRevColIfExists(item, referencedItem, rd);
+			        		}
+		        		
+				        }
+		        		
+		        		
+		        		
 		        	}else{
-		        		throw new Exception("Matching error: ["+dataPath+"] expected to contain '.'");
+		        		throw new Exception(dataPath+" contains a '.', "+
+		        				"but is not a reference or collection");
 		        	}
-		        }else{
-//		        	wmd.debug("This is an attribute");
 		        	
-		        	String xPathValue = StringUtils.strip( expr.evaluate(doc) );
-		        	
-			        if(dataPath.equals("primaryIdentifier")){
-			        	ID = xPathValue;
-			        }
-			        
-		        	// DataPath describes attribute
-					wmd.debug("Setting attribute ["+dataPath+"] to ["+xPathValue+"]");
-			        if (!StringUtils.isEmpty(xPathValue)) {
-						item.setAttribute(dataPath, xPathValue);
-					}
-		        	
+
+
 		        }
+		        
+	        	
 		        
 		        
 		        wmd.debug("=======================");

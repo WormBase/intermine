@@ -29,7 +29,7 @@
 		<attribute name="geneName" type="java.lang.String"/>
 	</class>
 	<class name="Allele" is-interface="true">
-		<reference name="naturalVariant" referenced-type="Allele" />
+		<attribute name="naturalVariant" type="java.lang.String" />
 	</class>
 	<class name="Phenotype" extends="BioEntity" is-interface="true">
 		<collection name="observedIn" referenced-type="BioEntity" reverse-reference="phenotypesObserved" />
