@@ -118,6 +118,33 @@ public class WormbaseAcedbConverter extends BioFileConverter
 			rejectsFW = new FileWriter(rejectFilePath); // creates file if exists
 		FileParser fp = new FileParser(reader);
     	
+		
+	
+		//// Process properties file first ////
+		wmd.debug("Parsing mapping file...");
+		
+		HashMap<String, XPathExpression> prop2XpathExpr = new HashMap<String, XPathExpression>();
+	    // Get XPathFactory
+        XPathFactory xpf = XPathFactory.newInstance();
+        XPath xpath = xpf.newXPath();
+    	
+        // Get enumerator of InterMine datapaths to map (ex: primaryIdentifier)
+        Enumeration<Object> dataPathEnum = dataMapping.keys();
+        
+        String dataPath;
+        while( dataPathEnum.hasMoreElements() ){ // foreach property mapping
+        	dataPath = (String) dataPathEnum.nextElement(); // ex: "symbol"
+	
+        	String xpathQuery = dataMapping.getProperty(dataPath); // ex: "/Transcript/text()[1]"
+        	
+        	// The XPath object compiles the XPath expression
+	        XPathExpression expr = xpath.compile( xpathQuery );
+	        
+	        prop2XpathExpr.put(dataPath, expr);
+        }
+        
+        
+	        
     	// foreach XML string
     	String xmlChunk;
     	int count=0; // 
@@ -158,29 +185,17 @@ public class WormbaseAcedbConverter extends BioFileConverter
     			}
     		}
 			
-		    // Get XPathFactory
-	        XPathFactory xpf = XPathFactory.newInstance();
-	        XPath xpath = xpf.newXPath();
-	    	
-	        // Get enumerator of InterMine datapaths to map (ex: primaryIdentifier)
-	        Enumeration<Object> dataPathEnum = dataMapping.keys();
-	        
 	        
 	        Item item = createItem(currentClass);
 	        
-	        
-	        String dataPath;
+	        Iterator prop2XpathExprIter = prop2XpathExpr.keySet().iterator();
 	        String ID = null;
-	        while( dataPathEnum.hasMoreElements() ){ // foreach property mapping
-	        	dataPath = (String) dataPathEnum.nextElement(); // ex: "symbol"
-	        	wmd.debug("Processing property:["+dataPath+"]");
-	        	
-	        	
-	        	
-	        	String xpathQuery = dataMapping.getProperty(dataPath); // ex: "/Transcript/text()[1]"
+	        while( prop2XpathExprIter.hasNext() ){ // foreach property mapping
+	        	dataPath = (String) prop2XpathExprIter.next(); // ex: "symbol"
+	        	wmd.debug("Retrieving:["+dataPath+"]");
 	        	
 	        	// The XPath object compiles the XPath expression
-		        XPathExpression expr = xpath.compile( xpathQuery );
+		        XPathExpression expr = prop2XpathExpr.get(dataPath);
 		        
 		        
 		        // '.' indicates join, aka reference or collection
