@@ -249,9 +249,11 @@ public class WormbaseAcedbConverter extends BioFileConverter
 			        	wmd.debug(String.valueOf(resultNode.getLength()));
 			        	
 		        		if(resultNode.getLength() == 0){
-		        			wmd.debug("TAG DOESN'T EXIST");
+		        			wmd.debug(fieldName+"=false");
+		        			item.setAttribute(fieldName, "false");
 		        		}else{
-		        			wmd.debug("TAG EXISTS");
+		        			wmd.debug(fieldName+"=true");
+		        			item.setAttribute(fieldName, "true");
 		        		}
 		        		
 		        	}else{
