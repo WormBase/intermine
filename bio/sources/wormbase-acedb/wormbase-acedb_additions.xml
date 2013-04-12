@@ -30,6 +30,7 @@
 	</class>
 	<class name="Allele" is-interface="true">
 		<attribute name="naturalVariant" type="java.lang.String" />
+		<attribute name="method" type="java.lang.String" />
 	</class>
 	<class name="Phenotype" extends="BioEntity" is-interface="true">
 		<collection name="observedIn" referenced-type="BioEntity" reverse-reference="phenotypesObserved" />

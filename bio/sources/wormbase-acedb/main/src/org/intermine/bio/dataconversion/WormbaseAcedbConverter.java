@@ -238,7 +238,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        	
 		        FieldDescriptor fd = classCD.getFieldDescriptorByName(fieldName);
 		        if( fd == null ){
-		        	throw new Exception("Type not found in model");
+		        	throw new Exception(classCD.getName()+"."+fieldName+" not found in model");
 		        }
 		        
 		        if(fd.isAttribute()){
@@ -269,7 +269,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 							wmd.debug("Setting attribute ["+fieldName+"] to ["+xPathValue+"]");
 							item.setAttribute(fieldName, xPathValue);
 						}else{
-							wmd.debug("ignoring attribute ["+fieldName+", no value");
+							wmd.debug("ignoring attribute ["+fieldName+"], no value");
 						}
 				        
 		        	}

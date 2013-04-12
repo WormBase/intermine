@@ -127,9 +127,10 @@
 
       
 	
+    <!-- FULL DATA FILE -->
 	<!-- WormBase aceDB data loader.  Base dir is wormmine/integrate -->
 	<source name="wb-acedb-gene" type="wormbase-acedb" dump="true">
-		<property name="src.data.dir" location="&datadir;/wormbase-acedb/gene/TEST_XML" />
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/gene/XML" />
 		<!--
 			This file maps intermine data classes to an XPath query.
 		-->
@@ -201,7 +202,7 @@
 	
 	<!-- not FULL DATA FILE, -->
 	<source name="wb-acedb-protein" type="wormbase-acedb">
-		<property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/TEST_XML" />
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/exorcised" />
 		<property name="mapping.file"
 			value="&datadir;/wormbase-acedb/protein/mapping/protein_mapping.properties" />
 		<property name="key.file"
@@ -212,9 +213,9 @@
 		<property name="data.set" value="AceDB XML (Protein)"/>
 	</source>
 	
-	<!-- not FULL DATA FILE -->
+	<!-- FULL DATA FILE -->
 	<source name="wb-acedb-variation" type="wormbase-acedb">
-		<property name="src.data.dir" location="&datadir;/wormbase-acedb/variation/TEST_XML" />
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/variation/XML" />
 		
 		<property name="mapping.file" 
 			value="&datadir;/wormbase-acedb/variation/mapping/variation_mapping.properties" />
@@ -227,7 +228,7 @@
 		<property name="rejects.file" 
 			value="&datadir;/wormbase-acedb/variation/wormbase-acedb-variation-rejects.xml"/>
 		<property name="data.set" value="AceDB XML (Variation)"/>
-		<property name="debug" value="true"/>
+		<property name="debug" value="false"/>
 	</source>
 	
    </sources>
