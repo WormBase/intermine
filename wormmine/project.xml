@@ -58,16 +58,17 @@
 	</source> 
 	
 	<source name="celegans-protein-fasta" type="fasta">
-		<property name="fasta.taxonId"         value="&c_elegans_taxon_id;"/>
-		<property name="fasta.className"       value="org.intermine.model.bio.Protein"/>
-		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
-		<property name="fasta.dataSourceName"  value="WormBase FTP"/>
-		<property name="fasta.dataSetTitle"    value="WormBase C. elegans protein sequence (Fasta)"/>
-		<property name="fasta.sequenceType"    value="protein"/>
+		<property name="fasta.taxonId"         	value="&c_elegans_taxon_id;"/>
+		<property name="fasta.className"       	value="org.intermine.model.bio.Protein"/>
+		<property name="fasta.classAttribute"  	value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  	value="WormBase FTP"/>
+		<property name="fasta.dataSetTitle"    	value="WormBase C. elegans protein sequence (Fasta)"/>
+		<property name="fasta.sequenceType"    	value="protein"/>
+		<property name="src.data.dir"          	location="&datadir;/fasta/c_elegans/proteins/prepped" />
+		<property name="fasta.includes"        	value="*.fa*"/> 
 		<property name="fasta.loaderClassName"
 			value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
-		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/proteins/prepped" />
-		<property name="fasta.includes"        value="*.fa*"/> 
+		<property name="fasta.PIDPrefix"		value="WP:"/>
 	</source>
 	
 	<!-- CORE GENOMIC ANNOTATION IN GFF3 -->
@@ -194,22 +195,9 @@
 			value="&datadir;/wormbase-acedb/cds/wormbase-acedb-cds-rejects.xml"/>
 		<property name="data.set" value="AceDB XML (CDS)"/>
 	</source>
-	
-	<source name="wb-acedb-protein" type="wormbase-acedb" dump="true">
-		<property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/XML" />
-		<property name="mapping.file"
-			value="&datadir;/wormbase-acedb/protein/mapping/protein_mapping.properties" />
-		<property name="key.file"
-			value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
-		<property name="source.class" value="Protein"/>
-		<property name="rejects.file"
-			value="&datadir;/wormbase-acedb/protein/wormbase-acedb-protein-rejects.xml"/>
-		<property name="data.set" value="AceDB XML (Protein)"/>
-	</source>
-	
-	<!--
-	<source name="wb-acedb-variation" type="wormbase-acedb">
-		<property name="src.data.dir" location="&datadir;/wormbase-acedb/variation/TEST_XML" />
+
+	<source name="wb-acedb-variation" type="wormbase-acedb" dump="true">
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/variation/XML" />
 		
 		<property name="mapping.file" 
 			value="&datadir;/wormbase-acedb/variation/mapping/variation_mapping.properties" />
@@ -221,15 +209,28 @@
 		
 		<property name="rejects.file" 
 			value="&datadir;/wormbase-acedb/variation/wormbase-acedb-variation-rejects.xml"/>
+		<property name="data.set" value="AceDB XML (Variation)"/>
+		<property name="debug" value="false"/>
 	</source>
-	-->
+
+        <source name="wb-acedb-protein" type="wormbase-acedb" dump="true">
+                <property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/XML" />
+                <property name="mapping.file"
+                        value="&datadir;/wormbase-acedb/protein/mapping/protein_mapping.properties" />
+                <property name="key.file"
+                        value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+                <property name="source.class" value="Protein"/>
+                <property name="rejects.file"
+                        value="&datadir;/wormbase-acedb/protein/wormbase-acedb-protein-rejects.xml"/>
+                <property name="data.set" value="AceDB XML (Protein)"/>
+        </source>
 	
    </sources>
 
   <post-processing>
 	
 	<post-process name="create-chromosome-locations-and-lengths"/>
-	<post-process name="transfer-sequences"/>
+	<!--<post-process name="transfer-sequences"/>-->
 	<post-process name="do-sources"/>
 	  
 	<!-- Webapp post-processes -->

@@ -32,7 +32,8 @@
 		<attribute name="naturalVariant" type="java.lang.String" />
 		<attribute name="method" type="java.lang.String" />
 	</class>
-	<class name="Phenotype" extends="BioEntity" is-interface="true">
+	<class name="Phenotype" extends="OntologyTerm" is-interface="true">
+		<collection name="children" referenced-type="OntologyTerm"/>
 		<collection name="observedIn" referenced-type="BioEntity" reverse-reference="phenotypesObserved" />
 		<collection name="notObservedIn" referenced-type="BioEntity" reverse-reference="phenotypesNotObserved" />
 	</class>
