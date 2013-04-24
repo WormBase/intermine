@@ -71,6 +71,11 @@
 </class>
 <class name="RRNA" extends="NcRNA" is-interface="true"></class>
 <class name="ChromosomalInversion" extends="ChromosomeStructureVariation" is-interface="true"></class>
+<class name="Phenotype" extends="OntologyTerm" is-interface="true">
+	<collection name="children" referenced-type="OntologyTerm"/>
+	<collection name="observedIn" referenced-type="BioEntity" reverse-reference="phenotypesObserved"/>
+	<collection name="notObservedIn" referenced-type="BioEntity" reverse-reference="phenotypesNotObserved"/>
+</class>
 <class name="DataSet" is-interface="true">
 	<attribute name="name" type="java.lang.String"/>
 	<attribute name="version" type="java.lang.String"/>
@@ -129,10 +134,6 @@
 <class name="ChromosomeStructureVariation" extends="SequenceCollection" is-interface="true"></class>
 <class name="RegulatoryRegion" extends="SequenceFeature" is-interface="true">
 	<reference name="gene" referenced-type="Gene" reverse-reference="regulatoryRegions"/>
-</class>
-<class name="Phenotype" extends="BioEntity" is-interface="true">
-	<collection name="observedIn" referenced-type="BioEntity" reverse-reference="phenotypesObserved"/>
-	<collection name="notObservedIn" referenced-type="BioEntity" reverse-reference="phenotypesNotObserved"/>
 </class>
 <class name="TransposableElementInsertionSite" extends="SequenceFeature" is-interface="true"></class>
 <class name="UTR" extends="SequenceFeature" is-interface="true">

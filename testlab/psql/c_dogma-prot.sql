@@ -8,11 +8,13 @@ SELECT
 	protein.primaryIdentifier
 FROM
 	gene 
-	INNER JOIN transcript ON gene.id = transcript.geneid
-	INNER JOIN cdsstranscripts 
+	JOIN transcript ON gene.id = transcript.geneid
+	JOIN cdsstranscripts 
 		ON transcript.id = cdsstranscripts.transcripts
-	INNER JOIN cds ON cdsstranscripts.cdss = cds.id
-	INNER JOIN protein ON cds.proteinid = protein.id
+	JOIN cds ON cdsstranscripts.cdss = cds.id
+	JOIN protein ON cds.proteinid = protein.id
+WHERE
+	gene.primaryidentifier = 'WBGene00000001'
 ;
 
 

@@ -3,7 +3,7 @@
 
 <!-- Relative path to the data directory, from basedir wormmine/integrate -->
 <!--<!ENTITY datadir "../../datadir">-->
-<!ENTITY datadir "/nfs/wormbase/intermine/filedumps/datadir">
+<!ENTITY datadir "/nfs/wormbase/intermine/datadir">
 
 <!-- Species and their NCBI taxonomy IDs -->
 <!ENTITY          a_suum_taxon_id "6253">
@@ -217,17 +217,17 @@
 		<property name="debug" value="false"/>
 	</source>
 
-        <source name="wb-acedb-protein" type="wormbase-acedb" dump="true">
-                <property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/XML" />
-                <property name="mapping.file"
-                        value="&datadir;/wormbase-acedb/protein/mapping/protein_mapping.properties" />
-                <property name="key.file"
-                        value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
-                <property name="source.class" value="Protein"/>
-                <property name="rejects.file"
-                        value="&datadir;/wormbase-acedb/protein/wormbase-acedb-protein-rejects.xml"/>
-                <property name="data.set" value="AceDB XML (Protein)"/>
-        </source>
+	<source name="wb-acedb-protein" type="wormbase-acedb" dump="true">
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/XML" />
+		<property name="mapping.file"
+				value="&datadir;/wormbase-acedb/protein/mapping/protein_mapping.properties" />
+		<property name="key.file"
+				value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+		<property name="source.class" value="Protein"/>
+		<property name="rejects.file"
+				value="&datadir;/wormbase-acedb/protein/wormbase-acedb-protein-rejects.xml"/>
+		<property name="data.set" value="AceDB XML (Protein)"/>
+	</source>
 
 
 	<source name="wb-acedb-phenotype" type="wormbase-acedb" dump="true">
@@ -240,7 +240,7 @@
 		<property name="rejects.file" 
 			value="&datadir;/wormbase-acedb/phenotype/wormbase-acedb-phenotype-rejects.xml"/>
 		<property name="data.set" value="AceDB XML (Phenotype)"/>
-		<property name="debug" value="true"/>
+		<property name="debug" value="false"/>
 	</source>
 	
    </sources>

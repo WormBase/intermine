@@ -1,0 +1,1 @@
+perl ../../../purify_xace/purify_xace.pl /home/jdmswong/intermine-dev/nfs/wormbase-acedb/phenotype/Phenotype.xml /home/jdmswong/intermine-dev/nfs/wormbase-acedb/phenotype/XML/purified_phenotype.xml
