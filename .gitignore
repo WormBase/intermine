@@ -5,10 +5,9 @@
 delete.*
 DELETE.*
 
-datadir
-datadir/wormbase-acedb-gene/*XML
-datadir/wormbase-gff3
-datadir/wormbase-acedb-variation/*XML
+datadir/fasta
+#datadir/**/*.xml
+#datadir/**/test2.fa
 
 # Standard patterns
 bin/
