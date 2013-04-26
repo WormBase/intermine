@@ -18,6 +18,7 @@
 		<attribute name="operon" type="java.lang.String"/>
 		<reference name="referenceAllele" referenced-type="Allele" />
 		<collection name="strains" referenced-type="Strain" reverse-reference="gene"/>
+		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="gene"/>
 	</class>
 	<class name="BioEntity" is-interface="true">
 		<attribute name="lastUpdated" type="java.util.Date"/>
@@ -36,5 +37,15 @@
 		<collection name="children" referenced-type="OntologyTerm"/>
 		<collection name="observedIn" referenced-type="BioEntity" reverse-reference="phenotypesObserved" />
 		<collection name="notObservedIn" referenced-type="BioEntity" reverse-reference="phenotypesNotObserved" />
+	</class>
+	<class name="ExpressionPattern" is-interface="true">
+		<attribute name="primaryIdentifier" type="java.lang.String"/>
+		<attribute name="subcellularLocalization" type="java.lang.String"/> 
+		<attribute name="pattern" type="java.lang.String"/>
+		<attribute name="remark" type="java.lang.String"/>
+		<attribute name="reporterGene" type="java.lang.String"/>
+		<reference name="gene" referenced-type="Gene" reverse-reference="expressionPatterns" />
+		<!--<collection name="GOTerms" referenced-type="GOTerm" />-->
+		<collection name="GOTerms" referenced-type="OntologyTerm" />
 	</class>
 </classes>

@@ -43,6 +43,7 @@
 <class name="EST" extends="Oligo" is-interface="true">
 	<collection name="overlappingESTSets" referenced-type="OverlappingESTSet" reverse-reference="ESTs"/>
 </class>
+<class name="Primer" extends="Oligo" is-interface="true"></class>
 <class name="Gene" extends="SequenceFeature" is-interface="true">
 	<attribute name="briefDescription" type="java.lang.String"/>
 	<attribute name="operon" type="java.lang.String"/>
@@ -56,13 +57,13 @@
 	<collection name="goAnnotation" referenced-type="GOAnnotation"/>
 	<collection name="CDSs" referenced-type="CDS" reverse-reference="gene"/>
 	<collection name="UTRs" referenced-type="UTR" reverse-reference="gene"/>
+	<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="gene"/>
 	<collection name="exons" referenced-type="Exon" reverse-reference="gene"/>
 	<collection name="alleles" referenced-type="Allele" reverse-reference="gene"/>
 	<collection name="strains" referenced-type="Strain" reverse-reference="gene"/>
 	<collection name="introns" referenced-type="Intron" reverse-reference="genes"/>
 	<collection name="flankingRegions" referenced-type="GeneFlankingRegion" reverse-reference="gene"/>
 </class>
-<class name="Primer" extends="Oligo" is-interface="true"></class>
 <class name="ChromosomalTranslocation" extends="ChromosomeStructureVariation" is-interface="true"></class>
 <class name="Enhancer" extends="CRM" is-interface="true"></class>
 <class name="GOAnnotation" extends="OntologyAnnotation" is-interface="true">
@@ -132,6 +133,15 @@
 	<attribute name="description" type="java.lang.String"/>
 </class>
 <class name="ChromosomeStructureVariation" extends="SequenceCollection" is-interface="true"></class>
+<class name="ExpressionPattern" is-interface="true">
+	<attribute name="subcellularLocalization" type="java.lang.String"/>
+	<attribute name="primaryIdentifier" type="java.lang.String"/>
+	<attribute name="pattern" type="java.lang.String"/>
+	<attribute name="reporterGene" type="java.lang.String"/>
+	<attribute name="remark" type="java.lang.String"/>
+	<reference name="gene" referenced-type="Gene" reverse-reference="expressionPatterns"/>
+	<collection name="GOTerms" referenced-type="OntologyTerm"/>
+</class>
 <class name="RegulatoryRegion" extends="SequenceFeature" is-interface="true">
 	<reference name="gene" referenced-type="Gene" reverse-reference="regulatoryRegions"/>
 </class>

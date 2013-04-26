@@ -8,7 +8,7 @@ cd integrate;
 #ant -v -Dsource=all >> ../pbuild.log;
 #ant -v -Dsource=wb-acedb-variation,wb-acedb-gene>> ../pbuild.log
 #ant -v -Dsource=wb-acedb-gene >> ../pbuild.log
-ant -v -Dsource=wb-acedb-phenotype >> ../pbuild.log
+ant -v -Dsource=wb-acedb-expr_pattern>> ../pbuild.log
 cd ..;
 
 #cd postprocess;
