@@ -48,4 +48,12 @@
 		<!--<collection name="GOTerms" referenced-type="GOTerm" />-->
 		<collection name="GOTerms" referenced-type="OntologyTerm" />
 	</class>
+	<class name="AnatomyTerm" is-interface="true">
+		<attribute name="primaryIdentifier" type="java.lang.String"/>
+		<attribute name="definition" type="java.lang.String"/>
+		<attribute name="synonym" type="java.lang.String"/>
+		<collection name="parents" referenced-type="AnatomyTerm"/>
+		<collection name="children" referenced-type="AnatomyTerm"/>
+		<collection name="attributeOf" referenced-type="ExpressionPattern"/>
+	</class>
 </classes>

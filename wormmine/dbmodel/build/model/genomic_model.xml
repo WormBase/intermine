@@ -29,6 +29,14 @@
 <class name="NcRNA" extends="Transcript" is-interface="true"></class>
 <class name="Oligo" extends="SequenceFeature" is-interface="true"></class>
 <class name="SNP" extends="SequenceFeature" is-interface="true"></class>
+<class name="AnatomyTerm" is-interface="true">
+	<attribute name="primaryIdentifier" type="java.lang.String"/>
+	<attribute name="definition" type="java.lang.String"/>
+	<attribute name="synonym" type="java.lang.String"/>
+	<collection name="parents" referenced-type="AnatomyTerm"/>
+	<collection name="children" referenced-type="AnatomyTerm"/>
+	<collection name="attributeOf" referenced-type="ExpressionPattern"/>
+</class>
 <class name="Protein" extends="BioEntity" is-interface="true">
 	<attribute name="molecularWeight" type="java.lang.Float"/>
 	<attribute name="md5checksum" type="java.lang.String"/>
