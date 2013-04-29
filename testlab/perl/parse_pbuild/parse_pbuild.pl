@@ -17,12 +17,25 @@ while(<$infile>){
 		}
 	}
 }
+print "=" foreach (1..$maxlength+10);
+print "\n";
 foreach(@action_time){
 	printf("%-*s\t%s\n", 
 		$maxlength,
 		$_->{action},
 		&smart_time($_->{time})
 	);
+}
+print "=" foreach (1..$maxlength+10);
+print "\n";
+print "TOTAL: ".&smart_time(&total_time)."\n";
+
+sub total_time{
+	my $total_time = 0;
+	foreach(@action_time){
+		$total_time += $_->{time};
+	}
+	return $total_time;
 }
 
 sub smart_time{
@@ -32,8 +45,11 @@ sub smart_time{
 	}elsif( $time < 3600 ){
 		my $sec = $time % 60;
 		return sprintf("%dm%ds", $time/60, $sec);
-	}else{
+	}elsif( $time < 86400 ){
 		my $min = ($time / 60) % 60;
 		return sprintf("%dh%dm", $time/3600, $min);
+	}else{
+		my $hours = ($time / 3600) % 24;
+		return sprintf("%dd%dh", $time/86400, $hours);
 	}
 }
