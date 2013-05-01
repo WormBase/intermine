@@ -19,6 +19,7 @@
 		<reference name="referenceAllele" referenced-type="Allele" />
 		<collection name="strains" referenced-type="Strain" reverse-reference="gene"/>
 		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="gene"/>
+		<collection name="expressionClusters" referenced-type="ExpressionCluster" reverse-reference="genes"/>
 	</class>
 	<class name="BioEntity" is-interface="true">
 		<attribute name="lastUpdated" type="java.util.Date"/>
@@ -47,6 +48,8 @@
 		<reference name="gene" referenced-type="Gene" reverse-reference="expressionPatterns" />
 		<!--<collection name="GOTerms" referenced-type="GOTerm" />-->
 		<collection name="GOTerms" referenced-type="OntologyTerm" />
+		<collection name="anatomyTerms" referenced-type="AnatomyTerm" />
+		<collection name="lifeStages" referenced-type="LifeStage" reverse-reference="expressionPatterns"/>
 	</class>
 	<class name="AnatomyTerm" is-interface="true">
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
@@ -55,5 +58,26 @@
 		<collection name="parents" referenced-type="AnatomyTerm"/>
 		<collection name="children" referenced-type="AnatomyTerm"/>
 		<collection name="attributeOf" referenced-type="ExpressionPattern"/>
+		<collection name="lifeStages" referenced-type="LifeStage" reverse-reference="anatomyTerms"/>
+	</class>
+	<class name="ExpressionCluster" is-interface="true">
+		<attribute name="primaryIdentifier" type="java.lang.String"/>
+		<attribute name="description" type="java.lang.String"/>
+		<attribute name="algorithm" type="java.lang.String"/>
+		<collection name="genes" referenced-type="Gene" reverse-reference="expressionClusters"/>
+	</class>
+	<class name="LifeStage" is-interface="true">
+		<attribute name="primaryIdentifier" type="java.lang.String"/>
+		<attribute name="definition" type="java.lang.String"/>
+		<attribute name="publicName" type="java.lang.String"/>
+		<attribute name="remark" type="java.lang.String"/>
+		<attribute name="otherName" type="java.lang.String"/>
+		<collection name="containedIn" referenced-type="LifeStage" />
+		<collection name="precededBy" referenced-type="LifeStage" />
+		<collection name="followedBy" referenced-type="LifeStage" />
+		<collection name="subStages" referenced-type="LifeStage" />
+		<collection name="anatomyTerms" referenced-type="AnatomyTerm" reverse-reference="lifeStages"/>
+		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="lifeStages"/>
+
 	</class>
 </classes>

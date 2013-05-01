@@ -269,6 +269,47 @@
 		<property name="debug" value="true"/>
 	</source>
 	
+	<source name="wb-acedb-expr_cluster" type="wormbase-acedb" dump="true">
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/expr_cluster/TEST_XML" />
+		<property name="mapping.file"
+				value = "&datadir;/wormbase-acedb/expr_cluster/mapping/expr_cluster_mapping.properties" />
+		<property name="key.file"
+			value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+		<property name="source.class" value="ExpressionCluster"/>	
+		<property name="rejects.file" 
+			value="&datadir;/wormbase-acedb/expr_cluster/wormbase-acedb-expr_cluster-rejects.xml"/>
+		<property name="data.set" value="AceDB XML (Expression Cluster)"/>
+		<property name="debug" value="true"/>
+	</source>
+
+	<source name="wb-acedb-life_stage" type="wormbase-acedb" dump="true">
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/life_stage/XML" />
+		<property name="mapping.file"
+				value = "&datadir;/wormbase-acedb/life_stage/mapping/life_stage_mapping.properties" />
+		<property name="key.file"
+			value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+		<property name="source.class" value="LifeStage"/>	
+		<property name="rejects.file" 
+			value="&datadir;/wormbase-acedb/life_stage/wormbase-acedb-life_stage-rejects.xml"/>
+		<property name="data.set" value="AceDB XML (Life Stage)"/>
+		<property name="debug" value="true"/>
+	</source>
+	
+	<!--
+	<source name="INSERT" type="wormbase-acedb" dump="true">
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/INSERT/TEST_XML" />
+		<property name="mapping.file"
+				value = "&datadir;/wormbase-acedb/INSERT/mapping/INSERT_mapping.properties" />
+		<property name="key.file"
+			value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+		<property name="source.class" value="INSERT"/>	
+		<property name="rejects.file" 
+			value="&datadir;/wormbase-acedb/INSERT/wormbase-acedb-INSERT-rejects.xml"/>
+		<property name="data.set" value="AceDB XML (INSERT)"/>
+		<property name="debug" value="true"/>
+	</source>
+	-->
+	
 	
    </sources>
 

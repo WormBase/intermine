@@ -41,5 +41,13 @@ public class MappingFileKey {
 	public String getRawKey(){
 		return rawKey;
 	}
+	
+	public boolean equals(MappingFileKey m){
+		if(this.getRawKey() == m.getRawKey()){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 }

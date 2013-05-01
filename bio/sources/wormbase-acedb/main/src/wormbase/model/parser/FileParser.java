@@ -23,6 +23,7 @@ import java.util.*;
 public class FileParser {
 
 	private MyBufferedReader inputStream;
+	private int currentLine = 0;
 	
 	
 	/**
@@ -57,7 +58,7 @@ public class FileParser {
 		boolean startedObj = false; // Switched if non-whitespace passed in 
         try {
 			while ((line = (String) inputStream.readLine()) != null) {
-			    
+			    currentLine++;
 			    //System.out.print("*"); // DEBUG
 			    
 			    if(line.equals("")){
@@ -115,5 +116,9 @@ public class FileParser {
 		}else{
 			return -1;
 		}
+	}
+	
+	public int getCurrentLine(){
+		return currentLine;
 	}
 }

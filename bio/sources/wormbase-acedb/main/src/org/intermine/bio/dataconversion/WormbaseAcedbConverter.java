@@ -135,6 +135,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
         
     	wmd.debug("=== Mapping file entries ===");
         String rawPropKey;
+        MappingFileKey PIDKey = null;
         while( dataPathEnum.hasMoreElements() ){ // foreach property mapping
         	rawPropKey = (String) dataPathEnum.nextElement(); // ex: "symbol"
         	if(rawPropKey.length() == 0){
@@ -153,6 +154,9 @@ public class WormbaseAcedbConverter extends BioFileConverter
         	// The XPath object compiles the XPath expression
 	        XPathExpression expr = xpath.compile( xpathQuery );
 	        
+	        if(rawPropKey.equals(getClassPIDField(classCD.getSimpleName()))){
+	        	PIDKey = propKey;
+	        }
 	        prop2XpathExpr.put(propKey, expr);
         }
     	wmd.debug("=== ==================== ===");
@@ -201,14 +205,22 @@ public class WormbaseAcedbConverter extends BioFileConverter
 			
 	        
 	        Item item = createItem(currentClass);
+	        wmd.debug("New IMID: "+item.getIdentifier());
 	        
 	        Iterator prop2XpathExprIter = prop2XpathExpr.keySet().iterator();
 	        String ID = null;
 	        String castType = null;
 	        boolean assertIfExists;
 	        MappingFileKey propKey;
+	        boolean firstPass = true;
 	        while( prop2XpathExprIter.hasNext() ){ // foreach property mapping
-	        	propKey = (MappingFileKey) prop2XpathExprIter.next(); // ex: "symbol", "organism.name"
+	        	if(!firstPass){ // Set PID first no matter what
+	        		propKey = (MappingFileKey) prop2XpathExprIter.next(); // ex: "symbol", "organism.name"
+	        	}else{
+	        		propKey = PIDKey;
+	        	}
+	        	
+	        	
 	        	assertIfExists = false;
 	        	castType = null;
 	        	
@@ -277,7 +289,20 @@ public class WormbaseAcedbConverter extends BioFileConverter
 			        	String xPathValue = StringUtils.strip( expr.evaluate(doc) );
 			        	wmd.debug("xpathvalue:"+xPathValue);
 				        if(fieldName.equals(getClassPIDField(classCD.getSimpleName()))){
-				        	ID = xPathValue;
+				        	if(firstPass){
+				        		ID = xPathValue;
+						        // if this record's pID exists in the hash, kill the incumbent and take it's name
+						        if(itemHasBeenProcessed(currentClass, ID)){
+						        	String existingRecordsIMID = getRefItem(currentClass, ID).getIdentifier();
+						        	wmd.debug("found cached stand-in record, replacing "+
+						        			item.getIdentifier()+" with "+existingRecordsIMID);
+						        	item.setIdentifier(existingRecordsIMID);
+						        }
+					        	setRefItem(currentClass, ID, item);
+				        	}else{
+				        		continue;
+				        	}
+				        	
 				        }
 				        
 			        	// DataPath describes attribute
@@ -383,21 +408,17 @@ public class WormbaseAcedbConverter extends BioFileConverter
 		        				"but is not a reference or collection");
 		        	}
 		        }
+        		firstPass = false;
 		        wmd.debug("=======================");
 	        }
 	        
 	        if( ID == null ){
-	        	throw new Exception("InterMine ID not defined");
+	        	throw new Exception(getClassPIDField(classCD.getSimpleName())+
+	        			" set as class ID but not defined. Record ending at line:"+fp.getCurrentLine());
 	        }
 //	        wmd.debug("Storing "+currentClass+" with ID:"+ID);
 //	        store(item);
 	        
-	        // if this record's pID exists in the hash, kill the stand-in and take it's place
-	        if(itemHasBeenProcessed(currentClass, ID)){
-	        	wmd.debug("found cached stand-in record, replacing...");
-	        	String existingRecordsIMID = getRefItem(currentClass, ID).getIdentifier();
-	        	item.setIdentifier(existingRecordsIMID);
-	        }
         	setRefItem(currentClass, ID, item);
 	    	
 	        // TODO remove in final build
@@ -453,7 +474,8 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	}
 	
 	/**
-	 * Like getRefItem but only stores passed item, overwriting any existing pairs
+	 * Stores item in working buffer, overwriting any existing pairs.  Buffer
+	 * is flushed once all items are dealt with.
 	 * @param className
 	 * @param pID
 	 * @param item

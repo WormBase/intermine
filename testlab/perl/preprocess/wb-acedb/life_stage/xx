@@ -1,0 +1,1 @@
+perl ../../../purify_xace/purify_xace.pl /home/jdmswong/intermine/datadir/wormbase-acedb/life_stage/Life_stage.xml /home/jdmswong/intermine/datadir/wormbase-acedb/life_stage/XML/purified_life_stage.xml

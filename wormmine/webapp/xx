@@ -1,2 +1,2 @@
-ant default remove-webapp release-webapp
+ant -v default remove-webapp release-webapp
 
