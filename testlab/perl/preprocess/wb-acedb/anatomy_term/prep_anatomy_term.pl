@@ -44,6 +44,7 @@ sub processpg{
 	
 	$strbuffer =~ s/(<Text>|<Txt>)(.*?)(<[^ \d@-]+>)/$1<![CDATA[$2]]>$3/sg;
 	$strbuffer =~ s/(<\/?)(\d+)(\w*>)/$1$strnum{$2}$3/sg;
+	$strbuffer =~ s/&/&amp;/sg;
 	print $outfile $strbuffer;
 	
 	return $strbuffer;

@@ -262,7 +262,6 @@
 		<property name="rejects.file" 
 			value="&datadir;/wormbase-acedb/anatomy_term/wormbase-acedb-anatomy_term-rejects.xml"/>
 		<property name="data.set" value="AceDB XML (Anatomy Term)"/>
-		<property name="debug" value="true"/>
 	</source>
 	
 	<source name="wb-acedb-expr_cluster" type="wormbase-acedb" dump="true">
@@ -275,7 +274,6 @@
 		<property name="rejects.file" 
 			value="&datadir;/wormbase-acedb/expr_cluster/wormbase-acedb-expr_cluster-rejects.xml"/>
 		<property name="data.set" value="AceDB XML (Expression Cluster)"/>
-		<property name="debug" value="true"/>
 	</source>
 
 	<source name="wb-acedb-life_stage" type="wormbase-acedb" dump="true">
@@ -288,7 +286,7 @@
 		<property name="rejects.file" 
 			value="&datadir;/wormbase-acedb/life_stage/wormbase-acedb-life_stage-rejects.xml"/>
 		<property name="data.set" value="AceDB XML (Life Stage)"/>
-		<property name="debug" value="true"/>
+
 	</source>
 	
 	
@@ -296,9 +294,9 @@
 
   <post-processing>
 	
-	<post-process name="create-chromosome-locations-and-lengths"/>
+	<!--<post-process name="create-chromosome-locations-and-lengths"/>
 	<post-process name="transfer-sequences"/>
-	<post-process name="do-sources"/>
+	<post-process name="do-sources"/>-->
 	  
 	<!-- Webapp post-processes -->
 	<post-process name="create-search-index"/>
