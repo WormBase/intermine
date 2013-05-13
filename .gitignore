@@ -4,6 +4,7 @@
 *log.txt
 delete.*
 DELETE.*
+notes
 
 datadir/fasta
 #datadir/**/*.xml
