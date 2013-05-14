@@ -12,7 +12,7 @@
       </titles>
     </headerconfig>
     <fields>
-      <fieldconfig fieldExpr="primaryIdentifier" label="DB identifier"/>
+      <fieldconfig fieldExpr="primaryIdentifier" label="Primary Identifier"/>
     </fields>
   </class>
 
