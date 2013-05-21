@@ -1,7 +1,7 @@
 package org.intermine.bio.postprocess;
 
 /*
- * Copyright (C) 2002-2012 FlyMine
+ * Copyright (C) 2002-2013 FlyMine
  *
  * This code may be freely distributed and modified under the
  * terms of the GNU Lesser General Public Licence.  This should
@@ -191,14 +191,6 @@ public class TransferSequences
                 if (PostProcessUtil.isInstance(model, feature, "ChromosomeBand")) {
                     continue;
                 }
-
-//                if (PostProcessUtil.isInstance(model, feature, "Transcript")) {
-//                    continue;
-//                }
-//
-//                if (PostProcessUtil.isInstance(model, feature, "CDS")) {
-//                    continue;
-//                }
 
                 if (PostProcessUtil.isInstance(model, feature, "SNP")) {
                     continue;
