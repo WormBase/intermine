@@ -43,7 +43,7 @@
 	
 	<source name="go-annotation" type="go-annotation" dump="false">
 		<property name="ontologyfile" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
-		<property name="src.data.dir" location="/home/jdmswong/intermine/datadir/go-annotation"/>
+		<property name="src.data.dir" location="/home/jdmswong/intermine/datadir/go-annotation/final"/>
 	</source>
 	
 	<source name="celegans-genome-fasta" type="fasta">

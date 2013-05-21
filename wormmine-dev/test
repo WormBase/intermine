@@ -7,7 +7,7 @@ cd integrate;
 #ant -v -Dsource=celegans-gff3-gene,celegans-gff3-mrna,celegans-gff3-cds >> ../pbuild.log;
 #ant -v -Dsource=all >> ../pbuild.log;
 #ant -v -Dsource=wb-acedb-variation,wb-acedb-gene>> ../pbuild.log
-ant -v -Dsource=wb-acedb-life_stage >> ../pbuild.log
+ant -v -Dsource=go-annotation>> ../pbuild.log
 #ant -v -Dsource=wb-acedb-anatomy_term >> ../pbuild.log
 cd ..;
 
