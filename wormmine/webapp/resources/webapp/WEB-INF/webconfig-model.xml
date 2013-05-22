@@ -188,6 +188,12 @@
     </fields>
   </class>
 
+  <class className="org.intermine.model.bio.CDS">
+    <fields>
+      <fieldconfig fieldExpr="length" label="Length (nt)"/>
+    </fields>
+  </class>
+
 <!-- exporters -->
   <tableExportConfig id="sequence" className="org.intermine.bio.web.export.SequenceHttpExporter"/>
   <tableExportConfig id="gff3" className="org.intermine.bio.web.export.GFF3HttpExporter"/>
