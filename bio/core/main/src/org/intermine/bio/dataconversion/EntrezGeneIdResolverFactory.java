@@ -1,7 +1,7 @@
 package org.intermine.bio.dataconversion;
 
 /*
- * Copyright (C) 2002-2012 FlyMine
+ * Copyright (C) 2002-2013 FlyMine
  *
  * This code may be freely distributed and modified under the
  * terms of the GNU Lesser General Public Licence.  This should
@@ -37,15 +37,15 @@ import org.intermine.util.PropertiesUtil;
 public class EntrezGeneIdResolverFactory extends IdResolverFactory
 {
     protected static final Logger LOG = Logger.getLogger(EntrezGeneIdResolverFactory.class);
-    private final String propKey = "resolver.file.rootpath"; // set in .intermine/MINE.properties
-    private final String resolverFileSymbo = "entrez";
-    private final String FilePathKey = "resolver.entrez.file";
+    protected String propKey = "resolver.file.rootpath"; // set in .intermine/MINE.properties
+    protected String resolverFileSymbo = "entrez";
 
-    private static final String PROP_FILE = "entrezIdResolver_config.properties";
-    private Map<String, String> config_xref = new HashMap<String, String>();
-    private Map<String, String> config_prefix = new HashMap<String, String>();
-    private Map<String, String> config_strains = new HashMap<String, String>();
-    private static final Set<String> ignoredTaxonIds = new HashSet<String>();
+    protected String PROP_FILE = "entrezIdResolver_config.properties";
+    protected Map<String, String> config_xref = new HashMap<String, String>();
+    protected Map<String, String> config_nonxref = new HashMap<String, String>();
+    protected Map<String, String> config_prefix = new HashMap<String, String>();
+    protected Map<String, String> config_strains = new HashMap<String, String>();
+    protected Set<String> ignoredTaxonIds = new HashSet<String>();
 
     /**
      * Constructor read pid configuration
@@ -71,7 +71,7 @@ public class EntrezGeneIdResolverFactory extends IdResolverFactory
      * @return a specific IdResolver
      */
     public IdResolver getIdResolver(Set<String> taxonIds) {
-        if (taxonIds == null | taxonIds.isEmpty()) {
+        if (taxonIds == null || taxonIds.isEmpty()) {
             return null;
         }
         return getIdResolver(taxonIds, true);
@@ -140,6 +140,10 @@ public class EntrezGeneIdResolverFactory extends IdResolverFactory
      * @return an IdResolver for Entrez Gene
      */
     protected void createIdResolver(Set<String> taxonIds) {
+        if (taxonIds == null || taxonIds.isEmpty()) {
+            LOG.info("Taxon ids can not be null.");
+            return;
+        }
         taxonIds.removeAll(ignoredTaxonIds);
         LOG.info("Ignore taxons: " + ignoredTaxonIds + ", remain taxons: " + taxonIds);
 
@@ -161,31 +165,21 @@ public class EntrezGeneIdResolverFactory extends IdResolverFactory
             boolean isCachedIdResolverRestored = restoreFromFile();
             if (!isCachedIdResolverRestored || (isCachedIdResolverRestored
                     && !resolver.hasTaxonsAndClassName(taxonIds, this.clsCol.iterator().next()))) {
+                String resolverFileRoot =
+                        PropertiesUtil.getProperties().getProperty(propKey);
 
-                String resolverFileName =
-                        PropertiesUtil.getProperties().getProperty(FilePathKey);
-
-                if (StringUtils.isBlank(resolverFileName)) {
-                    String message = "Resolver data file path is not specified";
+                // File path not set in MINE.properties
+                if (StringUtils.isBlank(resolverFileRoot)) {
+                    String message = "Resolver data file root path is not specified";
                     LOG.warn(message);
-
-                    String resolverFileRoot =
-                            PropertiesUtil.getProperties().getProperty(propKey);
-
-                    // File path not set in MINE.properties
-                    if (StringUtils.isBlank(resolverFileRoot)) {
-                        String msg = "Resolver data file root path is not specified";
-                        LOG.warn(msg);
-                        return;
-                    }
-
-                    LOG.info("Creating id resolver from data file and caching it.");
-                    resolverFileName = resolverFileRoot.trim() + resolverFileSymbo;
+                    return;
                 }
 
-                File f = new File(resolverFileName.trim());
+                LOG.info("Creating id resolver from data file and caching it.");
+                String resolverFileName = resolverFileRoot.trim() + resolverFileSymbo;
+                File f = new File(resolverFileName);
                 if (f.exists()) {
-                    createFromFile(new BufferedReader(new FileReader(f)), taxonIds);
+                    createFromFile(f, taxonIds);
                     resolver.writeToFile(new File(ID_RESOLVER_CACHED_FILE_NAME));
                 } else {
                     LOG.warn("Resolver file not exists: " + resolverFileName);
@@ -196,13 +190,14 @@ public class EntrezGeneIdResolverFactory extends IdResolverFactory
         }
     }
 
-    private void createFromFile(BufferedReader reader, Set<String> taxonIds) throws IOException {
+    protected void createFromFile(File f, Set<String> taxonIds) throws IOException {
         // in ncbi gene_info, some organisms use strain taxon id, e.g.yeast
         Map<String, String> newTaxonIds = getStrain(taxonIds);
         LOG.info("New taxons: " + newTaxonIds.keySet() + ", original taxons: "
                 + newTaxonIds.values());
 
-        NcbiGeneInfoParser parser = new NcbiGeneInfoParser(reader,
+
+        NcbiGeneInfoParser parser = new NcbiGeneInfoParser(new BufferedReader(new FileReader(f)),
                 new HashSet<String>(newTaxonIds.keySet()));
         Map<String, Set<GeneInfoRecord>> records = parser.getGeneInfoRecords();
         if (records == null) {
@@ -234,11 +229,10 @@ public class EntrezGeneIdResolverFactory extends IdResolverFactory
 
     private void processGenes(String taxonId, Set<GeneInfoRecord> genes) {
         for (GeneInfoRecord record : genes) {
-            String primaryIdentifier;
-            String config = config_xref.get(taxonId); // the original taxon id, not strain
-            // Strictly filter out entrez ids as for ZFIN, some of the genes don't have ZFIN id,
-            // ignore them
-            if (config != null && !config.isEmpty()) {
+            String primaryIdentifier = null;
+
+            if (config_xref.containsKey(taxonId)) {
+                String config = config_xref.get(taxonId);
                 if (record.xrefs.get(config) != null) {
                     String prefix = config_prefix.get(taxonId); // eg. RGD:
                     primaryIdentifier = record.xrefs.get(config).iterator().next();
@@ -248,6 +242,11 @@ public class EntrezGeneIdResolverFactory extends IdResolverFactory
                 } else {
                     LOG.info("Gene " + record.entrez + " does not have xref pattern: " + config);
                     continue;
+                }
+            } else if (config_nonxref.containsKey(taxonId)) {
+                String config = config_nonxref.get(taxonId);
+                if (config.equalsIgnoreCase("locusTag")) {
+                    primaryIdentifier = record.locusTag;
                 }
             } else {
                 primaryIdentifier = record.entrez;
@@ -265,7 +264,7 @@ public class EntrezGeneIdResolverFactory extends IdResolverFactory
     /**
      * Read pid configurations from entrezIdResolver_config.properties in resources dir
      */
-    private void readConfig() {
+    protected void readConfig() {
         Properties entrezConfig = new Properties();
         try {
             entrezConfig.load(getClass().getClassLoader().getResourceAsStream(
@@ -289,7 +288,7 @@ public class EntrezGeneIdResolverFactory extends IdResolverFactory
                 }
 
             } else {
-                String key = (String) entry.getKey(); // e.g. 10090.xref
+                String key = (String) entry.getKey(); // e.g. 10090.primaryIdentifier.xref
                 String value = ((String) entry.getValue()).trim(); // e.g. ZFIN
                 String[] attributes = key.split("\\.");
                 if (attributes.length == 0) {
@@ -298,10 +297,12 @@ public class EntrezGeneIdResolverFactory extends IdResolverFactory
                 }
 
                 String taxonId = attributes[0];
-                if ("xref".equals(attributes[1])) {
+                if ("xref".equals(attributes[2])) {
                     config_xref.put(taxonId, value);
-                } else if ("prefix".equals(attributes[1])) {
+                } else if ("prefix".equals(attributes[2])) {
                     config_prefix.put(taxonId, value);
+                } else if ("nonxref".equals(attributes[2])) {
+                    config_nonxref.put(taxonId, value);
                 }
             }
         }
@@ -323,7 +324,7 @@ public class EntrezGeneIdResolverFactory extends IdResolverFactory
     /**
      * Get strain taxons
      */
-    private Map<String, String> getStrain(Set<String> taxonIds) {
+    protected Map<String, String> getStrain(Set<String> taxonIds) {
         Map<String, String> newTaxons = new HashMap<String, String>();
         for (String taxon : taxonIds) {
             if (config_strains.containsKey(taxon)) {

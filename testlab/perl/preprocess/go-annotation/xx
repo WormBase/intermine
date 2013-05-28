@@ -1,0 +1,1 @@
+./filter_out_uniprot.sh /home/jdmswong/intermine/datadir/go-annotation/gene_association_sorted.wb /home/jdmswong/intermine/datadir/go-annotation/final/gene_association_sorted_filtered.wb

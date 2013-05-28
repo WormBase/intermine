@@ -12,7 +12,7 @@
       </titles>
     </headerconfig>
     <fields>
-      <fieldconfig fieldExpr="primaryIdentifier" label="DB identifier"/>
+      <fieldconfig fieldExpr="primaryIdentifier" label="Primary Identifier"/>
     </fields>
   </class>
 
@@ -137,6 +137,7 @@
       <fieldconfig fieldExpr="primaryIdentifier"/>
       <fieldconfig fieldExpr="primaryAccession"/>
       <fieldconfig fieldExpr="organism.name"/>
+      <fieldconfig fieldExpr="molecularWeight" label="Molecular Weight (kDa)"/>
       <fieldconfig fieldExpr="length" displayer="/model/sequenceShortDisplayerWithField.jsp" />
     </fields>
   </class>

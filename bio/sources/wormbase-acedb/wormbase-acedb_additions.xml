@@ -53,6 +53,7 @@
 	</class>
 	<class name="AnatomyTerm" is-interface="true">
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
+		<attribute name="name" type="java.lang.String"/>
 		<attribute name="definition" type="java.lang.String"/>
 		<attribute name="synonym" type="java.lang.String"/>
 		<collection name="parents" referenced-type="AnatomyTerm"/>
