@@ -48,9 +48,9 @@
 
   <class className="org.intermine.model.bio.Gene">
     <fields>
-      <fieldconfig fieldExpr="primaryIdentifier"/>
-      <fieldconfig fieldExpr="secondaryIdentifier"/>
-      <fieldconfig fieldExpr="symbol"/>
+      <fieldconfig fieldExpr="primaryIdentifier" label="WormBase Gene ID"/>
+      <fieldconfig fieldExpr="secondaryIdentifier" label="Sequence Name"/>
+      <fieldconfig fieldExpr="symbol" label="Gene Name"/>
       <fieldconfig fieldExpr="name"/>
       <fieldconfig fieldExpr="length" displayer="/model/sequenceShortDisplayerWithField.jsp" />
       <fieldconfig fieldExpr="chromosomeLocation" displayer="/model/chromosomeLocDisplayer.jsp" showInResults="false" />

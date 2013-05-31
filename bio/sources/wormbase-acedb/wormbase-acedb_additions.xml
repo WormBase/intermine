@@ -21,11 +21,17 @@
 		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="gene"/>
 		<collection name="expressionClusters" referenced-type="ExpressionCluster" reverse-reference="genes"/>
 	</class>
+    <class name="Transcript" is-interface="true">
+        <attribute name="method" type="java.lang.String"/>
+    </class>
 	<class name="BioEntity" is-interface="true">
 		<attribute name="lastUpdated" type="java.util.Date"/>
 		<!--<reference name="curatedBy" referenced-type="Curator" reverse-reference="entitiesCurated"/>-->
 		<collection name="phenotypesObserved" referenced-type="Phenotype" reverse-reference="observedIn"/>
 		<collection name="phenotypesNotObserved" referenced-type="Phenotype" reverse-reference="notObservedIn"/>
+	</class>
+	<class name="Protein" is-interface="true">
+		<attribute name="geneName" type="java.lang.String"/>
 	</class>
 	<class name="Allele" is-interface="true">
 		<attribute name="naturalVariant" type="java.lang.String" />
