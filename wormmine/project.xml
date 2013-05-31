@@ -303,6 +303,11 @@
 
 	</source>
 	
+    <!-- Downloads details on the taxon ID's you have already loaded at this point -->
+    <source name="entrez-organism" type="entrez-organism">
+        <property name="src.data.file" location="&datadir;/entrez-organism/organisms.xml"/>
+    </source> 
+
 	
    </sources>
 
