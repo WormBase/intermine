@@ -27,9 +27,6 @@
 		<collection name="phenotypesObserved" referenced-type="Phenotype" reverse-reference="observedIn"/>
 		<collection name="phenotypesNotObserved" referenced-type="Phenotype" reverse-reference="notObservedIn"/>
 	</class>
-	<class name="Protein" is-interface="true">
-		<attribute name="geneName" type="java.lang.String"/>
-	</class>
 	<class name="Allele" is-interface="true">
 		<attribute name="naturalVariant" type="java.lang.String" />
 		<attribute name="method" type="java.lang.String" />
