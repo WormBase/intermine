@@ -1,1 +1,5 @@
-./filter_out_uniprot.sh /home/jdmswong/intermine/datadir/go-annotation/gene_association_sorted.wb /home/jdmswong/intermine/datadir/go-annotation/final/gene_association_sorted_filtered.wb
+obo=`find $DATADIR/go-annotation -iname "gene_association.WS*.wb"`
+
+sort -k 2,2 $obo > $DATADIR/go-annotation/gene_association_sorted.wb
+
+./filter_out_uniprot.sh $DATADIR/go-annotation/gene_association_sorted.wb $DATADIR/go-annotation/final/gene_association_sorted_filtered.wb

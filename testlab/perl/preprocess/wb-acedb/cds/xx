@@ -1,6 +1,6 @@
-perl ../../../purify_xace/purify_xace.pl /home/jdmswong/intermine-dev/datadir/wormbase-acedb/cds/CDS.xml /home/jdmswong/intermine-dev/datadir/wormbase-acedb/cds/purified_CDS.xml
+perl ../../../purify_xace/purify_xace.pl $DATADIR/wormbase-acedb/cds/CDS.xml $DATADIR/wormbase-acedb/cds/purified_CDS.xml
 
-perl prep_wb-acedb-cds.pl /home/jdmswong/intermine-dev/datadir/wormbase-acedb/cds/purified_CDS.xml /home/jdmswong/intermine-dev/datadir/wormbase-acedb/cds/XML/prepped_CDS.xml
+perl prep_wb-acedb-cds.pl $DATADIR/wormbase-acedb/cds/purified_CDS.xml $DATADIR/wormbase-acedb/cds/XML/prepped_CDS.xml
 
-rm /home/jdmswong/intermine-dev/datadir/wormbase-acedb/cds/purified_CDS.xml
+rm $DATADIR/wormbase-acedb/cds/purified_CDS.xml
 
