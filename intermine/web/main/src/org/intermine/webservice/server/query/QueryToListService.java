@@ -1,7 +1,7 @@
 package org.intermine.webservice.server.query;
 
 /*
- * Copyright (C) 2002-2012 FlyMine
+ * Copyright (C) 2002-2013 FlyMine
  *
  * This code may be freely distributed and modified under the
  * terms of the GNU Lesser General Public Licence.  This should
@@ -35,6 +35,7 @@ import org.intermine.objectstore.query.QuerySelectable;
 import org.intermine.pathquery.Path;
 import org.intermine.pathquery.PathException;
 import org.intermine.pathquery.PathQuery;
+import org.intermine.webservice.server.Format;
 import org.intermine.webservice.server.exceptions.BadRequestException;
 import org.intermine.webservice.server.exceptions.InternalErrorException;
 import org.intermine.webservice.server.exceptions.ServiceForbiddenException;
@@ -65,6 +66,16 @@ public class QueryToListService extends AbstractQueryService
     public QueryToListService(InterMineAPI im) {
         super(im);
         bagManager = im.getBagManager();
+    }
+
+    @Override
+    protected Format getDefaultFormat() {
+        return Format.JSON;
+    }
+
+    @Override
+    protected boolean canServe(Format format) {
+        return format == Format.JSON || format == Format.TEXT;
     }
 
     @Override

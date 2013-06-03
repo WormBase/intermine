@@ -1,7 +1,7 @@
 package org.intermine.template;
 
 /*
- * Copyright (C) 2002-2012 FlyMine
+ * Copyright (C) 2002-2013 FlyMine
  *
  * This code may be freely distributed and modified under the
  * terms of the GNU Lesser General Public Licence.  This should
@@ -520,6 +520,7 @@ public class TemplateQuery extends PathQuery
         return res;
     }
 
+    // Only switched-on constraints are relevant.
     public synchronized Map<PathConstraint, String> getRelevantConstraints() {
         Map<PathConstraint, String> retVal
             = new LinkedHashMap<PathConstraint, String>(getConstraints());

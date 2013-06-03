@@ -1,7 +1,7 @@
 package org.intermine.web.struts;
 
 /*
- * Copyright (C) 2002-2012 FlyMine
+ * Copyright (C) 2002-2013 FlyMine
  *
  * This code may be freely distributed and modified under the
  * terms of the GNU Lesser General Public Licence.  This should
@@ -230,7 +230,7 @@ public class BagDetailsController extends TilesAction
 
         // Get us token so we can show non-public widgets.
         request.setAttribute("token", profile.getDayToken());
-        LOG.info("API key: " + profile.getDayToken());
+        LOG.debug("API key: " + profile.getDayToken());
 
         return null;
     }

@@ -1,7 +1,7 @@
 package org.intermine.webservice.server.lists;
 
 /*
- * Copyright (C) 2002-2012 FlyMine
+ * Copyright (C) 2002-2013 FlyMine
  *
  * This code may be freely distributed and modified under the
  * terms of the GNU Lesser General Public Licence.  This should
@@ -30,6 +30,7 @@ public abstract class AuthenticatedListService extends AbstractListService
 
     @Override
     protected void validateState() {
+        super.validateState();
         if (!isAuthenticated()) {
             throw new ServiceForbiddenException("All requests to list operation services must"
                     + " be authenticated.");

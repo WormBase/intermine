@@ -1,7 +1,7 @@
 package org.intermine.webservice.server.output;
 
 /*
- * Copyright (C) 2002-2012 FlyMine
+ * Copyright (C) 2002-2013 FlyMine
  *
  * This code may be freely distributed and modified under the
  * terms of the GNU Lesser General Public Licence.  This should
@@ -10,6 +10,7 @@ package org.intermine.webservice.server.output;
  *
  */
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ import java.util.Map;
 public abstract class Output
 {
 
-    private Map<String, Object> headerAttributes;
+    private Map<String, Object> headerAttributes = Collections.emptyMap();
 
     private String errorMessage = null;
     private int status = SC_OK;

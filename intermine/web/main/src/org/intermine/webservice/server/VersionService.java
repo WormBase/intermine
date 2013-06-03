@@ -1,7 +1,7 @@
 package org.intermine.webservice.server;
 
 /*
- * Copyright (C) 2002-2012 FlyMine
+ * Copyright (C) 2002-2013 FlyMine
  *
  * This code may be freely distributed and modified under the
  * terms of the GNU Lesser General Public Licence.  This should
@@ -13,11 +13,14 @@ package org.intermine.webservice.server;
 import java.util.Collections;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.intermine.api.InterMineAPI;
-import org.intermine.util.StringUtil;
 import org.intermine.web.logic.Constants;
 import org.intermine.webservice.server.core.JSONService;
-import org.intermine.webservice.server.output.JSONFormatter;
+
+import static org.apache.commons.lang.StringUtils.defaultString;
+import static org.apache.commons.lang.StringUtils.lowerCase;
+import static org.intermine.util.StringUtil.trimSlashes;
 
 /**
  * Service for returning the version of this service.
@@ -37,53 +40,35 @@ public class VersionService extends JSONService
 
     @Override
     protected void execute() throws Exception {
-        String version = getVersion(request.getPathInfo());
-        output.addResultItem(Collections.singletonList(version));
-    }
+        // Serve the webservice version by default, which provides information about
+        // server capabilities, rather than the release version, which
+        // provides information about the data available.
+        String versionType = lowerCase(trimSlashes(defaultString(request.getPathInfo(), "ws")));
 
-    @Override
-    protected int getDefaultFormat() {
-        if (hasCallback()) {
-            return WebService.JSONP_FORMAT;
+        if (versionType.startsWith("release")) {
+            this.addResultValue(webProperties.getProperty("project.releaseVersion"), false);
         } else {
-            return WebService.TEXT_FORMAT;
+            this.addResultValue(Constants.WEB_SERVICE_VERSION, false);
         }
     }
 
     @Override
-    protected Map<String, Object> getHeaderAttributes() {
-        Map<String, Object> attr = super.getHeaderAttributes();
-        if (formatIsJSON()) {
-            attr.put(JSONFormatter.KEY_INTRO, "\"version\":");
-            attr.put(JSONFormatter.KEY_QUOTE, true);
+    protected Format getDefaultFormat() {
+        if (hasCallback()) {
+            return Format.JSON;
+        } else {
+            return Format.TEXT;
         }
-
-        return attr;
-    }
-
-    private String getVersion(String versionType) {
-        if (versionType != null) {
-            versionType = StringUtil.trimSlashes(versionType).toLowerCase();
-
-            if (versionType.startsWith("release")) {
-                return webProperties.getProperty("project.releaseVersion");
-            } else if (versionType.startsWith("ws")) {
-                return "" + Constants.WEB_SERVICE_VERSION;
-            }
-        }
-        // for backwards compatibility default is the web service version
-        return "" + Constants.WEB_SERVICE_VERSION;
     }
 
     @Override
-    protected String parseFormatFromPathInfo() {
-        String pi = request.getPathInfo();
-        if (pi.endsWith("json")) {
-            return "json";
-        } else if (pi.endsWith("jsonp")) {
-            return "jsonp";
-        }
-        return request.getParameter(WebServiceRequestParser.OUTPUT_PARAMETER);
+    protected String getResultsKey() {
+        return "version";
+    }
+
+    @Override
+    protected boolean canServe(Format format) {
+        return format == Format.JSON || format == Format.TEXT; 
     }
 
 }
