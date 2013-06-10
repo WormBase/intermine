@@ -114,6 +114,9 @@ public class EntrezOrganismRetriever extends Task
             writer.write(FullRenderer.getHeader() + "\n");
             for (Iterator<Integer> i = orgMap.keySet().iterator(); i.hasNext();) {
                 Integer taxonId = i.next();
+                if( taxonId == null || !(taxonId.compareTo(0) > 0) ){
+                	continue;
+                }
                 taxonIds.add(taxonId);
                 if (taxonIds.size() == BATCH_SIZE || !i.hasNext()) {
                     SAXParser.parse(new InputSource(getReader(taxonIds)),
@@ -299,7 +302,9 @@ Example
                 }
             } else if ("AkaTaxId".equals(name)) {
                 if (!"0".equals(characters.toString()) && this.isMerged) {
-                    throw new RuntimeException("Your taxon id "
+                    //throw new RuntimeException(
+                    System.out.println(
+                			"Your taxon id "
                             + organism.getAttribute("taxonId").getValue()
                             + " is replaced by " + characters.toString()
                             + ", please update.");

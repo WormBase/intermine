@@ -33,25 +33,10 @@
   <property name="target.model" value="genomic"/>
   <property name="source.location" location="../bio/sources/"/>
   <property name="common.os.prefix" value="common"/>
-  <property name="intermine.properties.file" value="wormmine.properties"/>
+  <property name="intermine.properties.file" value="wormmine-dev.properties"/>
   <property name="default.intermine.properties.file" location="../default.intermine.integrate.properties"/>
   <sources>
-	
-      <!--
-      WHY ARE THESE BROKEN NOW?
-BUILD FAILED
-/nfs/wormbase/wormmine/website-intermine/acedb-dev/intermine/imbuild/integrate.xml:54: The following error occurred while executing this line:
-/nfs/wormbase/wormmine/website-intermine/acedb-dev/intermine/bio/sources/fasta/build.xml:46: java.lang.IllegalArgumentException: There is already an equivalen
-t in the database from this source (<Source: name="celegans-protein-fasta", type="fasta", skeleton=false>) from a *previous* run; object from source in this r
-un: "DataSource [description="null", id="4", name="WormBase FTP", url="null"]", object from database: "DataSource [description="null", id="4000001", name="Wor
-mBase FTP", url="null"]"; noticed problem while merging field "name" originally read from source: <Source: name="celegans-protein-fasta", type="fasta", skelet
-on=false>
-        at org.intermine.dataloader.IntegrationWriterDataTrackingImpl.store(IntegrationWriterDataTrackingImpl.java:372)
-        at org.intermine.dataloader.IntegrationWriterAbstractImpl.store(IntegrationWriterAbstractImpl.java:171)
-        at org.intermine.dataloader.DirectDataLoader.store(DirectDataLoader.java:51)
-          -->
-      <!--
-      
+	  
 	<source name="celegans-genome-fasta" type="fasta">
 		<property name="fasta.taxonId"         value="&c_elegans_taxon_id;"/>
 		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
@@ -62,7 +47,7 @@ on=false>
 		<property name="fasta.includes"        value="*.fa*"/>
 		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/genomic" />
 	</source> 
-    
+	
 	<source name="celegans-protein-fasta" type="fasta">
 		<property name="fasta.taxonId"         	value="&c_elegans_taxon_id;"/>
 		<property name="fasta.className"       	value="org.intermine.model.bio.Protein"/>
@@ -76,7 +61,7 @@ on=false>
 			value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
 		<property name="fasta.PIDPrefix"		value="WP:"/>
 	</source>
-	-->
+	
 	<!-- CORE GENOMIC ANNOTATION IN GFF3 -->
 	<source name="celegans-gff3-gene" type="wormbase-gff3-core" dump="false">
 		<property name="gff3.taxonId"           value="&c_elegans_taxon_id;"/>
@@ -130,35 +115,6 @@ on=false>
 		<property name="src.data.dir"           location="&datadir;/wormbase-gff3"/> 
 		<property name="gff3.allowedClasses" 	 value="cds"/>
 	</source>
-
-    <source name="wb-acedb-variation" type="wormbase-acedb" dump="true">
-        <property name="src.data.dir" location="&datadir;/wormbase-acedb/variation/XML" />
-        
-        <property name="mapping.file" 
-            value="&datadir;/wormbase-acedb/variation/mapping/variation_mapping.properties" />
-            
-        <property name="key.file"
-            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
-            
-        <property name="source.class" value="Allele"/>
-        
-        <property name="rejects.file" 
-            value="&datadir;/wormbase-acedb/variation/wormbase-acedb-variation-rejects.xml"/>
-        <property name="data.set" value="AceDB XML (Variation)"/>
-        <property name="debug" value="false"/>
-    </source>
-
-    <source name="wb-acedb-protein" type="wormbase-acedb" dump="true">
-        <property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/XML" />
-        <property name="mapping.file"
-                value="&datadir;/wormbase-acedb/protein/mapping/protein_mapping.properties" />
-        <property name="key.file"
-                value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
-        <property name="source.class" value="Protein"/>
-        <property name="rejects.file"
-                value="&datadir;/wormbase-acedb/protein/wormbase-acedb-protein-rejects.xml"/>
-        <property name="data.set" value="AceDB XML (Protein)"/>
-    </source>
 
 
 	<!-- WormBase aceDB data loader.  Base dir is wormmine/integrate -->
@@ -214,7 +170,7 @@ on=false>
 	</source>
 	
 	
-	<source name="wb-acedb-cds" type="wormbase-acedb" dump="true">
+	<source name="wb-acedb-cds" type="wormbase-acedb" dump="false">
 		<property name="src.data.dir" location="&datadir;/wormbase-acedb/cds/XML" />
 		
 		<property name="mapping.file" 
@@ -228,6 +184,35 @@ on=false>
 		<property name="rejects.file" 
 			value="&datadir;/wormbase-acedb/cds/wormbase-acedb-cds-rejects.xml"/>
 		<property name="data.set" value="AceDB XML (CDS)"/>
+	</source>
+
+	<source name="wb-acedb-variation" type="wormbase-acedb" dump="true">
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/variation/XML" />
+		
+		<property name="mapping.file" 
+			value="&datadir;/wormbase-acedb/variation/mapping/variation_mapping.properties" />
+			
+		<property name="key.file"
+			value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+			
+		<property name="source.class" value="Allele"/>
+		
+		<property name="rejects.file" 
+			value="&datadir;/wormbase-acedb/variation/wormbase-acedb-variation-rejects.xml"/>
+		<property name="data.set" value="AceDB XML (Variation)"/>
+		<property name="debug" value="false"/>
+	</source>
+
+	<source name="wb-acedb-protein" type="wormbase-acedb" dump="true">
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/protein/XML" />
+		<property name="mapping.file"
+				value="&datadir;/wormbase-acedb/protein/mapping/protein_mapping.properties" />
+		<property name="key.file"
+				value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+		<property name="source.class" value="Protein"/>
+		<property name="rejects.file"
+				value="&datadir;/wormbase-acedb/protein/wormbase-acedb-protein-rejects.xml"/>
+		<property name="data.set" value="AceDB XML (Protein)"/>
 	</source>
 
 
@@ -281,7 +266,7 @@ on=false>
 		<property name="data.set" value="AceDB XML (Expression Cluster)"/>
 	</source>
 
-	<source name="wb-acedb-life_stage" type="wormbase-acedb" dump="true">
+	<source name="wb-acedb-life_stage" type="wormbase-acedb" dump="false">
 		<property name="src.data.dir" location="&datadir;/wormbase-acedb/life_stage/XML" />
 		<property name="mapping.file"
 				value = "&datadir;/wormbase-acedb/life_stage/mapping/life_stage_mapping.properties" />
@@ -308,21 +293,21 @@ on=false>
 
     </source>
 
+	<source name="go" type="go" dump="false">
+		<property name="src.data.file" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
+	</source>
+	
+	<source name="go-annotation" type="go-annotation" dump="true">
+		<property name="ontologyfile" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
+		<property name="src.data.dir" location="/home/jdmswong/intermine/datadir/go-annotation/final"/>
+	</source>
+
+		
     <!-- Downloads details on the taxon ID's you have already loaded at this point -->
     <source name="entrez-organism" type="entrez-organism">
         <property name="src.data.file" location="&datadir;/entrez-organism/organisms.xml"/>
     </source> 
 
-    <source name="go" type="go" dump="false">
-        <property name="src.data.file" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
-    </source>
-    
-    <source name="go-annotation" type="go-annotation" dump="true">
-        <property name="ontologyfile" location="/home/jdmswong/intermine/datadir/go/gene_ontology.1_2.obo"/>
-        <property name="src.data.dir" location="/home/jdmswong/intermine/datadir/go-annotation/final"/>
-    </source>
-
-        
 	
    </sources>
 
