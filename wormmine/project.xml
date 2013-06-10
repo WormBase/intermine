@@ -266,7 +266,7 @@
 		<property name="data.set" value="AceDB XML (Expression Cluster)"/>
 	</source>
 
-	<source name="wb-acedb-life_stage" type="wormbase-acedb" dump="true">
+	<source name="wb-acedb-life_stage" type="wormbase-acedb" dump="false">
 		<property name="src.data.dir" location="&datadir;/wormbase-acedb/life_stage/XML" />
 		<property name="mapping.file"
 				value = "&datadir;/wormbase-acedb/life_stage/mapping/life_stage_mapping.properties" />

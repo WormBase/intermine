@@ -1,4 +1,4 @@
-obo=`find $DATADIR/go-annotation -iname "gene_association.WS*.wb"`
+obo=`find $DATADIR/go-annotation/raw -iname "gene_association*.wb"`
 
 sort -k 2,2 $obo > $DATADIR/go-annotation/gene_association_sorted.wb
 

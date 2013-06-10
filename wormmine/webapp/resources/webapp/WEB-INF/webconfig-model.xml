@@ -7,9 +7,11 @@
 
   <class className="org.intermine.model.bio.BioEntity">
     <headerconfig>
-      <titles>
+      <!--
+        <titles>
         <title mainTitles="symbol|primaryIdentifier" numberOfMainTitlesToShow="1" subTitles="*organism.shortName*" />
       </titles>
+      -->
     </headerconfig>
     <fields>
       <fieldconfig fieldExpr="primaryIdentifier" label="WormBase ID"/>
@@ -49,15 +51,11 @@
   <class className="org.intermine.model.bio.Gene">
     <fields>
       <fieldconfig fieldExpr="primaryIdentifier" label="WormBase Gene ID"/>
-      <fieldconfig fieldExpr="secondaryIdentifier" label="Sequence Name"/>
       <fieldconfig fieldExpr="symbol" label="Gene Name"/>
-      <fieldconfig fieldExpr="name"/>
-      <fieldconfig fieldExpr="length" displayer="/model/sequenceShortDisplayerWithField.jsp" />
-      <fieldconfig fieldExpr="chromosomeLocation" displayer="/model/chromosomeLocDisplayer.jsp" showInResults="false" />
-      <fieldconfig fieldExpr="chromosome.primaryIdentifier" showInInlineCollection="false" showInSummary="false" />
-      <fieldconfig fieldExpr="chromosomeLocation.start" showInInlineCollection="false" showInSummary="false" />
-      <fieldconfig fieldExpr="chromosomeLocation.end" showInInlineCollection="false" showInSummary="false" />
-      <fieldconfig fieldExpr="organism.shortName" />
+      <fieldconfig fieldExpr="secondaryIdentifier" label="Sequence Name"/>
+      <fieldconfig fieldExpr="briefDescription"/>
+      <fieldconfig fieldExpr="chromosomeLocation" displayer="/model/chromosomeLocDisplayer.jsp"/>
+      <fieldconfig fieldExpr="organism.name" label="Organism"/>
     </fields>
   </class>
 
@@ -79,7 +77,7 @@
       <fieldconfig fieldExpr="chromosome.primaryIdentifier" showInInlineCollection="false" showInSummary="false" />
       <fieldconfig fieldExpr="chromosomeLocation.start" showInInlineCollection="false" showInSummary="false" />
       <fieldconfig fieldExpr="chromosomeLocation.end" showInInlineCollection="false" showInSummary="false" />
-      <fieldconfig fieldExpr="organism.name" label="Organism"/>
+      <fieldconfig fieldExpr="organism.name"/>
     </fields>
   </class>
 
@@ -137,11 +135,10 @@
     </inlinelist>
     <fields>
       <fieldconfig fieldExpr="primaryIdentifier"/>
-      <fieldconfig fieldExpr="primaryAccession"/>
-      <fieldconfig fieldExpr="organism.name"/>
-      <fieldconfig fieldExpr="molecularWeight" label="Molecular Weight (kDa)"/>
-      <fieldconfig fieldExpr="length" displayer="/model/sequenceShortDisplayerWithField.jsp" />
       <fieldconfig fieldExpr="geneName" label="Name" />
+      <fieldconfig fieldExpr="organism.name" label="Organism"/>
+      <fieldconfig fieldExpr="molecularWeight" label="Molecular Weight (kDa)"/>
+      <fieldconfig fieldExpr="length" />
     </fields>
   </class>
 
@@ -206,7 +203,7 @@
   <tableExportConfig id="bed" className="org.intermine.bio.web.export.BEDHttpExporter"/>
 
   <reportdisplayers>
-
+   <!--
    <reportdisplayer javaClass="org.intermine.bio.web.displayer.GeneOntologyDisplayer"
                      jspName="model/geneOntologyDisplayer.jsp"
                      replacesFields="goAnnotation,ontologyAnnotations"
@@ -230,7 +227,8 @@
                      replacesFields=""
                      placement="Proteins"
                      types="Gene,Protein"/>
-
+                     
+    -->
   </reportdisplayers>
 
 <!-- widgets -->
