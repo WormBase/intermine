@@ -113,7 +113,7 @@
 		<property name="gff3.seqClsName"        value="Chromosome"/>
 		<property name="gff3.dataSetTitle"      value="C. elegans genomic annotations (GFF3 CDS)"/>
 		<!--<property name="src.data.dir"           location="&datadir;/c_elegans_gff3"/>-->
-		<property name="src.data.dir"           location="&datadir;/wormbase-gff3/test"/> 
+		<property name="src.data.dir"           location="&datadir;/wormbase-gff3/final"/> 
 		<property name="gff3.allowedClasses" 	 value="cds"/>
 	</source>
 
