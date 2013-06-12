@@ -1,5 +1,11 @@
 #!/bin/sh
 
+#----------------------------------------------
+# UPDATE GFF3 PATHS, NOW USES FOLDER "FINAL"
+# ADD GRABBING MAPPING FILE INTO "MAPPING"
+# ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/annotation/c_elegans.PRJNA13758.WS238.geneIDs.txt.gz
+#----------------------------------------------
+
 # Backs up intermine/datadir to a specific name in the datadir_dumps directory
 # Grabs all the XML files from the hard coded file source and replaces each one accordingly
 
@@ -43,10 +49,19 @@ cd - > ~/delete
 echo 'replacing gff3'
 cd $datadir'/wormbase-gff3'
 rm *
+rm final/*
+rm mapping/*
 wget -O 'raw.gz' $gffurl
 gunzip raw.gz
-$pp'/gff3/scrape_gff3.sh' raw cdogma.gff3
+$pp'/gff3/scrape_gff3.sh' raw final/cdogma.gff3
+
+#gff3 mapping
+# UNZIP AND RUN refmt_mapping_file.pl into mapping/
+
+
+
 cd - > ~/delete
+
 
 #go
 echo 'replacing go file'

@@ -70,7 +70,8 @@
 		<property name="gff3.seqClsName"        value="Chromosome"/>
 		<property name="gff3.dataSetTitle"      value="C. elegans genomic annotations (GFF3 Gene)"/>
 		<!--<property name="src.data.dir"           location="&datadir;/c_elegans_gff3"/>-->
-		<property name="src.data.dir"           location="&datadir;/wormbase-gff3"/> 
+		
+		<property name="src.data.dir"           location="&datadir;/wormbase-gff3/final"/> 
 		
 		<!-- 
 		Only GFF3 records with a third column matching this value 
@@ -84,7 +85,7 @@
 		data sources
 		Format: key \t value. All other columns ignored 
 		-->
-		<property name="gff3.IDMappingFile"	 value="&datadir;/test_gff3/c_elegans.WS235.geneIDs.wb-gff3.tab"/> 
+		<property name="gff3.IDMappingFile"	 value="&datadir;/wormbase-gff3/mapping/id_mapping.tab"/> 
 		
 	</source>
 
@@ -95,14 +96,14 @@
 		<property name="gff3.seqClsName"        value="Chromosome"/>
 		<property name="gff3.dataSetTitle"      value="C. elegans genomic annotations (GFF3 mRNA)"/>
 		<!--<property name="src.data.dir"           location="&datadir;/c_elegans_gff3"/>-->
-		<property name="src.data.dir"           location="&datadir;/wormbase-gff3"/> 
+		<property name="src.data.dir"           location="&datadir;/wormbase-gff3/final"/> 
 		<property name="gff3.allowedClasses" 	value="mrna"/>
-		<property name="gff3.IDMappingFile"	 	value="&datadir;/test_gff3/c_elegans.WS235.geneIDs.wb-gff3.tab"/>
+		<property name="gff3.IDMappingFile"	 value="&datadir;/wormbase-gff3/mapping/id_mapping.tab"/> 
 		<!-- 
 		Maps type names from GFF3 into recognized InterMine class names
 		Format: key \t value. All other columns ignored 
 		-->
-		<property name="gff3.typeMappingFile"	 value="&datadir;/test_gff3/typeMapping.tab"/>
+		<property name="gff3.typeMappingFile"    value="&datadir;/wormbase-gff3/mapping/typeMapping.tab"/>
 	</source>
 
 	<source name="celegans-gff3-cds" type="wormbase-gff3-core" dump="true">
@@ -112,7 +113,7 @@
 		<property name="gff3.seqClsName"        value="Chromosome"/>
 		<property name="gff3.dataSetTitle"      value="C. elegans genomic annotations (GFF3 CDS)"/>
 		<!--<property name="src.data.dir"           location="&datadir;/c_elegans_gff3"/>-->
-		<property name="src.data.dir"           location="&datadir;/wormbase-gff3"/> 
+		<property name="src.data.dir"           location="&datadir;/wormbase-gff3/test"/> 
 		<property name="gff3.allowedClasses" 	 value="cds"/>
 	</source>
 

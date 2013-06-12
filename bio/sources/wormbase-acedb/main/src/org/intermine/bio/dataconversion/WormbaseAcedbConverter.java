@@ -42,6 +42,14 @@ import wormbase.model.parser.*;
 import org.intermine.bio.dataconversion.MappingFileKey;
 
 /**
+ * Mapping file format:
+ * primaryIdentifier = /Variation/text()[1]
+ * 
+ * if.naturalVariant = /XPATH/...
+ * returns true if xpath returns any nodes at all
+ * 
+ * type casting allowed
+ * (Phenotype)parents		= /XPATH/...
  * 
  * @author
  */
