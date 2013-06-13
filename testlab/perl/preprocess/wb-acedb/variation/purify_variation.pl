@@ -31,6 +31,11 @@ open( $outfile, '>'.$outfilename) or die;
 
 my $strbuffer = '';
 while(<$infile>){
+	if(m[<(\w+)></(\w+)>]){
+		if($1 eq $2){
+			s[<(\w+)></(\w+)>][$1];
+		}
+	}
 	if(/^\n$/){
 		&processpg;
 		print $outfile "\n";
@@ -46,7 +51,6 @@ sub processpg{
 	$strbuffer =~ s/(<\/?)(\d+)(\w*>)/$1$strnum{$2}$3/sg;
 	print $outfile $strbuffer;
 	
-	return $strbuffer;
 	
 }
 

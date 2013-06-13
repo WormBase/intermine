@@ -36,6 +36,7 @@
 	<class name="Allele" is-interface="true">
 		<attribute name="naturalVariant" type="java.lang.String" />
 		<attribute name="method" type="java.lang.String" />
+		<attribute name="type" type="java.lang.String" />
 	</class>
 	<class name="OntologyTerm" is-interface="true">
 		<collection name="children" referenced-type="OntologyTerm"/>
