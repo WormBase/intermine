@@ -7,8 +7,11 @@ DELETE.*
 notes
 
 datadir/fasta
-#datadir/**/*.xml
+datadir/**/*.xml
 #datadir/**/test2.fa
+
+# We need genomic_model.xml to have that viewable online
+wormmine/dbmodel/build/*
 
 # Standard patterns
 bin/
