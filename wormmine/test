@@ -3,7 +3,7 @@ ant clean build-db -v > ../pbuild.log;
 cd ..;
 
 cd integrate;
-ant -v -Dsource=wb-acedb-variation >> ../pbuild.log;
+ant -v -Dsource=wb-acedb-protein >> ../pbuild.log;
 cd ..;
 
 #cd postprocess;

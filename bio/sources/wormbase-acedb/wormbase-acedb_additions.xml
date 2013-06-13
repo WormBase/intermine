@@ -32,6 +32,10 @@
 	</class>
 	<class name="Protein" is-interface="true">
 		<attribute name="geneName" type="java.lang.String"/>
+		<collection name="motifs" referenced-type="Motif" reverse-reference="proteins"/>
+	</class>
+	<class name="Motif" extends="BioEntity" is-interface="true">
+		<collection name="proteins" referenced-type="Protein" reverse-reference="motifs"/>
 	</class>
 	<class name="Allele" is-interface="true">
 		<attribute name="naturalVariant" type="java.lang.String" />
