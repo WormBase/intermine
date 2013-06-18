@@ -244,7 +244,7 @@
 	</source>
 	
 	<source name="wb-acedb-expr_cluster" type="wormbase-acedb" dump="false">
-		<property name="src.data.dir" location="&datadir;/wormbase-acedb/expr_cluster/XML" />
+		<property name="src.data.dir" location="&datadir;/wormbase-acedb/expr_cluster/TEST_XML" />
 		<property name="mapping.file"
 				value = "&datadir;/wormbase-acedb/expr_cluster/mapping/expr_cluster_mapping.properties" />
 		<property name="key.file"
