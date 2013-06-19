@@ -34,6 +34,11 @@
       </c:forEach>
     </div>
   </c:if>
+  <div id="imheader">
+    <h1><html:link href="${WEB_PROPERTIES['project.sitePrefix']}/"><c:out value="${WEB_PROPERTIES['project.title']}" escapeXml="false"/></html:link></h1>
+    <p id="version"><fmt:message key="header.version"/> <c:out value="${WEB_PROPERTIES['project.releaseVersion']}" escapeXml="false"/></span>
+    <p><c:out value="${WEB_PROPERTIES['project.subTitle']}" escapeXml="false"/></p>
+  </div>
 
     <!-- Tab Menu -->
   <fmt:message key="${pageName}.tab" var="tab" />
@@ -82,38 +87,7 @@
         </a>
       </li>
     </ul>
-  <ul id="loginbar">
-        <li><a href="#" onclick="showContactForm();return false;"><fmt:message key="feedback.link"/></a></li>
-        <c:if test="${PROFILE.loggedIn}">
-            <li>
-              <!-- display (optionally trimmed) username -->
-              <c:choose>
-                <c:when test="${! empty PROVIDER}">
-                  <c:choose>
-                    <c:when test="${empty USERNAME || USERNAME == 'nullnull'}">
-                      <c:set var="displayUserName" value="logged in with OpenID"/>
-                    </c:when>
-            <c:otherwise>
-              <c:set var="displayUserName" value="${USERNAME}"/>
-            </c:otherwise>
-                  </c:choose>
-        </c:when>
-        <c:otherwise>
-          <c:set var="displayUserName" value="${PROFILE.username}"/>
-        </c:otherwise>
-        </c:choose>
-        <c:choose>
-                <c:when test="${fn:length(displayUserName) > 25}">
-                  <c:out value="${fn:substring(displayUserName,0,25)}"/>&hellip;
-                </c:when>
-                <c:otherwise>
-                  <c:out value="${displayUserName}"/>
-                </c:otherwise>
-              </c:choose>
-            </li>
-        </c:if>
-        <li class="last"><im:login/></li>
-    </ul>
+
   </div>
 
   <!-- Logged in section -->
