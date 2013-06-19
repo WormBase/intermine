@@ -43,10 +43,10 @@ h1 a:hover,h1 a:visited:hover  {
 #header h1, #header h1 a:link, #header h1 a:visited {
     margin: 0px;
     padding: 0px;
-    color: #FFF;
-    font-size: 1.4em;
+    color: #FFF; 
     font-weight: bold;
     float: none;
+    font-size: 29px;
 }
 
 #header p {
@@ -475,4 +475,56 @@ div.bagDetails-page div.widget table.table-striped tbody tr:hover td { backgroun
 
 .intermine .im-column-th .dropdown-menu:after {
   border-bottom-color: #1F7492;
+}
+
+
+/*Fix conflicts */
+
+input[type = "submit"].ui-icon-search,
+input[type = "button"].ui-icon-search {
+  background-image:url('/css/images/ui-icons_222222_256x240.png');
+  background-position: -160px -112px;
+  height:16px;
+}
+
+
+/*#imheader {
+  max-width: 1000px;
+  margin:0 auto;
+}*/
+
+#content-wrap .button{
+  float:none;
+  border:none;
+}
+#content-wrap .button:hover{
+  background:none;
+}
+
+#content-wrap textarea{
+  font-size:12px;
+}
+
+
+#imheader {
+    width: 1000px;
+    padding: 0;
+    margin: 0;
+    height: 50px;
+    font-size: 12px;
+}
+
+#imheader h1, #imheader h1 a:link, #imheader h1 a:visited {
+    margin: 5px 0 0 10px;
+    padding: 0px;
+    font-size: 1.4em;
+    font-weight: bold;
+    float: left;
+}
+
+#imheader p {
+    margin: 20px 0 0 5px;
+    font-size: 1em;
+    font-weight: normal;
+    float: left;
 }
