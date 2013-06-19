@@ -1,4 +1,8 @@
 <model name="genomic" package="org.intermine.model.bio">
+<class name="Strain" extends="BioEntity" is-interface="true">
+	<reference name="gene" referenced-type="Gene" reverse-reference="strains"/>
+	<collection name="variations" referenced-type="Allele" reverse-reference="strains"/>
+</class>
 <class name="OntologyTerm" is-interface="true">
 	<attribute name="identifier" type="java.lang.String"/>
 	<attribute name="obsolete" type="java.lang.Boolean"/>
@@ -73,6 +77,29 @@
 	<collection name="evidence" referenced-type="GOEvidence"/>
 </class>
 <class name="RRNA" extends="NcRNA" is-interface="true"></class>
+<class name="Gene" extends="SequenceFeature" is-interface="true">
+	<attribute name="briefDescription" type="java.lang.String"/>
+	<attribute name="operon" type="java.lang.String"/>
+	<attribute name="description" type="java.lang.String"/>
+	<reference name="referenceAllele" referenced-type="Allele"/>
+	<reference name="downstreamIntergenicRegion" referenced-type="IntergenicRegion"/>
+	<reference name="upstreamIntergenicRegion" referenced-type="IntergenicRegion"/>
+	<collection name="expressionClusters" referenced-type="ExpressionCluster" reverse-reference="genes"/>
+	<collection name="regulatoryRegions" referenced-type="RegulatoryRegion" reverse-reference="gene"/>
+	<collection name="goAnnotation" referenced-type="GOAnnotation"/>
+	<collection name="transcripts" referenced-type="Transcript" reverse-reference="gene"/>
+	<collection name="CDSs" referenced-type="CDS" reverse-reference="gene"/>
+	<collection name="flankingRegions" referenced-type="GeneFlankingRegion" reverse-reference="gene"/>
+	<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsGenes"/>
+	<collection name="regulatesExprCluster" referenced-type="ExpressionCluster" reverse-reference="regulatedByGene"/>
+	<collection name="proteins" referenced-type="Protein" reverse-reference="genes"/>
+	<collection name="UTRs" referenced-type="UTR" reverse-reference="gene"/>
+	<collection name="exons" referenced-type="Exon" reverse-reference="gene"/>
+	<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="gene"/>
+	<collection name="alleles" referenced-type="Allele" reverse-reference="gene"/>
+	<collection name="introns" referenced-type="Intron" reverse-reference="genes"/>
+	<collection name="strains" referenced-type="Strain" reverse-reference="gene"/>
+</class>
 <class name="ChromosomalInversion" extends="ChromosomeStructureVariation" is-interface="true"></class>
 <class name="DataSet" is-interface="true">
 	<attribute name="name" type="java.lang.String"/>
@@ -127,15 +154,17 @@
 <class name="GOEvidenceCode" is-interface="true">
 	<attribute name="code" type="java.lang.String"/>
 </class>
-<class name="CDS" extends="SequenceFeature" is-interface="true">
-	<reference name="gene" referenced-type="Gene" reverse-reference="CDSs"/>
-	<reference name="protein" referenced-type="Protein" reverse-reference="CDSs"/>
-	<collection name="transcripts" referenced-type="Transcript" reverse-reference="CDSs"/>
-</class>
 <class name="SOTerm" extends="OntologyTerm" is-interface="true"></class>
 <class name="MRNA" extends="Transcript" is-interface="true"></class>
-<class name="Strain" extends="BioEntity" is-interface="true">
-	<reference name="gene" referenced-type="Gene" reverse-reference="strains"/>
+<class name="Transcript" extends="SequenceFeature" is-interface="true">
+	<attribute name="method" type="java.lang.String"/>
+	<reference name="protein" referenced-type="Protein" reverse-reference="transcripts"/>
+	<reference name="gene" referenced-type="Gene" reverse-reference="transcripts"/>
+	<collection name="introns" referenced-type="Intron" reverse-reference="transcripts"/>
+	<collection name="exons" referenced-type="Exon" reverse-reference="transcripts"/>
+	<collection name="UTRs" referenced-type="UTR" reverse-reference="transcripts"/>
+	<collection name="CDSs" referenced-type="CDS" reverse-reference="transcripts"/>
+	<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsTranscripts"/>
 </class>
 <class name="MeshTerm" is-interface="true">
 	<attribute name="name" type="java.lang.String"/>
@@ -156,11 +185,25 @@
 <class name="RegulatoryRegion" extends="SequenceFeature" is-interface="true">
 	<reference name="gene" referenced-type="Gene" reverse-reference="regulatoryRegions"/>
 </class>
+<<<<<<< HEAD
+<class name="ExpressionCluster" is-interface="true">
+	<attribute name="regulatedByTreatment" type="java.lang.String"/>
+	<attribute name="algorithm" type="java.lang.String"/>
+	<attribute name="primaryIdentifier" type="java.lang.String"/>
+	<attribute name="description" type="java.lang.String"/>
+	<collection name="regulatedByGene" referenced-type="Gene" reverse-reference="regulatesExprCluster"/>
+	<collection name="regulatedByMolecule" referenced-type="Molecule" reverse-reference="regulatesExprCluster"/>
+	<collection name="genes" referenced-type="Gene" reverse-reference="expressionClusters"/>
+	<collection name="lifeStages" referenced-type="LifeStage" reverse-reference="expressionClusters"/>
+	<collection name="anatomyTerms" referenced-type="AnatomyTerm" reverse-reference="expressionClusters"/>
+	<collection name="processes" referenced-type="Process" reverse-reference="expressionClusters"/>
+=======
 <class name="Allele" extends="SequenceCollection" is-interface="true">
 	<attribute name="method" type="java.lang.String"/>
 	<attribute name="type" type="java.lang.String"/>
 	<attribute name="naturalVariant" type="java.lang.String"/>
 	<reference name="gene" referenced-type="Gene" reverse-reference="alleles"/>
+>>>>>>> eef1522169d4137883d67f6d784f04c5d9dafd3f
 </class>
 <class name="TransposableElementInsertionSite" extends="SequenceFeature" is-interface="true"></class>
 <class name="UTR" extends="SequenceFeature" is-interface="true">
@@ -196,6 +239,12 @@
 	<reference name="gene" referenced-type="Gene" reverse-reference="flankingRegions"/>
 </class>
 <class name="ThreePrimeUTR" extends="UTR" is-interface="true"></class>
+<class name="CDS" extends="SequenceFeature" is-interface="true">
+	<reference name="gene" referenced-type="Gene" reverse-reference="CDSs"/>
+	<reference name="protein" referenced-type="Protein" reverse-reference="CDSs"/>
+	<collection name="transcripts" referenced-type="Transcript" reverse-reference="CDSs"/>
+	<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsCDSs"/>
+</class>
 <class name="ChromosomeBand" extends="SequenceFeature" is-interface="true"></class>
 <class name="Organism" is-interface="true">
 	<attribute name="taxonId" type="java.lang.Integer"/>
@@ -215,6 +264,10 @@
 </class>
 <class name="GoldenPathFragment" extends="SequenceFeature" is-interface="true"></class>
 <class name="CDNAClone" extends="SequenceFeature" is-interface="true"></class>
+<class name="Laboratory" is-interface="true">
+	<attribute name="primaryIdentifier" type="java.lang.String"/>
+	<collection name="variations" referenced-type="Allele" reverse-reference="fromLabs"/>
+</class>
 <class name="Publication" is-interface="true">
 	<attribute name="pages" type="java.lang.String"/>
 	<attribute name="year" type="java.lang.Integer"/>
@@ -252,15 +305,6 @@
 	<collection name="dataSets" referenced-type="DataSet"/>
 	<collection name="publications" referenced-type="Publication"/>
 </class>
-<class name="Transcript" extends="SequenceFeature" is-interface="true">
-	<attribute name="method" type="java.lang.String"/>
-	<reference name="protein" referenced-type="Protein" reverse-reference="transcripts"/>
-	<reference name="gene" referenced-type="Gene" reverse-reference="transcripts"/>
-	<collection name="introns" referenced-type="Intron" reverse-reference="transcripts"/>
-	<collection name="exons" referenced-type="Exon" reverse-reference="transcripts"/>
-	<collection name="UTRs" referenced-type="UTR" reverse-reference="transcripts"/>
-	<collection name="CDSs" referenced-type="CDS" reverse-reference="transcripts"/>
-</class>
 <class name="OntologyRelation" is-interface="true">
 	<attribute name="relationship" type="java.lang.String"/>
 	<attribute name="redundant" type="java.lang.Boolean"/>
@@ -270,6 +314,27 @@
 </class>
 <class name="SequenceVariant" is-interface="true">
 	<collection name="genes" referenced-type="Gene"/>
+</class>
+<class name="Allele" extends="SequenceCollection" is-interface="true">
+	<attribute name="otherName" type="java.lang.String"/>
+	<attribute name="naturalVariant" type="java.lang.String"/>
+	<attribute name="ochre_UAA" type="java.lang.String"/>
+	<attribute name="opal_UGA" type="java.lang.String"/>
+	<attribute name="KOAllele" type="java.lang.String"/>
+	<attribute name="nemaAllele" type="java.lang.String"/>
+	<attribute name="donorSpliceSite" type="java.lang.String"/>
+	<attribute name="method" type="java.lang.String"/>
+	<attribute name="NBPAllele" type="java.lang.String"/>
+	<attribute name="amber_UAG" type="java.lang.String"/>
+	<attribute name="type" type="java.lang.String"/>
+	<attribute name="publicName" type="java.lang.String"/>
+	<attribute name="acceptorSpliceSite" type="java.lang.String"/>
+	<reference name="gene" referenced-type="Gene" reverse-reference="alleles"/>
+	<collection name="affectsGenes" referenced-type="Gene" reverse-reference="affectedByAlleles"/>
+	<collection name="affectsTranscripts" referenced-type="Transcript" reverse-reference="affectedByAlleles"/>
+	<collection name="affectsCDSs" referenced-type="CDS" reverse-reference="affectedByAlleles"/>
+	<collection name="fromLabs" referenced-type="Laboratory" reverse-reference="variations"/>
+	<collection name="strains" referenced-type="Strain" reverse-reference="variations"/>
 </class>
 <class name="TFBindingSite" extends="BindingSite RegulatoryRegion" is-interface="true">
 	<reference name="CRM" referenced-type="CRM" reverse-reference="TFBindingSites"/>

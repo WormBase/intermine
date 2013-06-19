@@ -13,6 +13,7 @@
 -->
 	<class name="Strain" extends="BioEntity" is-interface="true">
 		<reference name="gene" referenced-type="Gene" reverse-reference="strains"/>
+		<collection name="variations" referenced-type="Allele" reverse-reference="strains" />
 	</class>
 	<class name="Gene" is-interface="true">
 		<attribute name="operon" type="java.lang.String"/>
@@ -21,10 +22,15 @@
 		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="gene"/>
 		<collection name="expressionClusters" referenced-type="ExpressionCluster" reverse-reference="genes"/>
 		<collection name="regulatesExprCluster" referenced-type="ExpressionCluster" reverse-reference="regulatedByGene"/>
+		<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsGenes" />
 	</class>
     <class name="Transcript" is-interface="true">
         <attribute name="method" type="java.lang.String"/>
+		<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsTranscripts" />
     </class>
+	<class name="CDS" is-interface="true">
+		<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsCDSs" />
+	</class>
 	<class name="BioEntity" is-interface="true">
 		<attribute name="lastUpdated" type="java.util.Date"/>
 		<!--<reference name="curatedBy" referenced-type="Curator" reverse-reference="entitiesCurated"/>-->
@@ -42,6 +48,25 @@
 		<attribute name="naturalVariant" type="java.lang.String" />
 		<attribute name="method" type="java.lang.String" />
 		<attribute name="type" type="java.lang.String" />
+		<attribute name="publicName" type="java.lang.String" />
+		<attribute name="otherName" type="java.lang.String" />
+		<attribute name="KOAllele" type="java.lang.String" />
+		<attribute name="NBPAllele" type="java.lang.String" />
+		<attribute name="nemaAllele" type="java.lang.String" />
+		<attribute name="amber_UAG" type="java.lang.String" />
+		<attribute name="ochre_UAA" type="java.lang.String" />
+		<attribute name="opal_UGA" type="java.lang.String" />
+		<attribute name="donorSpliceSite" type="java.lang.String" />
+		<attribute name="acceptorSpliceSite" type="java.lang.String" />
+		<collection name="affectsGenes" referenced-type="Gene" reverse-reference="affectedByAlleles" />
+		<collection name="affectsCDSs" referenced-type="CDS" reverse-reference="affectedByAlleles" />
+		<collection name="affectsTranscripts" referenced-type="Transcript" reverse-reference="affectedByAlleles" />
+		<collection name="strains" referenced-type="Strain" reverse-reference="variations" />
+		<collection name="fromLabs" referenced-type="Laboratory" reverse-reference="variations" />
+	</class>
+	<class name="Laboratory" is-interface="true">
+		<attribute name="primaryIdentifier" type="java.lang.String"/>
+		<collection name="variations" referenced-type="Allele" reverse-reference="fromLabs" />
 	</class>
 	<class name="OntologyTerm" is-interface="true">
 		<collection name="children" referenced-type="OntologyTerm"/>
