@@ -4,7 +4,7 @@
 
   <class className="org.intermine.model.bio.Allele"> 
 	<fields>
-	  <fieldconfig fieldExpr="symbol" label="Name" />
+	  <fieldconfig fieldExpr="symbol" label="Public Name" />
 	</fields>
   </class>
   
