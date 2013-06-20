@@ -157,7 +157,6 @@
                         </table>
 
                         <div id="tab-content">
-                                <div id="ribbon"></div>
                                 <div id="try"></div>
 
                                 <!-- templates content -->
