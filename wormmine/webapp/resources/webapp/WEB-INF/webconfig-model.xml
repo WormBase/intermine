@@ -30,7 +30,7 @@
   <class className="org.intermine.model.bio.CDS">
     <fields>
       <fieldconfig fieldExpr="primaryIdentifier" label="WormMine ID"/>
-      <fieldconfig fieldExpr="symbol" label="Name"/>
+      <fieldconfig fieldExpr="symbol" label="Sequence Name"/>
       <fieldconfig fieldExpr="length" displayer="/model/sequenceShortDisplayerWithField.jsp" />
       <fieldconfig fieldExpr="chromosomeLocation" displayer="/model/chromosomeLocDisplayer.jsp" showInResults="false"/>
       <fieldconfig fieldExpr="chromosome.primaryIdentifier" showInInlineCollection="false" showInSummary="false" />
@@ -205,7 +205,7 @@
   <class className="org.intermine.model.bio.Transcript">
     <fields>
       <fieldconfig fieldExpr="primaryIdentifier" label="WormMine ID"/>
-      <fieldconfig fieldExpr="symbol" label="Name"/>
+      <fieldconfig fieldExpr="symbol" label="Sequence Name"/>
       <fieldconfig fieldExpr="length" displayer="/model/sequenceShortDisplayerWithField.jsp" />
       <fieldconfig fieldExpr="chromosomeLocation" displayer="/model/chromosomeLocDisplayer.jsp" showInResults="false"/>
       <fieldconfig fieldExpr="chromosome.primaryIdentifier" showInInlineCollection="false" showInSummary="false" />

@@ -25,5 +25,5 @@
   <aspect name="Genetic Variations"/>
   <aspect name="Phenotypes"/>
   <aspect name="Gene Ontology"/>
-  <aspect name="Strains"/>
+  <aspect name="Reagents"/>
 </aspects>
