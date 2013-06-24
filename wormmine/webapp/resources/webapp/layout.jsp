@@ -51,7 +51,7 @@
     </tiles:insert>
 
     <link rel="shortcut icon" type="image/x-icon" href="model/images/favicon.ico">
-    <link type="text/css" href="http://www.wormbase.org/css/jquery-ui.min.css" rel="stylesheet" />
+    <link type="text/css" href="${WEB_PROPERTIES['webapp.baseurl']}/css/jquery-ui.min.css" rel="stylesheet" />
   </head>
 
   <!-- Check if the current page has fixed layout -->
@@ -70,7 +70,7 @@
     </c:otherwise>
   </c:choose>
 
-  <c:import var="wbheader" url="http://dev.wormbase.org/header"/>
+  <c:import var="wbheader" url="${WEB_PROPERTIES['webapp.baseurl']}/header"/>
   ${wbheader}
 
 
@@ -242,15 +242,15 @@ if (typeof intermine != 'undefined') {
       </div>
     </c:if>
   </div>
-  <c:import var="wbfooter" url="http://dev.wormbase.org/footer"/>
+  <c:import var="wbfooter" url="${WEB_PROPERTIES['webapp.baseurl']}/footer"/>
   ${wbfooter}
 
-  <link type="text/css" href="http://www.wormbase.org/css/main.min.css" rel="stylesheet" />
+  <link type="text/css" href="${WEB_PROPERTIES['webapp.baseurl']}/css/main.min.css" rel="stylesheet" />
 
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
   <script>
     var se = document.createElement('script');
-    se.src = "http://www.wormbase.org/js/wormbase.min.js";
+    se.src = "${WEB_PROPERTIES['webapp.baseurl']}/js/wormbase.min.js";
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(se, s);
   </script>
 
