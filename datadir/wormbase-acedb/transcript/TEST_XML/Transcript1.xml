@@ -781,5 +781,12 @@
   <Method>
     <Method>Coding_transcript</Method>
   </Method>
+  <Properties>
+      <Transcript>
+        <ncRNA>
+          <Txt>cel-inc409</Txt>
+        </ncRNA>
+      </Transcript>
+  </Properties>
 </Transcript>
 

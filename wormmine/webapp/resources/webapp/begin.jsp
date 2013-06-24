@@ -134,9 +134,13 @@
                 </div>
         </div>
 
+
         <div style="clear:both"></div>
-	<p> MESSAGE TO WORMBASE CURATORS: To put your template here tag it with im:public, im:aspect:ACPECTNAME, and im:frontpage.  
-	<br/>ASPECTNAME must be correctly capitalized and may contain spaces.  Proper capitalization may be found in Templates -&gt; filter drop down menu.  In this case, the first letter of each word is capitalized.</br>-JD</p>
+	<!-- 
+	<div class="topBar messages"> <br/>MESSAGE TO CURATORS: To put your template here tag it with im:public, im:aspect:ACPECTNAME, and im:frontpage.  
+	<br/>ASPECTNAME must be correctly capitalized and may contain spaces.  Proper capitalization may be found in Templates -&gt; filter drop down menu.  In this case, the first letter of each word is capitalized.</br>-JD</div>
+	
+	-->
         <div id="bottom-wrap">
             <c:if test="${!empty tabs}">
                 <div id="templates">
