@@ -114,7 +114,7 @@ public class OpenIDAuthenticator extends HttpServlet
             request.getSession().setAttribute(ATTR_MAC, association.getRawMacKey());
             request.getSession().setAttribute(ATTR_ALIAS, endpoint.getAlias());
             String url = manager.getAuthenticationUrl(endpoint, association);
-            response.sendRedirect(url + "&login_hint=abigail.cabunoc@wormbase.org");
+            response.sendRedirect(url);
         }
     }
 
