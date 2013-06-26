@@ -57,6 +57,9 @@ h1 a:hover,h1 a:visited:hover  {
     float: none;
 }
 
+li.last {
+  height:6px;
+}
 
 
 
@@ -490,6 +493,7 @@ input[type = "button"].ui-icon-search {
 #content-wrap .button{
   float:none;
   border:none;
+  background:none;
 }
 #content-wrap .button:hover{
   background:none;

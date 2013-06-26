@@ -89,7 +89,13 @@
         </a>
       </li>
     </ul>
-
+  <ul id="loginbar">
+        <c:if test="${! PROFILE.loggedIn}">
+            <li class="last">
+              <a href="${WEB_PROPERTIES['webapp.baseurl']}/google">Connect your Google account</a>
+            </li>
+        </c:if>
+    </ul>
   </div>
 
   <!-- Logged in section -->
