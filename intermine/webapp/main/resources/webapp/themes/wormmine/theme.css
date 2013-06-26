@@ -493,6 +493,7 @@ input[type = "button"].ui-icon-search {
 #content-wrap .button{
   float:none;
   border:none;
+  background:none;
 }
 #content-wrap .button:hover{
   background:none;
