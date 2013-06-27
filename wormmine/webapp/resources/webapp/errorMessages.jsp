@@ -76,7 +76,8 @@ var strutsMsgSize = <%=size%>;
     <c:forEach items="${MESSAGES}" var="message">
       <c:choose>
         <c:when test="${message == 'You have logged out'}">
-            window.close();
+            //window.close();
+            window.location = "/";
         </c:when>
         <c:otherwise>
           jQuery('#msg').append('<imutil:treatString><c:out value="${message}" escapeXml="false"/></imutil:treatString><br />');
