@@ -492,16 +492,16 @@ input[type = "button"].ui-icon-search {
   height:16px;
 }
 
-#content-wrap .button{
+#pagecontentcontainer .button{
   float:none;
   border:none;
   background:none;
 }
-#content-wrap .button:hover{
+#pagecontentcontainer .button:hover{
   background:none;
 }
 
-#content-wrap textarea{
+#pagecontentcontainer textarea{
   font-size:12px;
 }
 
