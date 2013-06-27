@@ -43,7 +43,7 @@
   <p>
     <fmt:message key="${messageKey}"/>
       <c:if test="${!PROFILE.loggedIn}">
-       - <a href="${WEB_PROPERTIES['webapp.baseurl']}/google"><fmt:message ke    y="history.history.login"/></a>&nbsp;&nbsp;
+       - <a href="${WEB_PROPERTIES['webapp.baseurl']}/google"><fmt:message key="history.history.login"/></a>&nbsp;&nbsp;
       </c:if>
   </p>
 <br/>
