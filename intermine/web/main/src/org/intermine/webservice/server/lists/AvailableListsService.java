@@ -21,10 +21,10 @@ import org.apache.commons.lang.StringUtils;
 import org.intermine.api.InterMineAPI;
 import org.intermine.api.profile.InterMineBag;
 import org.intermine.api.profile.Profile;
-import org.intermine.webservice.exceptions.BadRequestException;
 import org.intermine.webservice.server.Format;
 import org.intermine.webservice.server.WebService;
 import org.intermine.webservice.server.core.ListManager;
+import org.intermine.webservice.server.exceptions.BadRequestException;
 import org.intermine.webservice.server.exceptions.ResourceNotFoundException;
 import org.intermine.webservice.server.output.HTMLTableFormatter;
 import org.intermine.webservice.server.output.JSONFormatter;
@@ -76,36 +76,48 @@ public class AvailableListsService extends WebService
         }
     }
 
-    protected Collection<InterMineBag> getListsMatching(ListManager listManager, String nameFilter) {
-        nameFilter = nameFilter.trim();
-        final Filter type;
-        if (nameFilter.startsWith("*") && nameFilter.endsWith("*")) {
-            type = Filter.CONTAINS;
-        } else if (nameFilter.startsWith("*")) {
-            type = Filter.SUFFIX;
-        } else if (nameFilter.endsWith("*")) {
-            type = Filter.PREFIX;
+    private Filter getFilterType(String term) {
+        if (term == null) {
+            throw new IllegalArgumentException("term must not be null");
+        } else if (term.startsWith("*") && term.endsWith("*")) {
+            return Filter.CONTAINS;
+        } else if (term.startsWith("*")) {
+            return Filter.SUFFIX;
+        } else if (term.endsWith("*")) {
+            return Filter.PREFIX;
         } else {
-            type = Filter.EXACT;
+            return Filter.EXACT;
         }
-        String term = StringUtils.strip(nameFilter, "*");
+    }
+
+    protected Collection<InterMineBag> getListsMatching(ListManager listManager, String nameFilter) {
+        if (nameFilter == null) {
+            throw new IllegalArgumentException("nameFilter must not be null");
+        }
+
+        nameFilter = nameFilter.trim();
+        final Filter type = getFilterType(nameFilter);
+        final String term = StringUtils.strip(nameFilter, "*");
 
         Set<InterMineBag> ret = new LinkedHashSet<InterMineBag>();
         for (InterMineBag bag: listManager.getLists()) {
             boolean suitable = false;
-            switch (type) {
-            case EXACT:
-                suitable = term.equals(bag.getName());
-                break;
-            case PREFIX:
-                suitable = bag.getName().startsWith(term);
-                break;
-            case SUFFIX:
-                suitable = bag.getName().endsWith(term);
-                break;
-            case CONTAINS:
-                suitable = bag.getName().contains(term);
-                break;
+            if (bag != null) {
+                String bagName = StringUtils.defaultString(bag.getName(), "");
+                switch (type) {
+                case EXACT:
+                    suitable = term.equals(bagName);
+                    break;
+                case PREFIX:
+                    suitable = bagName.startsWith(term);
+                    break;
+                case SUFFIX:
+                    suitable = bagName.endsWith(term);
+                    break;
+                case CONTAINS:
+                    suitable = bagName.contains(term);
+                    break;
+                }
             }
             if (suitable) {
                 ret.add(bag);

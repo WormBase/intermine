@@ -128,7 +128,7 @@
     <attribute name="md5checksum" type="java.lang.String"/>
     <attribute name="primaryAccession" type="java.lang.String"/>
     <attribute name="length" type="java.lang.Integer"/>
-    <attribute name="molecularWeight" type="java.lang.Integer"/>
+    <attribute name="molecularWeight" type="java.lang.Float"/>
     <reference name="sequence" referenced-type="Sequence"/>
     <collection name="genes" referenced-type="Gene" reverse-reference="proteins"/>
   </class>
@@ -158,7 +158,7 @@
     <attribute name="md5checksum" type="java.lang.String"/>
   </class>
 
-  <class name="SequenceCollection" extends="BioEntity" is-interface="true">
+  <class name="SequenceCollection" extends="SequenceFeature" is-interface="true">
     <reference name="sequenceOntologyTerm" referenced-type="SOTerm"/>
   </class>
 

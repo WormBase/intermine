@@ -21,6 +21,8 @@ import org.intermine.objectstore.query.ContainsConstraint;
 import org.intermine.objectstore.query.Query;
 import org.intermine.objectstore.query.QueryClass;
 import org.intermine.objectstore.query.QueryCollectionReference;
+import org.intermine.objectstore.query.QueryEvaluable;
+import org.intermine.objectstore.query.QueryExpression;
 import org.intermine.objectstore.query.QueryField;
 import org.intermine.objectstore.query.QueryFunction;
 import org.intermine.objectstore.query.QueryObjectReference;
@@ -149,7 +151,7 @@ public class EnrichmentWidgetImplLdr extends WidgetLdr
         QueryField qfCorrection = null;
         if (extraCorrectionCoefficient
             && correctionCoefficient.isApplicable()) {
-            qfCorrection = correctionCoefficient.getQueryField(startClass);
+            qfCorrection = correctionCoefficient.updateQueryWithCorrectionCoefficient(subQ, startClass);
         }
         // which columns to return when the user clicks on 'export'
         if ("export".equals(action)) {
@@ -169,7 +171,7 @@ public class EnrichmentWidgetImplLdr extends WidgetLdr
             mainQuery.addToSelect(qfCount);
             // and for the whole population the average length
             if (action.startsWith("population") && qfCorrection != null) {
-                correctionCoefficient.updatePopulationTotalQuery(mainQuery, subQ, qfCorrection);
+                correctionCoefficient.updatePopulationQuery(mainQuery, subQ, qfCorrection);
             }
         // enrichment queries
         } else {
@@ -239,8 +241,14 @@ public class EnrichmentWidgetImplLdr extends WidgetLdr
                 } else {
                     if (queryValue != null) {
                         if (!"null".equalsIgnoreCase(queryValue.getValue().toString())) {
-                            cs.addConstraint(new SimpleConstraint(qfConstraint, pc.getOp(),
-                                                              queryValue));
+                            QueryEvaluable qe = null;
+                            if (isFilterConstraint || isListConstraint
+                                || queryValue.getValue() instanceof Boolean) {
+                                qe = qfConstraint;
+                            } else {
+                                qe = new QueryExpression(QueryExpression.LOWER, qfConstraint);
+                            }
+                            cs.addConstraint(new SimpleConstraint(qe, pc.getOp(), queryValue));
                         } else {
                             ConstraintOp op = (pc.getOp().equals(ConstraintOp.EQUALS))
                                               ? ConstraintOp.IS_NULL

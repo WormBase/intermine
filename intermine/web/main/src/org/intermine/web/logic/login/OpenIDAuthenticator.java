@@ -77,7 +77,7 @@ public class OpenIDAuthenticator extends HttpServlet
         returnTo = prefix + "/" + path + "/openid";
         manager.setReturnTo(returnTo);
         profileManager = SessionMethods.getInterMineAPI(context).getProfileManager();
-        loginUrl = prefix + "/" + path + "/mymine.do";
+        loginUrl = webProperties.getProperty("webapp.returnurl");
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })

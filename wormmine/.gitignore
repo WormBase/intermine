@@ -1,0 +1,7 @@
+*dump*.sql
+*~
+intlog.txt
+
+dbmodel/build
+test
+

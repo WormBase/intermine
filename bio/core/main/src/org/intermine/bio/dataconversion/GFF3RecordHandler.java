@@ -45,6 +45,9 @@ public class GFF3RecordHandler
     private ReferenceList publicationReferenceList = new ReferenceList("publications");
     private Item tgtOrganism;
     protected Item tgtSequence;
+    protected HashMap<String, String> IDMap = null;
+    protected HashMap<String, String> typeMap = null;
+    protected HashMap<String, String> key2refID = new HashMap<String, String>();
 
     /**
      * Construct with the model to create items in (for type checking).
@@ -269,7 +272,10 @@ public class GFF3RecordHandler
      * Remove all items held locally in handler.
      */
     public void clear() {
-        items = new LinkedHashMap<String, Item>();
+    	//TODO remove
+    	//System.out.println("JDJDJD:: handler cleared. contents:"+items.toString()+" and:"+earlyItems.toString()); 
+        
+    	items = new LinkedHashMap<String, Item>();
         sequence = null;
         earlyItems.clear();
     }
@@ -299,6 +305,11 @@ public class GFF3RecordHandler
      */
     public void addItem(Item item) {
         items.put(item.getIdentifier(), item);
+    }
+    
+    public void addItem(Item item, String key){
+    	key2refID.put(key, item.getIdentifier());
+    	addItem(item);
     }
 
     /**
@@ -346,4 +357,56 @@ public class GFF3RecordHandler
     public void setConverter(GFF3Converter converter) {
         this.converter = converter;
     }
+    
+    /**
+     * @param IDMap Map between current IDs to desired IDs, used
+     * 	by subclass to allow merging with other sources
+     */
+    public void setIDMap(HashMap<String,String> IDMap){
+    	this.IDMap = IDMap;
+    }
+    
+    public void clearIDMap(){
+    	IDMap = null;
+    }
+    
+    public void setTypeMap(HashMap<String,String> typeMap){
+    	this.typeMap = typeMap;
+    }
+    
+    /**
+     * Returns mapped ID if IDMap is set to a hash and key exists. 
+     * Otherwise returns given value;
+     * @param ID key of IDMap hash
+     * @return value of mapped ID, or same input
+     */
+    public String mapThisID(String ID){
+    	if( IDMap != null && IDMap.containsKey(ID)){
+	    	return IDMap.get(ID);
+    	}else{
+	    	return ID;
+    	}
+
+    }
+    
+    public HashMap<String, String> getIDMap(){
+    	return IDMap;
+    }
+    
+    public Item getItem(String refIDKey){
+    	return items.get(refIDKey);
+    }
+    
+    /**
+     * Returns true if item corresponding to ref_id added, or 
+     * if item corresponding to key added with addItem(item, key)
+     * @param key
+     * @return if key corresponds to ref_id or 
+     * primaryKey(if available) of an item added.
+     */
+    public boolean keyAdded(String key){
+    	return key2refID.containsKey(key);
+    	
+    }
+    
 }

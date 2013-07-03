@@ -140,7 +140,7 @@ public class WebServiceRequestParser
     /** The parameter for requesting column headers **/
     public static final String ADD_HEADER_PARAMETER = "columnheaders";
 
-    public static final String FORMAT_PARAMETER_ANY = "*";
+    public static final String FORMAT_PARAMETER_ANY = "*/*";
 
     /**
      * Parses common parameters for all web services. Must be called from parseRequest
@@ -185,11 +185,12 @@ public class WebServiceRequestParser
     private static final Map<String, Format> formatMapping= new HashMap<String, Format>() {
         private static final long serialVersionUID = -2791706714042933771L;
     {
-        put(FORMAT_PARAMETER_ANY, Format.EMPTY);
+        put(FORMAT_PARAMETER_ANY, Format.DEFAULT);
         put(FORMAT_PARAMETER_XML, Format.XML);
         put(FORMAT_PARAMETER_HTML, Format.HTML);
         put(FORMAT_PARAMETER_TAB, Format.TSV);
         put(FORMAT_PARAMETER_CSV, Format.CSV);
+        put(FORMAT_PARAMETER_TEXT, Format.TEXT);
         put(FORMAT_PARAMETER_COUNT, Format.TEXT);
         put(FORMAT_PARAMETER_JSON_OBJ, Format.OBJECTS);
         put(FORMAT_PARAMETER_JSONP_OBJ, Format.OBJECTS);
@@ -268,7 +269,7 @@ public class WebServiceRequestParser
                     }
                     pref = pref.trim().toLowerCase();
                     if (pref.startsWith("*")) {
-                        areAcceptable.add(Format.EMPTY);
+                        areAcceptable.add(Format.DEFAULT);
                         continue;
                     }
                     String[] parts = pref.split(";");
@@ -333,6 +334,8 @@ public class WebServiceRequestParser
                 return Format.TSV;
             } else if (pathInfo.endsWith("/csv")) {
                 return Format.CSV;
+            } else if (pathInfo.endsWith("/txt")) {
+                return Format.TEXT;
             }
         }
         return null;
@@ -348,7 +351,7 @@ public class WebServiceRequestParser
         }
         String fromParameter = request.getParameter(OUTPUT_PARAMETER);
         if (StringUtils.isNotBlank(fromParameter)) {
-            areAcceptable.add(interpretFormat(fromParameter));
+            areAcceptable.add(interpretFormat(fromParameter.trim()));
         }
         areAcceptable.addAll(parseAcceptHeader(request));
         return areAcceptable;

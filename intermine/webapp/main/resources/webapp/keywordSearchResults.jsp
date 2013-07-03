@@ -29,7 +29,7 @@ input.submit {
 <script>
 
   jQuery(document).ready(function(){
-    // Unckeck all checkboxes everything the page is (re)loaded
+    // Uncheck all checkboxes everything the page is (re)loaded
     initCheck();
 
     // Do before the form submitted
@@ -178,9 +178,9 @@ input.submit {
             <li>Remove restrictions by clicking the red <b>(x)</b> above</li>
           </c:if>
           <li>Add an asterisk (*) to the end of a word to search for
-          partial matches, e.g. <i>dros*</i></li>
-          <li>Search for synonyms using the OR operator, e.g. <i>(fly
-          OR drosophila)</i></li>
+          partial matches, e.g. <i>caen*</i></li>
+          <li>Search for synonyms using the OR operator, e.g. <i>(worm
+          OR elegans)</i></li>
         </ul>
                    </c:otherwise>
           </c:choose>
@@ -462,7 +462,7 @@ input.submit {
                   <%-- print each field configured for this object --%>
                   <c:when test="${!empty fieldConfig && !empty fieldConfig.displayer}">
                     <c:set var="fieldPathString" value="${searchResult.type}.${fieldConfig.fieldExpr}"/>
-                    <c:set var="fieldLabel" value="${imf:formatFieldStr(fieldPathString, INTERMINE_API, WEBCONFIG)}"/>
+                    <c:set var="fieldLabel" value="${imf:formatFieldChain(fieldPathString, INTERMINE_API, WEBCONFIG)}"/>
                         
                     <td class="objectFieldName"><c:out value="${fieldLabel}" />:</td>
 
@@ -476,7 +476,7 @@ input.submit {
 
                   <c:when test="${!empty fieldConfig && !empty fieldConfig.fieldExpr}">
                     <c:set var="fieldPathString" value="${searchResult.type}.${fieldConfig.fieldExpr}"/>
-                    <c:set var="fieldLabel" value="${imf:formatFieldStr(fieldPathString, INTERMINE_API, WEBCONFIG)}"/>
+                    <c:set var="fieldLabel" value="${imf:formatFieldChain(fieldPathString, INTERMINE_API, WEBCONFIG)}"/>
                     <c:set var="outVal"
                       value="${searchResult.fieldValues[fieldConfig.fieldExpr]}" />
                     <c:if test="${!empty outVal}">

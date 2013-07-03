@@ -23,14 +23,16 @@ import java.util.*;
 public class FileParser {
 
 	private MyBufferedReader inputStream;
+	private int currentLine = 0;
 	
 	
 	/**
-	 * @param args
+	 * Creates a FileParser for given input file.
+	 * @param inputFile Path to input file 
 	 * @throws IOException 
 	 */
-	public FileParser(String jaceFile) throws IOException {
- 		inputStream = new MyBufferedReader(new FileReader(jaceFile));
+	public FileParser(String inputFile) throws IOException {
+ 		inputStream = new MyBufferedReader(new FileReader(inputFile));
 	}
 	
 	public FileParser(Reader reader) throws IOException {
@@ -56,7 +58,7 @@ public class FileParser {
 		boolean startedObj = false; // Switched if non-whitespace passed in 
         try {
 			while ((line = (String) inputStream.readLine()) != null) {
-			    
+			    currentLine++;
 			    //System.out.print("*"); // DEBUG
 			    
 			    if(line.equals("")){
@@ -73,11 +75,33 @@ public class FileParser {
 		} finally {
             if (line == null) {
             	inputStream.close();
+            	
             }
-            //System.out.println(""); // DEBUG
+            
 		}
 
 		return lines.toArray(new String[lines.size()]);
+	}
+	
+	/**
+	 * Wrapper for getDataObj(), concatenates each string instead of returning
+	 * an array of strings
+	 * @return 
+	 * @throws IOException 
+	 */
+	public String getDataString() throws IOException{
+		String[] lines = getDataObj();
+		if(lines == null || lines.length == 0){
+			return null;
+		}
+		
+		String resultLine = "";
+		String separator = "";
+		for(int i=0; i<lines.length; i++){
+		    resultLine = resultLine + separator + lines[i];  
+		}
+		
+		return resultLine;
 	}
 	
 	/**
@@ -92,5 +116,9 @@ public class FileParser {
 		}else{
 			return -1;
 		}
+	}
+	
+	public int getCurrentLine(){
+		return currentLine;
 	}
 }

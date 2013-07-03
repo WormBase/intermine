@@ -1,0 +1,18 @@
+cd dbmodel;
+ant clean build-db -v > ../pbuild.log;  
+cd ..;
+
+cd integrate;
+ant -v -Dsource=\
+wb-acedb-transcript\
+ >> ../pbuild.log;
+cd ..;
+
+#cd postprocess;
+#ant;
+#cd ..;
+
+#cd webapp;
+#ant default remove-webapp release-webapp;
+#cd ..;
+

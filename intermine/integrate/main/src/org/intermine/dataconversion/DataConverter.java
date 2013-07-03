@@ -38,7 +38,7 @@ public abstract class DataConverter
     private Map<String, Integer> ids = new HashMap<String, Integer>();
     private Model model;
     private ItemFactory itemFactory;
-    private DataConverterStoreHook storeHook = null;
+    protected DataConverterStoreHook storeHook = null;
     private Map<String, String> uniqueItems = new HashMap<String, String>();
 
     /**

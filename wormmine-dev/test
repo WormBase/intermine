@@ -1,0 +1,21 @@
+cd dbmodel;
+#ant clean build-db -v > ../pbuild.log;  
+cd ..;
+
+cd integrate;
+#ant -v -Dsource=wb-acedb-gene,wb-acedb-transcript,wb-acedb-cds,celegans-protein-fasta >> ../pbuild.log;
+ant -v -Dsource=entrez-organism >> ../pbuild.log;
+#ant -v -Dsource=all >> ../pbuild.log;
+#ant -v -Dsource=wb-acedb-variation,wb-acedb-gene>> ../pbuild.log
+#ant -v -Dsource=go-annotation>> ../pbuild.log
+#ant -v -Dsource=wb-acedb-protein >> ../pbuild.log
+cd ..;
+
+#cd postprocess;
+#ant;
+#cd ..;
+
+#cd webapp;
+#ant default remove-webapp release-webapp;
+#cd ..;
+
