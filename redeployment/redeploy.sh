@@ -9,13 +9,15 @@
 # Backs up intermine/datadir to a specific name in the datadir_dumps directory
 # Grabs all the XML files from the hard coded file source and replaces each one accordingly
 
-genomicfaurl='ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz'
-proteinfaurl='ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.protein.fa.gz'
-gffurl='ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.annotations.gff3.gz'
-obofile='gene_ontology.WS238.ob'
-obourl='ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/ONTOLOGY/'$obofile
-gaffile='gene_association.WS238.wb'
-gafurl='ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/ONTOLOGY/'$gaffile
+wbrel='WS238'
+
+genomicfaurl='ftp://ftp.wormbase.org/pub/wormbase/releases/'$wbrel'/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.'$wbrel'.genomic.fa.gz'
+proteinfaurl='ftp://ftp.wormbase.org/pub/wormbase/releases/'$wbrel'/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.'$wbrel'.protein.fa.gz'
+gffurl='ftp://ftp.wormbase.org/pub/wormbase/releases/'$wbrel'/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.'$wbrel'.annotations.gff3.gz'
+obofile='gene_ontology.'$wbrel'.ob'
+obourl='ftp://ftp.wormbase.org/pub/wormbase/releases/'$wbrel'/ONTOLOGY/'$obofile
+gaffile='gene_association.'$wbrel'.wb'
+gafurl='ftp://ftp.wormbase.org/pub/wormbase/releases/'$wbrel'/ONTOLOGY/'$gaffile
 
 dumpdir='/nfs/wormbase/wormmine/datadir_dumps'
 sourcedir='/nfs/wormbase/wormmine/acedb_dumps/WS238' # WS238 HARD CODED
