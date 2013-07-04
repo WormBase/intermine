@@ -315,7 +315,9 @@
   <post-processing>
 	
 	<post-process name="create-chromosome-locations-and-lengths"/>
+<!--
 	<post-process name="transfer-sequences"/>
+-->
 	<post-process name="do-sources"/>
 	  
 	<!-- Webapp post-processes -->
