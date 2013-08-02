@@ -6,6 +6,6 @@ FROM
 	JOIN dataset d ON bd.datasets = d.id
 WHERE
 	b.class = 'org.intermine.model.bio.CDS' AND
-	--b.primaryidentifier = 'CDS:B0025.1a'
-	b.id = 5000002
+	b.primaryidentifier = 'CDS:B0025.1a'
+	--b.id = 5000002
 ;
