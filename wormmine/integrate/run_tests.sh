@@ -1,0 +1,1 @@
+ant acceptance-tests
