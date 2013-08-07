@@ -17,6 +17,12 @@
 	</class>
 	<class name="Gene" is-interface="true">
 		<attribute name="operon" type="java.lang.String"/>
+		<attribute name="version" type="java.lang.String"/>
+		<!--
+		<attribute name="sequenceId" type="java.lang.String"/>
+		-->
+		<attribute name="CGCName" type="java.lang.String"/>
+		<attribute name="sequenceName" type="java.lang.String"/>
 		<reference name="referenceAllele" referenced-type="Allele" />
 		<collection name="strains" referenced-type="Strain" reverse-reference="gene"/>
 		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="gene"/>
