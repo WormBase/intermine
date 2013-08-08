@@ -23,10 +23,7 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.regex.*;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
+
 
 import org.apache.commons.lang.StringUtils;
 import org.intermine.dataconversion.*;
@@ -38,8 +35,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 
+import net.sf.saxon.s9api.*;
+
+
 import wormbase.model.parser.*;
-import org.intermine.bio.dataconversion.MappingFileKey;
 
 /**
  * Mapping file format:
@@ -65,10 +64,11 @@ public class WormbaseAcedbConverter extends BioFileConverter
     private static final String DATA_SOURCE_NAME = "AceDB XML"; //"Add DataSource.name here";
 
     private WMDebug wmd;
-    private DataMapper dataMapping = null;
     private Model model;
     private ClassDescriptor classCD; // CD of current data type being processed 
-    
+	private  XPathResolver aceOracle;
+	
+
     // Items that have already been referenced and stored
     // Key: "className:id", Value: Item ID (ex: "WBGene12345")
 	private HashMap<String, Item> storedRefItems; 
@@ -103,7 +103,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
     	wmd.debug("started WormbaseAcedbConverter.process()"); 
     	
     	// Checking for properties
-    	if( dataMapping == null )
+    	if( aceOracle == null )
     		throw new Exception("mapping.file property not defined for this"+
     				" source in the project.xml");
     	
@@ -120,56 +120,13 @@ public class WormbaseAcedbConverter extends BioFileConverter
 			wmd.debug("rejects.file property not set, rejected XML"+
 					" elements will be discarded");
     	}else{
+    		aceOracle.setRejectFile(rejectFilePath);
     		wmd.log("XML rejects file set to:"+rejectFilePath);
     	}
 
-		FileWriter rejectsFW = null;
-		if(rejectFilePath != null)
-			rejectsFW = new FileWriter(rejectFilePath); // creates file if exists
 		FileParser fp = new FileParser(reader);
     	
-		
-	
-		//// Process properties file first ////
-		wmd.debug("Parsing mapping file...");
-		
-		HashMap<MappingFileKey, XPathExpression> prop2XpathExpr = new HashMap<MappingFileKey, XPathExpression>();
-	    // Get XPathFactory
-        XPathFactory xpf = XPathFactory.newInstance();
-        XPath xpath = xpf.newXPath();
-    	
-        // Get enumerator of InterMine datapaths to map (ex: primaryIdentifier)
-        Enumeration<Object> dataPathEnum = dataMapping.keys();
         
-    	wmd.debug("=== Mapping file entries ===");
-        String rawPropKey;
-        MappingFileKey PIDKey = null;
-        while( dataPathEnum.hasMoreElements() ){ // foreach property mapping
-        	rawPropKey = (String) dataPathEnum.nextElement(); // ex: "symbol"
-        	if(rawPropKey.length() == 0){
-        		continue;
-        	}
-        	
-        	MappingFileKey propKey = new MappingFileKey(rawPropKey);
-        	
-        	wmd.debug("=== "+propKey.getRawKey()+" ===");
-        	wmd.debug("cast type: "+propKey.getCastType());
-        	wmd.debug("datapath: "+propKey.getDataPath());
-
-        	
-        	String xpathQuery = dataMapping.getProperty(rawPropKey); // ex: "/Transcript/text()[1]"
-        	
-        	// The XPath object compiles the XPath expression
-	        XPathExpression expr = xpath.compile( xpathQuery );
-	        
-	        if(rawPropKey.equals(getClassPIDField(classCD.getSimpleName()))){
-	        	PIDKey = propKey;
-	        }
-	        prop2XpathExpr.put(propKey, expr);
-        }
-    	wmd.debug("=== ==================== ===");
-        
-        Pattern strB4Dot = 		Pattern.compile("(.*?)\\.(.*)");
 	        
     	// foreach XML string
     	String xmlChunk;
@@ -184,93 +141,47 @@ public class WormbaseAcedbConverter extends BioFileConverter
 //    			continue;
 //    		}
     		
-    		Document doc;
     		try{
-				// Load XML into org.w3c.dom.Document 
-				doc = PackageUtils.loadXMLFrom(xmlChunk);
-    		}catch(SAXParseException e){
-    			try{
-    				wmd.debug("CALLING XML SANITATION FUNCTION");
-    				String repairedData = PackageUtils.sanitizeXMLTags(xmlChunk);
-    				doc = PackageUtils.loadXMLFrom(repairedData);
-    			}catch( SAXParseException e1 ){
-	    			try{
-	    				
-	    				if(rejectFilePath != null){
-		    				wmd.log("### SANITATION FAILED: ADDING RECORD TO REJECTS FILE ###");
-		    				
-		    				// Add to rejects file
-			    			rejectsFW.write(xmlChunk);
-			    			rejectsFW.write("\n\n");
-	    				}
-	    			}catch( Exception e2 ){
-	    				System.out.println("Something wrong with the FileWriter");
-	    				throw e2;
-	    			}
-	    			continue;
-    			}
+    			aceOracle.setXML(xmlChunk);
+    		}catch(IOException e){
+    			continue;
     		}
-			
-	        
+    		
+		
 	        Item item = createItem(currentClass);
 	        wmd.debug("New IMID: "+item.getIdentifier());
 	        
-	        Iterator prop2XpathExprIter = prop2XpathExpr.keySet().iterator();
+	        MappingFileKey[] fields = aceOracle.getMappingFileFields(); 
+	        
 	        String ID = null;
 	        String castType = null;
-	        boolean assertIfExists;
 	        MappingFileKey propKey;
 	        boolean firstPass = true;
-	        while( prop2XpathExprIter.hasNext() ){ // foreach property mapping
-	        	if(!firstPass){ // Set PID first no matter what
-	        		propKey = (MappingFileKey) prop2XpathExprIter.next(); // ex: "symbol", "organism.name"
+	        
+	        // ===================== my place
+	        
+	        // foreach mapping file key, extra first loop adds the PID
+	        // Same PID added twice, overwrites self
+	        for(int i=-1; i < fields.length; i++){
+	        	if(i == -1){ // Set PID first no matter what
+	        		propKey = aceOracle.getMappingFileKey(getClassPIDField(classCD.getSimpleName()));
+	        		if(propKey == null)
+	        			throw new Exception(String.format(
+	        				"ERROR: %s set as the primary key for %s according to keyfile (%s), but cannot be found", 
+	        				getClassPIDField(classCD.getSimpleName()),
+	        				classCD.getSimpleName(), 
+	        				keyFilePath));
+	        		wmd.debug("first pass: setting key to "+propKey.getDataPath()); 
 	        	}else{
-	        		propKey = PIDKey;
+	        		propKey = fields[i];
 	        	}
 	        	
 	        	
-	        	assertIfExists = false;
-	        	castType = null;
+			    String fieldName = propKey.getDataPath();
+	        	wmd.debug("fieldname="+fieldName);
 	        	
 	        	wmd.debug("Retrieving:["+propKey.getRawKey()+"]");
-	        	
-	        	// Get casted type if exists ex: (Gene)/XPath/statement/here
-	        	
-	        	
-	        	// The XPath object compiles the XPath expression
-	        	XPathExpression expr = prop2XpathExpr.get(propKey);
-		        
-		        Matcher fNMatcher = strB4Dot.matcher(propKey.getDataPath());
-			    String fieldName;
-		        String suffix = ""; // after .
-		        if( fNMatcher.find() ){
-			        String prefix = fNMatcher.group(1);
-			        if(prefix.equalsIgnoreCase("if")){
-			        	fieldName = fNMatcher.group(2);
-			        	assertIfExists = true;
-			        }else{
-			        	fieldName = prefix;
-			        	suffix = fNMatcher.group(2);
-			        	wmd.debug("suffix:"+suffix);
-			        }
-		        }else{
-		        	fieldName = propKey.getDataPath();
-		        }
-	        	wmd.debug("fieldname="+fieldName);
-		        
-		        		
-		        // '.' indicates join, aka reference or collection
-	        	
-	        	
-	        	
-	        	
-	        	
-//		       	wmd.debug("This is an attribute");
-	        	
-		        
-		        
-		        
-	        	
+	        	String[] queryResults = aceOracle.getFieldValue(fieldName);
 	        	
 		        FieldDescriptor fd = classCD.getFieldDescriptorByName(fieldName);
 		        if( fd == null ){
@@ -278,50 +189,34 @@ public class WormbaseAcedbConverter extends BioFileConverter
 		        }
 		        
 		        if(fd.isAttribute()){
-		        	
-		        	if(assertIfExists){
-			        	NodeList resultNode = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+	        	
+		        	String xPathValue = StringUtils.join(queryResults, ',');
+		        	wmd.debug("xpathvalue:"+xPathValue);
+			        if(fieldName.equals(getClassPIDField(classCD.getSimpleName()))){
+			        	if(firstPass){
+			        		ID = xPathValue;
+					        // if this record's pID exists in the hash, replace the incumbent
+					        if(itemHasBeenProcessed(currentClass, ID)){
+					        	String existingRecordsIMID = getRefItem(currentClass, ID).getIdentifier();
+					        	wmd.debug("found cached stand-in record, replacing "+
+					        			item.getIdentifier()+" with "+existingRecordsIMID);
+					        	item.setIdentifier(existingRecordsIMID);
+					        }
+				        	setRefItem(currentClass, ID, item);
+			        	}else{
+			        		wmd.debug("=======================");
+			        		continue;
+			        	}
 			        	
-			        	wmd.debug(String.valueOf(resultNode.getLength()));
-			        	
-		        		if(resultNode.getLength() == 0){
-		        			wmd.debug(fieldName+"=false");
-		        			item.setAttribute(fieldName, "false");
-		        		}else{
-		        			wmd.debug(fieldName+"=true");
-		        			item.setAttribute(fieldName, "true");
-		        		}
-		        		
-		        	}else{
-		        	
-			        	String xPathValue = StringUtils.strip( expr.evaluate(doc) );
-			        	wmd.debug("xpathvalue:"+xPathValue);
-				        if(fieldName.equals(getClassPIDField(classCD.getSimpleName()))){
-				        	if(firstPass){
-				        		ID = xPathValue;
-						        // if this record's pID exists in the hash, kill the incumbent and take it's name
-						        if(itemHasBeenProcessed(currentClass, ID)){
-						        	String existingRecordsIMID = getRefItem(currentClass, ID).getIdentifier();
-						        	wmd.debug("found cached stand-in record, replacing "+
-						        			item.getIdentifier()+" with "+existingRecordsIMID);
-						        	item.setIdentifier(existingRecordsIMID);
-						        }
-					        	setRefItem(currentClass, ID, item);
-				        	}else{
-				        		continue;
-				        	}
-				        	
-				        }
-				        
-			        	// DataPath describes attribute
-				        if (!StringUtils.isEmpty(xPathValue)) {
-							wmd.debug("Setting attribute ["+fieldName+"] to ["+xPathValue+"]");
-							item.setAttribute(fieldName, xPathValue);
-						}else{
-							wmd.debug("ignoring attribute ["+fieldName+"], no value");
-						}
-				        
-		        	}
+			        }
+			        
+		        	// DataPath describes attribute
+			        if (!StringUtils.isEmpty(xPathValue)) {
+						wmd.debug("Setting attribute ["+fieldName+"] to ["+xPathValue+"]");
+						item.setAttribute(fieldName, xPathValue);
+					}else{
+						wmd.debug("ignoring attribute ["+fieldName+"], no value");
+					}
 		        	
 		        }else{
 		        	
@@ -338,9 +233,11 @@ public class WormbaseAcedbConverter extends BioFileConverter
 		        	if( rd.relationType() == FieldDescriptor.ONE_ONE_RELATION ||
 		        		rd.relationType() == FieldDescriptor.N_ONE_RELATION   )
 		        	{
-	//			        		wmd.debug("This is a reference");
+	//			        wmd.debug("This is a reference");
+		        		if(queryResults.length > 1)
+		        			throw new Exception("Reference "+fieldName+" returns more than one result");
 		        		
-		        		String xPathValue = StringUtils.strip( expr.evaluate(doc) );
+		        		String xPathValue = queryResults[0];
 			        	Item referencedItem;
 		        		if(!xPathValue.isEmpty()){
 	        				referencedItem = getRefItem(refClassName, xPathValue);
@@ -369,45 +266,23 @@ public class WormbaseAcedbConverter extends BioFileConverter
 		        		
 		        		Item referencedItem = createItem(refClassName); // Initialized by necessity
 		        		
-			        	// Get set of IDs referenced
-				        NodeList resultNodes = (NodeList) expr.evaluate(doc,  XPathConstants.NODESET);
-				        String collectionIDs[] = new String[resultNodes.getLength()]; 
-				        for(int i = 0; i < resultNodes.getLength(); i++) {
+				        for(int j = 0; j < queryResults.length; j++) {
 				            
-				        	// If the first child is a text node, uses that instead of resolving
-				        	//   whole node (and descendants) to text
-				        	Node resultNode = resultNodes.item(i);
-				        	Node possibleTextNode = resultNode.getFirstChild();
-				        	if(possibleTextNode == null){
-				        		possibleTextNode = resultNode;
-				        	}
-				        	String nodeText = "";
-				        	if(possibleTextNode.getNodeType() == Node.TEXT_NODE){
-				        		nodeText = possibleTextNode.getTextContent();
+			        		if(!queryResults[j].isEmpty()){
+				        		referencedItem = getRefItem(refClassName, queryResults[j]);
 				        	}else{
-				        		nodeText = resultNode.getTextContent();
-				        	}
-				        	//wmd.debug("ASDF::"+String.valueOf(resultNode.getNodeType())+"--"+Node.ELEMENT_NODE); // DELETE
-				        	
-				        	collectionIDs[i] = StringUtils.strip(nodeText); 
-			        		
-			        		if(!collectionIDs[i].isEmpty()){
-				        		referencedItem = getRefItem(refClassName, collectionIDs[i]);
-				        	}else{
-				        		wmd.debug("ID not defined, moving on...");
 				        		continue;
 				        	}
 	
 			        		
 			        		item.addToCollection(cd.getName(), referencedItem);
 			        		
-				            wmd.debug(cd.getName()+":["+collectionIDs[i]+"]");
+				            wmd.debug(cd.getName()+":["+queryResults[j]+"]");
 		        		
 			        		if( 		cd.relationType() == FieldDescriptor.ONE_N_RELATION ){
 			        			setRevRefIfExists(item, referencedItem, cd);
 			        		}else if(	cd.relationType() == FieldDescriptor.M_N_RELATION   ){
 	//				        			wmd.debug("M:N");
-			        			// UNTESTED
 			        			addToRevColIfExists(item, referencedItem, rd);
 			        		}
 				        }
@@ -447,7 +322,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
     	}
     
 		if(rejectFilePath != null)
-			rejectsFW.close();
+			aceOracle.closeRejectsFile();
     	
     }
     
@@ -537,13 +412,8 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	 * @throws Exception
 	 */
     public void setMappingFile(String mappingFile) throws Exception{
-        dataMapping = new DataMapper();
-    	try {
-			dataMapping.load(new FileReader(mappingFile));
-		} catch (FileNotFoundException e) {
-			wmd.debug("ERROR: "+mappingFile+" not found");
-			throw e;
-		}
+    	aceOracle = new XPathResolver(wmd, mappingFile);
+    	
     	System.out.println("Processed mapping file: "+mappingFile);
     }
     
