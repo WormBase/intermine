@@ -2,9 +2,11 @@
 *.jace
 *swp
 *log.txt
+*.nfs*
 delete.*
 DELETE.*
 notes
+
 
 datadir/fasta
 datadir/**/*.xml
