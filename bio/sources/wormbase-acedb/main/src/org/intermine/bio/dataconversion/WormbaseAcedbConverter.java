@@ -182,7 +182,11 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        	
 	        	wmd.debug("Retrieving:["+propKey.getRawKey()+"]");
 	        	String[] queryResults = aceOracle.getFieldValue(fieldName);
-	        	
+	        	if(queryResults.length == 0){
+				wmd.debug("No results returned, moving on...");
+				continue;
+			}
+
 		        FieldDescriptor fd = classCD.getFieldDescriptorByName(fieldName);
 		        if( fd == null ){
 		        	throw new Exception(classCD.getName()+"."+fieldName+" not found in model");
@@ -234,8 +238,8 @@ public class WormbaseAcedbConverter extends BioFileConverter
 		        		rd.relationType() == FieldDescriptor.N_ONE_RELATION   )
 		        	{
 	//			        wmd.debug("This is a reference");
-		        		if(queryResults.length > 1)
-		        			throw new Exception("Reference "+fieldName+" returns more than one result");
+		        		if(queryResults.length > 1) 
+		        			throw new Exception("Reference "+fieldName+" returns more than one result for record "+ID);
 		        		
 		        		String xPathValue = queryResults[0];
 			        	Item referencedItem;

@@ -29,8 +29,8 @@
 		<attribute name="molecularFunction" type="java.lang.String"/>
 		<attribute name="expression" type="java.lang.String"/>
 		<attribute name="otherDescription" type="java.lang.String"/>
-		<reference name="referenceAllele" referenced-type="Allele" />
 		<reference name="refSequence" referenced-type="Sequence" reverse-reference="geneChild"/>
+		<collection name="referenceAllele" referenced-type="Allele" />
 		<collection name="strains" referenced-type="Strain" reverse-reference="gene"/>
 		<collection name="RNASeqFPKM" referenced-type="LifeStage" />
 		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="genesExpressed"/>
