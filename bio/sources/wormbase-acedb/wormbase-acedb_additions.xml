@@ -29,7 +29,6 @@
 		<attribute name="molecularFunction" type="java.lang.String"/>
 		<attribute name="expression" type="java.lang.String"/>
 		<attribute name="otherDescription" type="java.lang.String"/>
-		<reference name="refSequence" referenced-type="Sequence" reverse-reference="geneChild"/>
 		<collection name="referenceAllele" referenced-type="Allele" />
 		<collection name="strains" referenced-type="Strain" reverse-reference="gene"/>
 		<collection name="RNASeqFPKM" referenced-type="LifeStage" />
@@ -38,7 +37,7 @@
 		<collection name="regulatesExprCluster" referenced-type="ExpressionCluster" reverse-reference="regulatedByGene"/>
 		<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsGenes" />
 		<collection name="otherSequence" referenced-type="Sequence" reverse-reference="genes"/>
-		<collection name="associatedFeatures" referenced-type="Feature" reverse-reference="associatedGene"/>
+		<collection name="associatedFeatures" referenced-type="Feature" reverse-reference="associatedGenes"/>
 		<collection name="RNAiResult" referenced-type="RNAi" reverse-reference="inhibitsGene"/>
 		<collection name="drivesTransgenes" referenced-type="Transgene" reverse-reference="drivenByGenes"/>
 		<collection name="transgeneProducts" referenced-type="Transgene" reverse-reference="reporterGenes"/>
@@ -47,6 +46,11 @@
     <class name="Transcript" is-interface="true">
         <attribute name="method" type="java.lang.String"/>
 		<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsTranscripts" />
+    	<collection name="variations" referenced-type="Allele" />
+    	<collection name="matchingCDNA" referenced-type="Sequence" reverse-reference="matchingTranscript" />
+    	<collection name="oligoSet" referenced-type="OligoSet" reverse-reference="overlapsTranscript"/>
+		<collection name="RNASeqFPKM" referenced-type="LifeStage" />
+		<collection name="associatedFeatures" referenced-type="Feature" reverse-reference="associatedTranscripts"/>
     </class>
 	<class name="CDS" is-interface="true">
 		<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsCDSs" />
@@ -57,6 +61,10 @@
 		<collection name="phenotypesObserved" referenced-type="Phenotype" reverse-reference="observedIn"/>
 		<collection name="phenotypesNotObserved" referenced-type="Phenotype" reverse-reference="notObservedIn"/>
 		<collection name="interactions" referenced-type="Interaction" reverse-reference="interactors"/>
+	</class>
+	<class name="SequenceFeature" is-interface="true">
+		<reference name="refSequence" referenced-type="Sequence" reverse-reference="geneChild"/>
+		
 	</class>
 	<class name="Protein" is-interface="true">
 		<attribute name="geneName" type="java.lang.String"/>
@@ -157,9 +165,12 @@
 	<class name="Sequence" extends="BioEntity" is-interface="true">
 		<collection name="genes" referenced-type="Gene" reverse-reference="otherSequence"/>
 		<collection name="geneChild" referenced-type="Gene" reverse-reference="refSequence"/>
+		<collection name="matchingTranscript" referenced-type="Transcript" reverse-reference="matchingCDNA" />
+		
 	</class>
 	<class name="Feature" extends="SequenceFeature" is-interface="true">
-		<reference name="associatedGene" referenced-type="Gene" reverse-reference="associatedFeatures"/>
+		<collection name="associatedGenes" referenced-type="Gene" reverse-reference="associatedFeatures"/>
+		<collection name="associatedTranscripts" referenced-type="Gene" reverse-reference="associatedFeatures"/>
 	</class>
 	<class name="RNAi" extends="BioEntity" is-interface="true">
 		<collection name="inhibitsGene" referenced-type="Gene" reverse-reference="RNAiResult"/>
@@ -174,5 +185,9 @@
 	</class>
 	<class name="Publication" is-interface="true">
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
+	</class>
+	<class name="OligoSet" is-interface="true">
+		<attribute name="primaryIdentifier" type="java.lang.String"/>
+		<collection name="overlapsTranscript" referenced-type="Transcript" reverse-reference="oligoSet"/>
 	</class>
 </classes>
