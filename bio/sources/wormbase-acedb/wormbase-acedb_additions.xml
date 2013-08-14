@@ -45,12 +45,14 @@
 	</class>
     <class name="Transcript" is-interface="true">
         <attribute name="method" type="java.lang.String"/>
+    	<attribute name="type" type="java.lang.String"/>
 		<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsTranscripts" />
     	<collection name="variations" referenced-type="Allele" />
     	<collection name="matchingCDNA" referenced-type="Sequence" reverse-reference="matchingTranscript" />
     	<collection name="oligoSet" referenced-type="OligoSet" reverse-reference="overlapsTranscript"/>
 		<collection name="RNASeqFPKM" referenced-type="LifeStage" />
 		<collection name="associatedFeatures" referenced-type="Feature" reverse-reference="associatedTranscripts"/>
+    	<collection name="referenceAllele" referenced-type="Allele" />
     </class>
 	<class name="CDS" is-interface="true">
 		<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsCDSs" />
@@ -63,7 +65,7 @@
 		<collection name="interactions" referenced-type="Interaction" reverse-reference="interactors"/>
 	</class>
 	<class name="SequenceFeature" is-interface="true">
-		<reference name="refSequence" referenced-type="Sequence" reverse-reference="geneChild"/>
+		<reference name="refSequence" referenced-type="Sequence" reverse-reference="seqFeatureChild"/>
 		
 	</class>
 	<class name="Protein" is-interface="true">
@@ -164,13 +166,13 @@
 	</class>
 	<class name="Sequence" extends="BioEntity" is-interface="true">
 		<collection name="genes" referenced-type="Gene" reverse-reference="otherSequence"/>
-		<collection name="geneChild" referenced-type="Gene" reverse-reference="refSequence"/>
+		<collection name="seqFeatureChild" referenced-type="SequenceFeature" reverse-reference="refSequence"/>
 		<collection name="matchingTranscript" referenced-type="Transcript" reverse-reference="matchingCDNA" />
 		
 	</class>
 	<class name="Feature" extends="SequenceFeature" is-interface="true">
 		<collection name="associatedGenes" referenced-type="Gene" reverse-reference="associatedFeatures"/>
-		<collection name="associatedTranscripts" referenced-type="Gene" reverse-reference="associatedFeatures"/>
+		<collection name="associatedTranscripts" referenced-type="Transcript" reverse-reference="associatedFeatures"/>
 	</class>
 	<class name="RNAi" extends="BioEntity" is-interface="true">
 		<collection name="inhibitsGene" referenced-type="Gene" reverse-reference="RNAiResult"/>
