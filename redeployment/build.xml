@@ -19,6 +19,8 @@
         
     </target>
     
+    <target name="clear" description="Deletes old datafiles"></target>
+    
     <target name="get-assembly-ids" description="gets the bioproject ids of each species' assembly, generates ${assemblies-properties}">
         <exec executable="perl" failonerror="true">
             <arg value="${assemblies-parser}"/>
@@ -35,24 +37,15 @@
          <echo message="Downloading genomic fasta for:"/>
          <echo message="${genomic-species-list}" />
          <foreach list="${genomic-species-list}" target="get-genomic-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
-        
-    </target>
-    
-    <target name="get-all-protein-fasta" description="Retrieves newest protein fasta files" depends="get-assembly-ids">
-        <loadfile property="protein-species-list" srcfile="${protein-fasta-species-file}"/>
-        <echo message="Downloading proteins fasta for:"/>
-        <echo message="${protein-species-list}" />
-        <foreach list="${protein-species-list}" target="get-protein-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
-        
     </target>
     
     <!-- Expects ${species} ex:"c_elegans" depends on get-assembly-ids -->
     <target name="get-genomic-fasta" description="retrieves a single genomic fasta file">
-
+        
         <echo>
             Getting genomic fasta for ${species}
         </echo>
-
+        
         <!-- Sample URL: ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz -->
         <propertycopy name="bpid" from="bpid-${species}"/>
         
@@ -98,9 +91,16 @@
         <delete file="${destdir}/${gz-filename}"/>
         
     </target>
+
+    <target name="get-all-protein-fasta" description="Retrieves newest protein fasta files" depends="get-assembly-ids">
+        <loadfile property="protein-species-list" srcfile="${protein-fasta-species-file}"/>
+        <echo message="Downloading proteins fasta for:"/>
+        <echo message="${protein-species-list}" />
+        <foreach list="${protein-species-list}" target="get-protein-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
+    </target>
     
     <target name="get-protein-fasta" description="retrieves a single protein fasta file">
-
+        
         <echo>
             Getting protein fasta for ${species}
         </echo>
@@ -117,9 +117,32 @@
         
         <gunzip src="${destdir}/${gz-filename}"/>
         <delete file="${destdir}/${gz-filename}"/>
-       
+        
     </target>
-
+    
+    <target name="process-all-protein-fasta" description="Runs pre-processing scripts for all protein fasta files" depends="get-assembly-ids">
+        <loadfile property="protein-species-list" srcfile="${protein-fasta-species-file}"/>
+        <echo message="Processing downloaded proteins fasta for:"/>
+        <echo message="${protein-species-list}" />
+        <foreach list="${protein-species-list}" target="process-protein-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
+    </target>
+    
+    <target name="process-protein-fasta" description="Processes a species fasta file">
+        <echo>
+            Processing fasta for ${species}
+        </echo>
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="filename" value="${species}.${bpid}.${release}.protein.fa" />
+        <property name="destdir-base" value="${datadir}/fasta/${species}/proteins" />
+        <mkdir dir="${destdir-base}/prepped" />
+        
+        <!-- These properties are passed into the ant call -->
+        <property name="input-file" value="${destdir-base}/raw/${filename}"/>
+        <property name="output-file" value="${destdir-base}/prepped/prepped-${filename}"/>
+        <ant dir="${protein-fasta-pp-dir}/all" inheritAll="true" />
+        
+    </target>    
+    
     <target name="help">
         <loadfile property="readme" srcfile="${readme-file}" />
         <echo message="${readme}"/>
