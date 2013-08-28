@@ -27,15 +27,22 @@
         <property file="${assemblies-properties}"/>
     </target>
     
-    <target name="get-all-fasta" description="Retrieves newest version of fasta files">
-        <loadfile property="species" srcfile="fasta-species.txt"/>
-        <echo message="${species}" />
-        <foreach list="a,b" target="get-fasta" param="species" delimiter="," />
+    <target name="get-all-fasta" description="Retrieves newest version of fasta files" depends="get-assembly-ids">
+        <loadfile property="species-list" srcfile="fasta-species.txt"/>
+        <echo message="${species-list}" />
+        <foreach list="${species-list}" target="get-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
         
     </target>
     
+    <!-- Expects ${species} ex:"c_elegans" depends on get-assembly-ids -->
     <target name="get-fasta" description="retrieves a single fasta file">
-        <echo message="${species}" />
+
+        <!-- Sample URL: ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz -->
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="full-url">
+            ${release-url}/species/${species}/${bpid}/${species}.${bpid}.${release}.genomic.fa.gz
+        </property>
+        <echo message="${full-url}" />   
     </target>
     
     <target name="help">
@@ -43,5 +50,12 @@
         <echo message="${readme}"/>
     </target>
     
+    <target name="test">
+        <property name="a" value="1"/>
+        <property name="x" value="a"/>
+        <echo message="${x}"/>
+    </target>
+    
+
     
 </project>
