@@ -58,6 +58,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	private String currentClass = null; 
 	private String rejectFilePath = null;
 	private String keyFilePath = null;
+	private String classPID = null;
 
 	// Overridden by setDataSet()
 	private static final String DATASET_TITLE = "WormBaseAcedbConverter"; //"Add DataSet.title here";
@@ -114,6 +115,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
     	if( currentClass == null )
     		throw new Exception("source.class property not defined for this"+
     				" source in the project.xml");
+    	classPID = getClassPIDField(classCD.getSimpleName());
     	
     	if( rejectFilePath == null )
     	{
@@ -202,7 +204,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 					        // if this record's pID exists in the hash, replace the incumbent
 					        if(itemHasBeenProcessed(currentClass, ID)){
 					        	String existingRecordsIMID = getRefItem(currentClass, ID).getIdentifier();
-					        	wmd.debug("found cached stand-in record, replacing "+
+					        	wmd.log("found cached stand-in record, replacing "+
 					        			item.getIdentifier()+" with "+existingRecordsIMID);
 					        	item.setIdentifier(existingRecordsIMID);
 					        }
