@@ -5,6 +5,7 @@
     <taskdef resource="net/sf/antcontrib/antlib.xml">
         <classpath>
             <pathelement location="ant-contrib/ant-contrib-1.0b3.jar"/>
+
         </classpath>
     </taskdef>
     
@@ -27,22 +28,41 @@
         <property file="${assemblies-properties}"/>
     </target>
     
-    <target name="get-all-fasta" description="Retrieves newest version of fasta files" depends="get-assembly-ids">
-        <loadfile property="species-list" srcfile="fasta-species.txt"/>
+    <target name="get-all-fasta" description="Retrieves newest version of fasta files" depends="get-all-genomic-fasta"/>
+    
+    <target name="get-all-genomic-fasta" description="Retrieves newest genomic fasta files" depends="get-assembly-ids">
+        <loadfile property="species-list" srcfile="${fasta-species-file}"/>
         <echo message="${species-list}" />
-        <foreach list="${species-list}" target="get-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
+        <foreach list="${species-list}" target="get-genomic-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
         
     </target>
     
     <!-- Expects ${species} ex:"c_elegans" depends on get-assembly-ids -->
-    <target name="get-fasta" description="retrieves a single fasta file">
+    <target name="get-genomic-fasta" description="retrieves a single fasta file">
 
         <!-- Sample URL: ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz -->
         <propertycopy name="bpid" from="bpid-${species}"/>
         <property name="full-url">
             ${release-url}/species/${species}/${bpid}/${species}.${bpid}.${release}.genomic.fa.gz
         </property>
-        <echo message="${full-url}" />   
+        
+        <property name="destdir" value="${datadir}/fasta/${species}/genomic" />
+        <mkdir dir="${destdir}" />
+        <!-- <get src="${full-url}" dest="${destdir}" verbose="true" usetimestamp="true"/> -->
+        <ftp    action="get" 
+                server="ftp.wormbase.org" 
+                userid="anonymous" 
+                password="WormMine"
+                verbose="yes"
+                newer="no"
+        >
+            <fileset dir=".">
+                <!-- <filename name="${release-ftp-path}/${species}.${bpid}.${release}.genomic.fa.gz" /> -->
+                <include name="pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz" />
+                <!-- <include name="welcome_banner"/> -->
+            </fileset>
+        </ftp>
+        
     </target>
     
     <target name="help">
@@ -51,9 +71,19 @@
     </target>
     
     <target name="test">
-        <property name="a" value="1"/>
-        <property name="x" value="a"/>
-        <echo message="${x}"/>
+        
+        
+        <copy todir=".">
+            <fileset dir="commons-net-3.3">
+                <include name="NOTICE.txt"/>
+            </fileset>    
+        </copy>
+        
+        
+        <echo>
+             
+           
+        </echo>
     </target>
     
 
