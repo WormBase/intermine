@@ -1,0 +1,47 @@
+<project name="update-wormmine" default="default" basedir=".">
+    
+    
+    
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="ant-contrib/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+    
+    <property file="update.properties" />
+    
+    <target name="default" depends="get-assembly-ids">
+        <echo message="${bpid-h_contortus}" />
+    </target>
+    
+    <target name="backup-datadir" description="back up data directory">
+        
+    </target>
+    
+    <target name="get-assembly-ids" description="gets the bioproject ids of each species' assembly, generates ${assemblies-properties}">
+        <exec executable="perl" failonerror="true">
+            <arg value="${assemblies-parser}"/>
+            <arg value="${assemblies-file}"/>
+            <arg value="${assemblies-properties}"/>
+        </exec>
+        <property file="${assemblies-properties}"/>
+    </target>
+    
+    <target name="get-all-fasta" description="Retrieves newest version of fasta files">
+        <loadfile property="species" srcfile="fasta-species.txt"/>
+        <echo message="${species}" />
+        <foreach list="a,b" target="get-fasta" param="species" delimiter="," />
+        
+    </target>
+    
+    <target name="get-fasta" description="retrieves a single fasta file">
+        <echo message="${species}" />
+    </target>
+    
+    <target name="help">
+        <loadfile property="readme" srcfile="${readme-file}" />
+        <echo message="${readme}"/>
+    </target>
+    
+    
+</project>

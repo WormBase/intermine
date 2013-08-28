@@ -4,7 +4,7 @@ cd ..;
 
 cd integrate;
 ant -v -Dsource=\
-wb-acedb-gene\
+wb-acedb-transcript\
 >> ../pbuild.log;
 cd ..;
 

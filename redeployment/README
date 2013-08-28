@@ -1,0 +1,8 @@
+WormMine update build
+
+run with:
+ant [-Drelease=<release>]
+
+Can specify optional WormBase release with -Drelease flag.  Whichever folder from the present WormBase URL ftp://ftp.wormbase.org/pub/wormbase/releases/ you want the program to download files from. 
+
+Properties can be permanently set in update.properties
