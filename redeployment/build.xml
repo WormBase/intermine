@@ -28,27 +28,57 @@
         <property file="${assemblies-properties}"/>
     </target>
     
-    <target name="get-all-fasta" description="Retrieves newest version of fasta files" depends="get-all-genomic-fasta"/>
+    <target name="get-all-fasta" description="Retrieves newest version of fasta files" depends="get-all-genomic-fasta, get-all-protein-fasta"/>
     
-    <target name="get-all-genomic-fasta" description="Retrieves newest genomic fasta files" depends="get-assembly-ids">
-        <loadfile property="species-list" srcfile="${fasta-species-file}"/>
-        <echo message="${species-list}" />
-        <foreach list="${species-list}" target="get-genomic-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
+     <target name="get-all-genomic-fasta" description="Retrieves newest genomic fasta files" depends="get-assembly-ids">
+         <loadfile property="genomic-species-list" srcfile="${genomic-fasta-species-file}"/>
+         <echo message="Downloading genomic fasta for:"/>
+         <echo message="${genomic-species-list}" />
+         <foreach list="${genomic-species-list}" target="get-genomic-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
+        
+    </target>
+    
+    <target name="get-all-protein-fasta" description="Retrieves newest protein fasta files" depends="get-assembly-ids">
+        <loadfile property="protein-species-list" srcfile="${protein-fasta-species-file}"/>
+        <echo message="Downloading proteins fasta for:"/>
+        <echo message="${protein-species-list}" />
+        <foreach list="${protein-species-list}" target="get-protein-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
         
     </target>
     
     <!-- Expects ${species} ex:"c_elegans" depends on get-assembly-ids -->
-    <target name="get-genomic-fasta" description="retrieves a single fasta file">
+    <target name="get-genomic-fasta" description="retrieves a single genomic fasta file">
+
+        <echo>
+            Getting genomic fasta for ${species}
+        </echo>
 
         <!-- Sample URL: ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz -->
         <propertycopy name="bpid" from="bpid-${species}"/>
-        <property name="full-url">
-            ${release-url}/species/${species}/${bpid}/${species}.${bpid}.${release}.genomic.fa.gz
-        </property>
         
+        <!-- Using get task -->
+        <property name="gz-filename" value="${species}.${bpid}.${release}.genomic.fa.gz" />
+        <property name="full-url">
+            ${release-url}/species/${species}/${bpid}/${gz-filename}
+        </property>
         <property name="destdir" value="${datadir}/fasta/${species}/genomic" />
         <mkdir dir="${destdir}" />
-        <!-- <get src="${full-url}" dest="${destdir}" verbose="true" usetimestamp="true"/> -->
+        <get src="${full-url}" dest="${destdir}" verbose="true" />
+        
+        <!-- FTP disabled
+            We need FTP to enable download-if-newer functionality.  get's doesnt work with ftp
+            
+            Works with:
+        <include name="pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz" />
+        not with: 
+        <include name="${full-path}" />
+        they resolve to the same string, doesn't work for some reason
+        -->
+        <!--
+        <property name="full-path">
+            ${release-ftp-path}/species/${species}/${bpid}/${species}.${bpid}.${release}.genomic.fa.gz
+        </property>
+        <echo message="FTP path: ${full-path}"></echo>
         <ftp    action="get" 
                 server="ftp.wormbase.org" 
                 userid="anonymous" 
@@ -57,14 +87,39 @@
                 newer="no"
         >
             <fileset dir=".">
-                <!-- <filename name="${release-ftp-path}/${species}.${bpid}.${release}.genomic.fa.gz" /> -->
                 <include name="pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz" />
-                <!-- <include name="welcome_banner"/> -->
             </fileset>
         </ftp>
+        -->
+        
+        <!-- Pass fileset result into property because gunzip doesn't take filesets --> 
+        
+        <gunzip src="${destdir}/${gz-filename}"/>
+        <delete file="${destdir}/${gz-filename}"/>
         
     </target>
     
+    <target name="get-protein-fasta" description="retrieves a single protein fasta file">
+
+        <echo>
+            Getting protein fasta for ${species}
+        </echo>
+        
+        <!-- Sample URL: ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz -->
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="gz-filename" value="${species}.${bpid}.${release}.protein.fa.gz" />
+        <property name="full-url">
+            ${release-url}/species/${species}/${bpid}/${gz-filename}
+        </property>
+        <property name="destdir" value="${datadir}/fasta/${species}/proteins/raw" />
+        <mkdir dir="${destdir}" />
+        <get src="${full-url}" dest="${destdir}" verbose="true" />
+        
+        <gunzip src="${destdir}/${gz-filename}"/>
+        <delete file="${destdir}/${gz-filename}"/>
+       
+    </target>
+
     <target name="help">
         <loadfile property="readme" srcfile="${readme-file}" />
         <echo message="${readme}"/>
