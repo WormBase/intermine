@@ -143,7 +143,7 @@
         
     </target>    
     
-    <target name="get-all-gff3s" depends="get-assembly-ids">
+    <target name="get-all-gff3s" depends="get-assembly-ids" description="Retrieves gff3s for all species">
         <loadfile property="gff3-species-list" srcfile="${gff3-species-file}"/>
         <echo message="Downloading gff3s for:"/>
         <echo message="${gff3-species-list}" />
@@ -151,7 +151,7 @@
         
     </target>
     
-    <target name="get-gff3">
+    <target name="get-gff3" description="Retrieves single gff3 ">
         <echo>
             Getting gff3 for ${species}
         </echo>
@@ -172,7 +172,7 @@
         
     </target>
     
-    <target name="process-all-gff3s" depends="get-assembly-ids">
+    <target name="process-all-gff3s" depends="get-assembly-ids" description="Processes all gff3s">
         <loadfile property="gff3-species-list" srcfile="${gff3-species-file}"/>
         <echo message="Processing gff3s for:"/>
         <echo message="${gff3-species-list}" />
@@ -180,7 +180,7 @@
         
     </target>
     
-    <target name="process-gff3">
+    <target name="process-gff3" description="Processes single gff3">
          <echo>
             Processing gff3 for ${species}
         </echo>
@@ -196,7 +196,7 @@
        
     </target>
     
-    <target name="get-all-gff3-mappings" depends="get-assembly-ids">
+    <target name="get-all-gff3-mappings" depends="get-assembly-ids" description="Retrieves all gff3 Gene ID mappings">
         <loadfile property="gff3-idmap-species-list" srcfile="${gff3-idmap-species-file}"/>
         <echo message="Downloading gff3s mappings for:"/>
         <echo message="${gff3-idmap-species-list}" />
@@ -204,7 +204,7 @@
         
     </target>
     
-    <target name="get-gff3-mapping">
+    <target name="get-gff3-mapping" depends="get-assembly-ids" description="Retrieves single gff3 id mapping">
         <echo>
             Getting gff3 ID mapping for ${species}
         </echo>
@@ -224,7 +224,7 @@
         
     </target>
     
-    <target name="convert-all-gff3-mappings" depends="get-assembly-ids">
+    <target name="convert-all-gff3-mappings" depends="get-assembly-ids" description="Converts all gff3 id mappings into a usable form">
         <loadfile property="gff3-idmap-species-list" srcfile="${gff3-idmap-species-file}"/>
         <echo message="Processing gff3 mappings for:"/>
         <echo message="${gff3-idmap-species-list}" />
@@ -232,7 +232,7 @@
         
     </target>
     
-    <target name="process-gff3-mapping">
+    <target name="process-gff3-mapping" depends="get-assembly-ids" description="Converts single id mapping">
         <echo>
             Processing gff3 mapping for ${species}
         </echo>
