@@ -262,15 +262,37 @@
         
     </target>
     
-    <target name="get-go-obo" description="Retrieves GO ">
+    <target name="get-obo" description="Retrieves GO ontology file">
         <echo> 
             Downloading gene ontology file
         </echo>
         <property name="destdir" value="${datadir}/go"/>
         <mkdir dir="${destdir}"/>
         <get src="${obo-url}" dest="${destdir}" />
+    </target>
+    
+    <target name="get-gaf" description="Retrieves GO association file for all species">
+        <echo> 
+            Downloading gene association file
+        </echo>
+        <property name="destdir" value="${datadir}/go-association/raw"/>
+        <mkdir dir="${destdir}"/>
+        <get src="${gaf-url}" dest="${destdir}" />
+    </target>
+    
+    <target name="process-gaf" description="Processes GO association file">
+        <echo> 
+            Processing gene association file
+        </echo>
+        <property name="input-file" value="${datadir}/go-association/raw/${gaf-file}"/>
+        <property name="output-dir" value="${datadir}/go-association/final"/>
+        <property name="output-file" value="${output-dir}/prepped_${gaf-file}"/>
+        <mkdir dir="${output-dir}"/>
+        
+        <ant dir="${gaf-pp-dir}" inheritAll="true"/>
         
     </target>
+    
     
     <target name="help">
         <loadfile property="readme" srcfile="${readme-file}" />

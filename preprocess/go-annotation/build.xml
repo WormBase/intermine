@@ -1,0 +1,51 @@
+<project name="gaf-processing" default="default" basedir=".">
+        
+    <!-- 
+        Expects input-file and output-file properties
+        
+    -->
+    
+    <property name="tempfile-suffix" value="-wmtemp"/>
+    
+    <target name="default" depends="process"/>
+    
+    <target name="process">
+        <antcall target="sort" inheritall="false">
+            <param name="input-file" value="${input-file}"/>
+            <param name="output-file" value="${input-file}-sorted"/>    
+        </antcall>
+        <antcall target="filter" inheritall="false">
+            <param name="input-file" value="${input-file}-sorted"/>
+            <param name="output-file" value="${output-file}"/>    
+        </antcall>
+        <delete file="${input-file}-sorted" />
+        
+    </target>
+    
+    <target name="sort" description="sorts gaf by gene id">
+        <echo>
+            Sorting gaf
+            Input: ${input-file}
+            Output: ${output-file}
+        </echo>
+        <exec executable="sort" failonerror="true" output="${output-file}">
+            <arg line="-k 2,2"/>
+            <arg value="${input-file}"/>
+        </exec>
+    </target>
+    
+    <target name="filter" description="filters out uniprot records" >
+        <echo>
+            Filtering out UniProt records
+            Input: ${input-file}
+            Output: ${output-file}
+        </echo>
+        <exec executable="grep" failonerror="true" output="${output-file}">
+            <arg line="-vE ^UniProtKB"/>
+            <arg value="${input-file}"/>
+        </exec>
+        
+    </target>
+    
+    
+</project>
