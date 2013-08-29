@@ -1,4 +1,4 @@
-<project name="update-wormmine" default="default" basedir=".">
+<project name="process-protein-fasta" default="default" basedir=".">
     
     <!-- Expects input-file and output-file properties-->
     

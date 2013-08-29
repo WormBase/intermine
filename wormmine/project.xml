@@ -80,7 +80,7 @@
 		<property name="gff3.dataSetTitle"      value="C. elegans genomic annotations (GFF3 Gene)"/>
 		<!--<property name="src.data.dir"           location="&datadir;/c_elegans_gff3"/>-->
 		
-		<property name="src.data.dir"           location="&datadir;/wormbase-gff3/final"/> 
+		<property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_elegans/final"/> 
 		
 		<!-- 
 		Only GFF3 records with a third column matching this value 
@@ -94,7 +94,7 @@
 		data sources
 		Format: key \t value. All other columns ignored 
 		-->
-		<property name="gff3.IDMappingFile"	 value="&datadir;/wormbase-gff3/mapping/id_mapping.tab"/> 
+		<property name="gff3.IDMappingFile"	 value="&datadir;/wormbase-gff3/c_elegans/mapping/id_mapping.tab"/> 
 		
 	</source>
 

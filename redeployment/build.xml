@@ -143,6 +143,113 @@
         
     </target>    
     
+    <target name="get-all-gff3s" depends="get-assembly-ids">
+        <loadfile property="gff3-species-list" srcfile="${gff3-species-file}"/>
+        <echo message="Downloading gff3s for:"/>
+        <echo message="${gff3-species-list}" />
+        <foreach list="${gff3-species-list}" target="get-gff3" param="species" delimiter="${line.separator}" inheritall="true" />
+        
+    </target>
+    
+    <target name="get-gff3">
+        <echo>
+            Getting gff3 for ${species}
+        </echo>
+        
+        <!-- Sample URL: ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz -->
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="gff3-gz-filename" value="${species}.${bpid}.${release}.annotations.gff3.gz" />
+        <property name="full-url">
+            ${release-url}/species/${species}/${bpid}/${gff3-gz-filename}
+        </property>
+        <property name="destdir" value="${datadir}/wormbase-gff3/${species}/raw" />
+        <mkdir dir="${destdir}" />
+        
+        <get src="${full-url}" dest="${destdir}" verbose="true" />
+        
+        <gunzip src="${destdir}/${gff3-gz-filename}"/>
+        <delete file="${destdir}/${gff3-gz-filename}"/>
+        
+    </target>
+    
+    <target name="process-all-gff3s" depends="get-assembly-ids">
+        <loadfile property="gff3-species-list" srcfile="${gff3-species-file}"/>
+        <echo message="Processing gff3s for:"/>
+        <echo message="${gff3-species-list}" />
+        <foreach list="${gff3-species-list}" target="process-gff3" param="species" delimiter="${line.separator}" inheritall="true" />
+        
+    </target>
+    
+    <target name="process-gff3">
+         <echo>
+            Processing gff3 for ${species}
+        </echo>
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="filename" value="${species}.${bpid}.${release}.annotations.gff3" />
+        <property name="destdir-base" value="${datadir}/wormbase-gff3/${species}" />
+        <mkdir dir="${destdir-base}/final" />
+        
+        <!-- These properties are passed into the ant call -->
+        <property name="input-file" value="${destdir-base}/raw/${filename}"/>
+        <property name="output-file" value="${destdir-base}/final/cdogma-${filename}"/>
+        <ant dir="${gff3-pp-dir}/all" target="scrape" inheritAll="true" />
+       
+    </target>
+    
+    <target name="get-all-gff3-mappings" depends="get-assembly-ids">
+        <loadfile property="gff3-idmap-species-list" srcfile="${gff3-idmap-species-file}"/>
+        <echo message="Downloading gff3s mappings for:"/>
+        <echo message="${gff3-idmap-species-list}" />
+        <foreach list="${gff3-idmap-species-list}" target="get-gff3-mapping" param="species" delimiter="${line.separator}" inheritall="true" />
+        
+    </target>
+    
+    <target name="get-gff3-mapping">
+        <echo>
+            Getting gff3 ID mapping for ${species}
+        </echo>
+        
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="gff3-mapping-gz-filename" value="${species}.${bpid}.${release}.geneIDs.txt.gz" />
+        <property name="full-url">
+            ${release-url}/species/${species}/${bpid}/annotation/${gff3-mapping-gz-filename}
+        </property>
+        <property name="destdir" value="${datadir}/wormbase-gff3/${species}" />
+        <mkdir dir="${destdir}" />
+        
+        <get src="${full-url}" dest="${destdir}" verbose="true" />
+        
+        <gunzip src="${destdir}/${gff3-mapping-gz-filename}"/>
+        <delete file="${destdir}/${gff3-mapping-gz-filename}"/>
+        
+    </target>
+    
+    <target name="convert-all-gff3-mappings" depends="get-assembly-ids">
+        <loadfile property="gff3-idmap-species-list" srcfile="${gff3-idmap-species-file}"/>
+        <echo message="Processing gff3 mappings for:"/>
+        <echo message="${gff3-idmap-species-list}" />
+        <foreach list="${gff3-idmap-species-list}" target="process-gff3-mapping" param="species" delimiter="${line.separator}" inheritall="true" />
+        
+    </target>
+    
+    <target name="process-gff3-mapping">
+        <echo>
+            Processing gff3 mapping for ${species}
+        </echo>
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="filename" value="${species}.${bpid}.${release}.geneIDs.txt" />
+        <property name="destdir-base" value="${datadir}/wormbase-gff3/${species}" />
+        <mkdir dir="${destdir-base}/mapping" />
+        
+        <!-- These properties are passed into the ant call -->
+        <property name="input-file" value="${destdir-base}/${filename}"/>
+        <property name="output-file" value="${destdir-base}/mapping/id_mapping.tab"/>
+        <ant dir="${gff3-pp-dir}/all" target="convert-id-mapping" inheritAll="true" />
+        
+    </target>
+    
+    
+    
     <target name="help">
         <loadfile property="readme" srcfile="${readme-file}" />
         <echo message="${readme}"/>
