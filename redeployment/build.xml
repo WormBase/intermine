@@ -16,10 +16,19 @@
     </target>
     
     <target name="backup-datadir" description="back up data directory">
-        
+        <tstamp>
+            <format property="TODAY" pattern="MM-dd-yy"/>
+        </tstamp>
+        <echo>Backing up ${datadir}</echo>
+        <copy todir="${backup-dir}/${backup-dirname}-${TODAY}">
+            <fileset dir="${datadir}" casesensitive="no">
+                <exclude name="**/*test*"/>
+                <exclude name="**/*delete*"/>
+            </fileset>
+        </copy>
     </target>
     
-    <target name="clear" description="Deletes old datafiles"></target>
+    <target name="clear-datadir" description="Deletes old datafiles"></target>
     
     <target name="get-assembly-ids" description="gets the bioproject ids of each species' assembly, generates ${assemblies-properties}">
         <exec executable="perl" failonerror="true">
