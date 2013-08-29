@@ -28,7 +28,12 @@
         </copy>
     </target>
     
-    <target name="clear-datadir" description="Deletes old datafiles"></target>
+    <target name="delete-datadir" description="Deletes old data directory">
+        <echo>
+            Deleting data directory
+        </echo>
+        <delete dir="${datadir}"/>
+    </target>
     
     <target name="get-assembly-ids" description="gets the bioproject ids of each species' assembly, generates ${assemblies-properties}">
         <exec executable="perl" failonerror="true">
@@ -257,7 +262,15 @@
         
     </target>
     
-    
+    <target name="get-go-obo" description="Retrieves GO ">
+        <echo> 
+            Downloading gene ontology file
+        </echo>
+        <property name="destdir" value="${datadir}/go"/>
+        <mkdir dir="${destdir}"/>
+        <get src="${obo-url}" dest="${destdir}" />
+        
+    </target>
     
     <target name="help">
         <loadfile property="readme" srcfile="${readme-file}" />
