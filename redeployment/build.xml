@@ -293,6 +293,31 @@
         
     </target>
     
+    <target name="get-all-ace-xml" description="Copies all AcdDB XML files in class list">
+        <loadfile property="ace-classes-list" srcfile="${ace-classes-file}"/>
+        <echo message="Copying the following ace XML:"/>
+        <echo message="${ace-classes-list}" />
+        <foreach list="${ace-classes-list}" target="get-ace-xml" param="class" delimiter="${line.separator}" inheritall="true" />
+    </target>
+    
+    <target name="get-ace-xml" description="Copies an AceDB XML file">
+        <echo>Getting ${class}.xml</echo>
+        <copy file="${acedb-xml-dir}/${class}.xml" todir="${datadir-ace}/${class}/raw"/>
+    </target>
+    
+    <target name="process-all-ace-xml">
+        <loadfile property="ace-classes-list" srcfile="${ace-classes-file}"/>
+        <echo message="Processing the following ace XML:"/>
+        <echo message="${ace-classes-list}" />
+        <foreach list="${ace-classes-list}" target="process-ace-xml" param="class" delimiter="${line.separator}" inheritall="true" />
+    </target>
+    
+    <target name="process-ace-xml" description="Processes an AceDB XML file">
+        <property name="input-file" value="${datadir-ace}/${class}/raw/${class}.xml"/>
+        <mkdir dir="${datadir-ace}/${class}/final"/>
+        <property name="output-file" value="${datadir-ace}/${class}/final/final_${class}.xml"/>
+        <ant dir="${ace-pp-dir}" inheritAll="true"/>
+    </target>
     
     <target name="help">
         <loadfile property="readme" srcfile="${readme-file}" />
