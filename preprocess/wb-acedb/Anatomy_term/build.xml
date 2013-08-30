@@ -1,14 +1,16 @@
 <project name="process-anatomy-term" default="default" basedir="true">
     
     <target name="default" depends="process"/>
-    
+
+    <property name="prep-script" value="prep_Anatomy_term.pl"/>
+
     <!-- Expects class, input-file, output-file -->
     <target name="process">
         <echo>
             Processing ${class}
         </echo>
         <exec executable="perl" failonerror="true">
-            <arg value="prep_anatomy_term.pl"/>
+            <arg value="${prep-script}"/>
             <arg value="${input-file}"/>
             <arg value="${output-file}"/>
         </exec>

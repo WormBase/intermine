@@ -9,17 +9,9 @@
         <echo>
             Processing ${class}
         </echo>
-        <antcall target="purify" inheritall="false">
-            <param name="input-file" value="${input-file}"/>
-            <param name="output-file" value="${input-file}-temp"/>    
-            <param name="purify-script" value="${purify-script}"/>
-        </antcall>
-        <antcall target="prep" inheritall="false">
-            <param name="input-file" value="${input-file}-temp"/>
-            <param name="output-file" value="${output-file}"/>    
-            <param name="prep-script" value="${prep-script}"/>
-        </antcall>
-        <delete file="${input-file}-temp" />
+        <echo>
+            Nothing to be done here
+        </echo>
         
     </target>
     

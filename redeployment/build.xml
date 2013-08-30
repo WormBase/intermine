@@ -11,11 +11,11 @@
     
     <property file="update.properties" />
     
-    <target name="default" depends="get-assembly-ids">
-        <echo message="${bpid-h_contortus}" />
-    </target>
+    <target name="default" depends="backup, clear, run-all"/>
+        
+    <target name="run-all" depends="fasta, gff3, go, gaf, ace-xml"></target>
     
-    <target name="backup-datadir" description="back up data directory">
+    <target name="backup" description="back up data directory">
         <tstamp>
             <format property="TODAY" pattern="MM-dd-yy"/>
         </tstamp>
@@ -28,7 +28,7 @@
         </copy>
     </target>
     
-    <target name="delete-datadir" description="Deletes old data directory">
+    <target name="clear" description="Deletes old data directory">
         <echo>
             Deleting data directory
         </echo>
@@ -44,9 +44,13 @@
         <property file="${assemblies-properties}"/>
     </target>
     
+    <target name="fasta" description="Downloads and processes all gemonic and protein fasta" depends="genomic-fasta, protein-fasta" />
+    
+    <target name="genomic-fasta" description="Downloads genomic fasta" depends="get-all-genomic-fasta"/>
+    
     <target name="get-all-fasta" description="Retrieves newest version of fasta files" depends="get-all-genomic-fasta, get-all-protein-fasta"/>
     
-     <target name="get-all-genomic-fasta" description="Retrieves newest genomic fasta files" depends="get-assembly-ids">
+    <target name="get-all-genomic-fasta" description="Retrieves newest genomic fasta files" depends="get-assembly-ids">
          <loadfile property="genomic-species-list" srcfile="${genomic-fasta-species-file}"/>
          <echo message="Downloading genomic fasta for:"/>
          <echo message="${genomic-species-list}" />
@@ -106,6 +110,8 @@
         
     </target>
 
+    <target name="protein-fasta" description="Downloads and processes all protein fasta" depends="get-all-protein-fasta, process-all-protein-fasta"/>
+    
     <target name="get-all-protein-fasta" description="Retrieves newest protein fasta files" depends="get-assembly-ids">
         <loadfile property="protein-species-list" srcfile="${protein-fasta-species-file}"/>
         <echo message="Downloading proteins fasta for:"/>
@@ -156,6 +162,8 @@
         <ant dir="${protein-fasta-pp-dir}/all" inheritAll="true" />
         
     </target>    
+    
+    <target name="gff3" description="Downloads and processes all gff3s" depends="get-all-gff3s, process-all-gff3s, get-all-gff3-mappings, process-all-gff3-mappings"/>
     
     <target name="get-all-gff3s" depends="get-assembly-ids" description="Retrieves gff3s for all species">
         <loadfile property="gff3-species-list" srcfile="${gff3-species-file}"/>
@@ -238,7 +246,7 @@
         
     </target>
     
-    <target name="convert-all-gff3-mappings" depends="get-assembly-ids" description="Converts all gff3 id mappings into a usable form">
+    <target name="process-all-gff3-mappings" depends="get-assembly-ids" description="Converts all gff3 id mappings into a usable form">
         <loadfile property="gff3-idmap-species-list" srcfile="${gff3-idmap-species-file}"/>
         <echo message="Processing gff3 mappings for:"/>
         <echo message="${gff3-idmap-species-list}" />
@@ -262,6 +270,8 @@
         
     </target>
     
+    <target name="go" depends="get-obo" description="Downloads GO Ontology file"/>
+    
     <target name="get-obo" description="Retrieves GO ontology file">
         <echo> 
             Downloading gene ontology file
@@ -270,6 +280,8 @@
         <mkdir dir="${destdir}"/>
         <get src="${obo-url}" dest="${destdir}" />
     </target>
+    
+    <target name="gaf" description="Downloads and processes Gene association file" depends="get-gaf, process-gaf" />
     
     <target name="get-gaf" description="Retrieves GO association file for all species">
         <echo> 
@@ -292,6 +304,8 @@
         <ant dir="${gaf-pp-dir}" inheritAll="true"/>
         
     </target>
+    
+    <target name="ace-xml" description="Copies and processes all AceDB XML files" depends="get-all-ace-xml, process-all-ace-xml"/>
     
     <target name="get-all-ace-xml" description="Copies all AcdDB XML files in class list">
         <loadfile property="ace-classes-list" srcfile="${ace-classes-file}"/>
@@ -316,7 +330,7 @@
         <property name="input-file" value="${datadir-ace}/${class}/raw/${class}.xml"/>
         <mkdir dir="${datadir-ace}/${class}/final"/>
         <property name="output-file" value="${datadir-ace}/${class}/final/final_${class}.xml"/>
-        <ant dir="${ace-pp-dir}" inheritAll="true"/>
+        <ant dir="${ace-pp-dir}" inheritAll="true" />
     </target>
     
     <target name="help">
