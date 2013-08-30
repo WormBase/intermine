@@ -12,6 +12,8 @@
     <target name="process">
         <echo>
             Processing ${class}
+            Input: ${input-file}
+            Output: ${output-file}
         </echo>
         <antcall target="prep" inheritall="false">
             <param name="input-file" value="${input-file}"/>

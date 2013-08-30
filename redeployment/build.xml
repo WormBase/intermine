@@ -337,10 +337,12 @@
     </target>
     
     <target name="process-ace-xml" description="Processes an AceDB XML file">
-        <property name="input-file" value="${datadir-ace}/${class}/raw/${class}.xml"/>
         <mkdir dir="${datadir-ace}/${class}/final"/>
-        <property name="output-file" value="${datadir-ace}/${class}/final/final_${class}.xml"/>
-        <ant dir="${ace-pp-dir}" inheritAll="true" />
+        <ant dir="${ace-pp-dir}" inheritAll="false" >
+            <property name="input-file" value="${datadir-ace}/${class}/raw/${class}.xml"/>
+            <property name="output-file" value="${datadir-ace}/${class}/final/final_${class}.xml"/>
+            <property name="class" value="${class}"/>
+        </ant>
     </target>
     
     <target name="help">
