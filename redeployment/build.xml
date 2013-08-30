@@ -276,9 +276,9 @@
         <echo> 
             Downloading gene ontology file
         </echo>
-        <property name="destdir" value="${datadir}/go"/>
-        <mkdir dir="${destdir}"/>
-        <get src="${obo-url}" dest="${destdir}" />
+        <property name="destdir-go" value="${datadir}/go"/>
+        <mkdir dir="${destdir-go}"/>
+        <get src="${obo-url}" dest="${destdir-go}" />
     </target>
     
     <target name="gaf" description="Downloads and processes Gene association file" depends="get-gaf, process-gaf" />
@@ -287,9 +287,9 @@
         <echo> 
             Downloading gene association file
         </echo>
-        <property name="destdir" value="${datadir}/go-association/raw"/>
-        <mkdir dir="${destdir}"/>
-        <get src="${gaf-url}" dest="${destdir}" />
+        <property name="destdir-gaf" value="${datadir}/go-association/raw"/>
+        <mkdir dir="${destdir-gaf}"/>
+        <get src="${gaf-url}" dest="${destdir-gaf}" />
     </target>
     
     <target name="process-gaf" description="Processes GO association file">
@@ -316,7 +316,17 @@
     
     <target name="get-ace-xml" description="Copies an AceDB XML file">
         <echo>Getting ${class}.xml</echo>
-        <copy file="${acedb-xml-dir}/${class}.xml" todir="${datadir-ace}/${class}/raw"/>
+        <echo>From: ${ace-xml-dir}</echo>
+        <property name="file" location="${ace-xml-dir}/${class}.xml" />
+       
+        <fail message="Can't find ${file}">
+            <condition>
+                <not><resourcecount count="1">
+                    <fileset dir="${ace-xml-dir}" includes="${class}.xml" />
+                </resourcecount></not>
+            </condition>
+        </fail>
+        <copy todir="${datadir-ace}/${class}/raw" file="${ace-xml-dir}/${class}.xml"/>
     </target>
     
     <target name="process-all-ace-xml">
@@ -336,22 +346,6 @@
     <target name="help">
         <loadfile property="readme" srcfile="${readme-file}" />
         <echo message="${readme}"/>
-    </target>
-    
-    <target name="test">
-        
-        
-        <copy todir=".">
-            <fileset dir="commons-net-3.3">
-                <include name="NOTICE.txt"/>
-            </fileset>    
-        </copy>
-        
-        
-        <echo>
-             
-           
-        </echo>
     </target>
     
 
