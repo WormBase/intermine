@@ -13,7 +13,7 @@
     
     <target name="default" depends="backup, clear, run-all"/>
         
-    <target name="run-all" depends="fasta, gff3, go, gaf, ace-xml"></target>
+    <target name="run-all" depends="fasta, gff3, go, gaf, ace-xml" description="Download and process all file types"/>
     
     <target name="backup" description="back up data directory">
         <tstamp>
