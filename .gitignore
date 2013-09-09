@@ -10,7 +10,6 @@ notes
 
 datadir
 
-# We need genomic_model.xml to have that viewable online
 wormmine/dbmodel/build/*
 
 # Standard patterns
