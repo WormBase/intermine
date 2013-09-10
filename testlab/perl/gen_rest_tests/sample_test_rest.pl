@@ -1,66 +1,83 @@
 #!/usr/bin/perl
 
-######################################################################
-# This is an automatically generated script to run your query.
-# To use it you will require the InterMine Perl client libraries.
-# These can be installed from CPAN, using your preferred client, eg:
-#
-#    sudo cpan Webservice::InterMine
-#
-# For help using these modules, please see these resources:
-#
-#  * http://search.cpan.org/perldoc?Webservice::InterMine
-#       - API reference
-#  * http://search.cpan.org/perldoc?Webservice::InterMine::Cookbook
-#       - A How-To manual
-#  * http://www.intermine.org/wiki/PerlWebServiceAPI
-#       - General Usage
-#  * http://www.intermine.org/wiki/WebService
-#       - Reference documentation for the underlying REST API
-#
-######################################################################
-
 use strict;
 use warnings;
-use Webservice::InterMine ('www.flymine.org/query');
+#use Webservice::InterMine ('http://www.wormbase.org/tools/wormmine');
+use Webservice::InterMine ('http://206.108.125.174:8080/wormmine/service');
 
-my $field = 'organism';
-my $clazz = 'Gene';
-my $model_file_path = 'model.xml';
+#my $clazz = 'Gene';
 
-# Print unicode to standard out
-binmode(STDOUT, 'utf8');
-# Silence warnings when printing null fields
-no warnings ('uninitialized');
+die &usage unless scalar @ARGV >= 3;
 
-my $model = InterMine::Model->new(file => $model_file_path);
-my $cd = $model->get_classdescriptor_by_name($clazz);
+my (
+    $outfile_path, 
+    $ace_map_path,
+    @mapping_file_paths,
+) = @ARGV;
 
-my $service = Webservice::InterMine->get_service;
-my $query = $service->new_query(class => $clazz);
-
-#print $_,"\n" foreach $cd->attributes; # DELETE
-#die;
-
-foreach my $field ( $field ){
-    my $fd = $cd->get_field_by_name($field);
-#    print $fd,"\n";
+open( my $ace_map, $ace_map_path ) or die "$!";
+my %ace_to_im = ();
+<$ace_map>;
+while( <$ace_map> ){
+    next if /^#|^\s*$/;
     
-    die "ERROR: cannot find ".$field." in model" unless $fd;
+    my ($key, $value) = /(.*?)\s*=\s*(\S.*)/;
+    $ace_to_im{$key} = $value;
+}
+#print join("\n",@mapped_fields),"\n";
+close($ace_map);
+
+#my $mapping_file_path = $mapping_file_dir; # REMOVE 
+open( my $outfile, '>'.$outfile_path ) or die "$!";
+
+
+foreach my $mapping_file_path ( @mapping_file_paths ){
+
+    my ($aceclazz) = $mapping_file_path =~ /(\S+)_mapping.properties/;
+    my $clazz = $ace_to_im{$aceclazz} ? $ace_to_im{$aceclazz} : $aceclazz;
     
-    if(     $fd->isa('InterMine::Model::Attribute')){
-        print "$field is an attribute\n";
-        #$query->select($clazz.'.'.$field)->where($field => { isnt => undef});
+    printf $outfile ("%s%s - %s\n",
+      $aceclazz,
+      $ace_to_im{$aceclazz} ? $ace_to_im{$aceclazz} : '',
+      $mapping_file_path);
+
+    open( my $infile, $mapping_file_path ) or die "$!";
+    my @mapped_fields;
+    <$infile>;
+    while( <$infile> ){
+        next if /^#|^\s*$/;
         
-    }elsif( $fd->isa('InterMine::Model::Reference') && 
-            !$fd->isa('InterMine::Model::Collection')){
-        print "$field is a reference\n";
-        #$query->select('primaryIdentifier')->where($field => { isnt => undef} );
+        my ($key, $value) = /(.*?)\s*=\s*(\S.*)/;
+        push @mapped_fields, $key;
     }
-    if($fd->isa('InterMine::Model::Collection')){
-        print "$field is a collection\n";
-    }    
+    #print join("\n",@mapped_fields),"\n";
+    close($infile);
+
+    my $service = Webservice::InterMine->get_service;
+
+    #print $_,"\n" foreach $cd->collections;
+
+    foreach my $field ( @mapped_fields ){
+        my $query = $service->new_query(class => $clazz);
+        $query->select('primaryIdentifier')->where($field => { isnt => undef} );
+        printf $outfile ("%-20s - %s\n", $query->count() > 0 ? 'OK' : 'NO RECORDS FOUND', $field);
+    }
+    print $outfile "\n\n";
+
 }
 
+sub usage{
+<<USAGE;
+Usage:
 
-#print $query->count(),"\n";
+    perl $0 <output file> <ace map file> <mapping file path> [... <mapping file path>]
+
+Generates basic "presence" acceptance tests got a given wormbase-acedb mapping file.
+Covers attributes and references. 
+
+The ace map file maps ace classes to intermine classes.  Example line:
+    Anatomy_term    = AnatomyTerm
+
+Puts results in a single output file.
+USAGE
+}
