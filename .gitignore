@@ -9,6 +9,7 @@ notes
 
 
 datadir
+datadir_old
 
 wormmine/dbmodel/build/*
 

@@ -1,0 +1,198 @@
+	<source name="a_suum-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&a_suum_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP a_suum genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase a_suum chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/a_suum/genomic/" />
+	</source> 
+
+	<source name="b_malayi-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&b_malayi_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP b_malayi genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase b_malayi chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/b_malayi/genomic/" />
+	</source> 
+
+	<source name="b_xylophilus-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&b_xylophilus_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP b_xylophilus genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase b_xylophilus chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/b_xylophilus/genomic/" />
+	</source> 
+
+	<source name="c_angaria-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&c_angaria_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP c_angaria genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase c_angaria chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/c_angaria/genomic/" />
+	</source> 
+
+	<source name="c_brenneri-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&c_brenneri_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP c_brenneri genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase c_brenneri chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/c_brenneri/genomic/" />
+	</source> 
+
+	<source name="c_briggsae-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&c_briggsae_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP c_briggsae genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase c_briggsae chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/c_briggsae/genomic/" />
+	</source> 
+
+	<source name="c_elegans-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&c_elegans_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP c_elegans genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase c_elegans chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/genomic/" />
+	</source> 
+
+	<source name="c_japonica-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&c_japonica_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP c_japonica genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase c_japonica chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/c_japonica/genomic/" />
+	</source> 
+
+	<source name="c_remanei-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&c_remanei_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP c_remanei genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase c_remanei chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/c_remanei/genomic/" />
+	</source> 
+
+	<source name="c_sp5-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&c_sp5_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP c_sp5 genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase c_sp5 chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/c_sp5/genomic/" />
+	</source> 
+
+	<source name="c_sp11-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&c_sp11_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP c_sp11 genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase c_sp11 chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/c_sp11/genomic/" />
+	</source> 
+
+	<source name="h_bacteriophora-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&h_bacteriophora_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP h_bacteriophora genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase h_bacteriophora chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/h_bacteriophora/genomic/" />
+	</source> 
+
+	<source name="h_contortus-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&h_contortus_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP h_contortus genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase h_contortus chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/h_contortus/genomic/" />
+	</source> 
+
+	<source name="m_hapla-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&m_hapla_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP m_hapla genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase m_hapla chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/m_hapla/genomic/" />
+	</source> 
+
+	<source name="m_incognita-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&m_incognita_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP m_incognita genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase m_incognita chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/m_incognita/genomic/" />
+	</source> 
+
+	<source name="p_pacificus-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&p_pacificus_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP p_pacificus genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase p_pacificus chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/p_pacificus/genomic/" />
+	</source> 
+
+	<source name="s_ratti-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&s_ratti_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP s_ratti genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase s_ratti chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/s_ratti/genomic/" />
+	</source> 
+
+	<source name="t_spiralis-genomic-fasta" type="fasta">
+		<property name="fasta.taxonId"         value="&t_spiralis_taxon_id;"/>
+		<property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
+		<property name="fasta.classAttribute"  value="primaryIdentifier"/>
+		<property name="fasta.dataSourceName"  value="WormBase FTP t_spiralis genomic fasta"/>
+		<property name="fasta.dataSetTitle"    value="WormBase t_spiralis chromosome sequence (Fasta)"/> 
+		<property name="fasta.sequenceType"    value="dna"/>
+		<property name="fasta.includes"        value="*.fa*"/>
+		<property name="src.data.dir"          location="&datadir;/fasta/t_spiralis/genomic/" />
+	</source> 
+
