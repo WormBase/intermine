@@ -1,7 +1,10 @@
 #!/usr/bin/perl
 
 use strict;
+use Switch;
 use Template;
+
+my $datadir = '../../../datadir';
 
 my $speciesraw = << "SPECIES";
 <!ENTITY          a_suum_taxon_id "6253">
@@ -26,18 +29,52 @@ SPECIES
 
 my @species = $speciesraw =~ /\s(\w+)_taxon_id/mg;
 
-my $tt = Template->new();
+
+my $tt = Template->new({
+    FILTERS => {
+        'beautify_species' => \&beautify_species_filter
+    }
+});
 
 #print $_."-protein-fasta,\\\n" foreach @species;
 
+my $type = 'gff3';
+
 foreach my $species (@species){
 	my $result;
+    my $template;
+    
+    $type = 'gff3';
+	switch( $type ){
+        case 'genomic' {
+            $template = &gen_genomic_template;
+            $tt->process(\$template, {species => $species}, \$result) || die $tt->error; 
+            print $result;
+        }
+        case 'protein' {
+            $template = &gen_protein_template;
+            $tt->process(\$template, {species => $species}, \$result) || die $tt->error; 
+            print $result;
+        }
+        case 'gff3' {
+            $template = &gen_gff3_template;
+            foreach my $type (qw/gene mrna cds/){
+                $tt->process(\$template, {
+                    species => $species,
+                    type => $type,
+                    typeMapping => -d "$datadir/wormbase-gff3/$species/mapping"
+                    }, \$result) || die $tt->error; 
+            
+            }
+            print $result;
+        }
+	}
+}
 
-    #my $template = &gen_protein_template;
-    my $template = &gen_genomic_template;
-	$tt->process(\$template, {species => $species}, \$result) || die $tt->error; 
-    print $result;
-
+sub beautify_species_filter{
+    my $species = shift;
+    $species =~ s/([^_])_([^_])([^_]+)/uc($1).'. '.uc($2).$3/e;
+    return $species;
 }
 
 # species
@@ -76,3 +113,23 @@ sub gen_protein_template{
 
 TEMPLATE
 }
+
+# species, type, typeMapping = 1 or 0
+sub gen_gff3_template{
+<<TEMPLATE;
+    <source name="[% species %]-gff3-[% type %]" type="wormbase-gff3-core" dump="false">
+        <property name="gff3.taxonId"           value="&[% species %]_taxon_id;"/>
+        <property name="gff3.seqDataSourceName" value="WormBase"/>
+        <property name="gff3.dataSourceName"    value="WormBase"/>
+        <property name="gff3.seqClsName"        value="Chromosome"/>
+        <property name="gff3.dataSetTitle"      value="[% FILTER beautify_species %] [% species %] [% END %] genomic annotations (GFF3 mRNA)"/>
+        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/[% species %]/final"/> 
+        <property name="gff3.allowedClasses"    value="[% type %]"/>
+        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>[% IF IDMapping == 1 %]
+        <property name="gff3.IDMappingFile"     value="&datadir;/wormbase-gff3/[% species %]/mapping/id_mapping.tab"/>[% END %]
+    </source>
+
+TEMPLATE
+}
+
+
