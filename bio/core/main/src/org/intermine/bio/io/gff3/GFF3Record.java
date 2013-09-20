@@ -149,10 +149,10 @@ public class GFF3Record
     private void parseAttribute(String argAttributeString, String line) throws IOException {
         String attributeString = StringEscapeUtils.unescapeHtml4(argAttributeString);
         
-        StringTokenizer sTok = new StringTokenizer(attributeString, ";", false);
+        String[] sTok = attributeString.split("\\\\?;"); 
         
-        while (sTok.hasMoreTokens()) {
-            String attVal = sTok.nextToken().trim();
+        for(int j=0; j<sTok.length; j++) {
+            String attVal = sTok[j].trim();
 
             if (attVal.length() == 0) {
                 continue;
