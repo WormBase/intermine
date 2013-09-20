@@ -4,42 +4,7 @@ cd ..;
 
 cd integrate;
 ant -v -Dsource=\
-a_suum-genomic-fasta,\
-b_malayi-genomic-fasta,\
-b_xylophilus-genomic-fasta,\
-c_angaria-genomic-fasta,\
-c_brenneri-genomic-fasta,\
-c_briggsae-genomic-fasta,\
-c_elegans-genomic-fasta,\
-c_japonica-genomic-fasta,\
-c_remanei-genomic-fasta,\
-c_sp5-genomic-fasta,\
-c_sp11-genomic-fasta,\
-h_bacteriophora-genomic-fasta,\
-h_contortus-genomic-fasta,\
-m_hapla-genomic-fasta,\
-m_incognita-genomic-fasta,\
-p_pacificus-genomic-fasta,\
-s_ratti-genomic-fasta,\
-t_spiralis-genomic-fasta,\
-a_suum-protein-fasta,\
-b_malayi-protein-fasta,\
-b_xylophilus-protein-fasta,\
-c_angaria-protein-fasta,\
-c_brenneri-protein-fasta,\
-c_briggsae-protein-fasta,\
-c_elegans-protein-fasta,\
-c_japonica-protein-fasta,\
-c_remanei-protein-fasta,\
-c_sp5-protein-fasta,\
-c_sp11-protein-fasta,\
-h_bacteriophora-protein-fasta,\
-h_contortus-protein-fasta,\
-m_hapla-protein-fasta,\
-m_incognita-protein-fasta,\
-p_pacificus-protein-fasta,\
-s_ratti-protein-fasta,\
-t_spiralis-protein-fasta\
+wb-acedb-gene\
 >> ../pbuild.log;
 cd ..;
 
