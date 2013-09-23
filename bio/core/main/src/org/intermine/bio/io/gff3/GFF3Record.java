@@ -149,7 +149,7 @@ public class GFF3Record
     private void parseAttribute(String argAttributeString, String line) throws IOException {
         String attributeString = StringEscapeUtils.unescapeHtml4(argAttributeString);
         
-        String[] sTok = attributeString.split("\\\\?;"); 
+        String[] sTok = attributeString.split("(?<!\\\\);"); 
         
         for(int j=0; j<sTok.length; j++) {
             String attVal = sTok[j].trim();

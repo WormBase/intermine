@@ -155,6 +155,11 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        
 	        MappingFileKey[] fields = aceOracle.getMappingFileFields(); 
 	        
+	        for(int i=0; i < fields.length; i++){
+		        System.out.println("JDJDJD:::"+fields[i].getRawKey());
+	        }
+	        System.out.println();System.out.println();
+	        
 	        String ID = null;
 	        String castType = null;
 	        MappingFileKey propKey;
@@ -185,9 +190,9 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        	wmd.debug("Retrieving:["+propKey.getRawKey()+"]");
 	        	String[] queryResults = aceOracle.getFieldValue(fieldName);
 	        	if(queryResults.length == 0){
-				wmd.debug("No results returned, moving on...");
-				continue;
-			}
+					wmd.debug("No results returned, moving on...");
+					continue;
+				}
 
 		        FieldDescriptor fd = classCD.getFieldDescriptorByName(fieldName);
 		        if( fd == null ){

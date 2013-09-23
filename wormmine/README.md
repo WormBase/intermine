@@ -29,6 +29,11 @@ Sample gff3 source:
 	 -->
 	 <property name="gff3.typeMappingFile"	 value="&datadir;/test_gff3/typeMapping.tab"/>
 
+	<!-- 
+	Maps type names from GFF3 into recognized InterMine class names
+	Format: key \t value. All other columns ignored 
+	-->
+	<property name="gff3.typeMappingFile"    value="&datadir;/wormbase-gff3/mapping/typeMapping.tab"/>
     </source>
 
 

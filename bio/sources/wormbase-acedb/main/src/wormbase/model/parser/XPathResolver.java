@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Properties;
 import java.util.HashMap;
 import java.util.Vector;
@@ -24,14 +25,14 @@ import net.sf.saxon.s9api.*;
 public class XPathResolver {
 
     private WMDebug wmd;
-    private HashMap<MappingFileKey, XPathExecutable> key2Exec;
+    private LinkedHashMap<MappingFileKey, XPathExecutable> key2Exec;
     private XPathCompiler xpcomp;
     private String classPID;
     private FileWriter rejectsFW = null;
     private Processor saxonProcessor;
     private MappingFileKey PIDKey = null;
     private XdmNode currentXMLItem;
-    private HashMap<String, MappingFileKey> field2Key;
+    private LinkedHashMap<String, MappingFileKey> field2Key;
     
 	/**
 	 * Parses the mapping file and resolves it's mappings on arbitrary chunks of XML.
@@ -41,8 +42,8 @@ public class XPathResolver {
 		this.wmd = wmd;
 		saxonProcessor = new Processor(false);
 		xpcomp = saxonProcessor.newXPathCompiler();
-		field2Key = new HashMap<String, MappingFileKey>();
-		key2Exec = new HashMap<MappingFileKey, XPathExecutable>();
+		field2Key = new LinkedHashMap<String, MappingFileKey>();
+		key2Exec = new LinkedHashMap<MappingFileKey, XPathExecutable>();
 		
 		createDataMapping(mappingFilePath);
 	}
@@ -70,8 +71,17 @@ public class XPathResolver {
 	 */
 	private void createDataMapping(String mappingFile ) throws Exception{
         Properties dataMapping = new Properties();
+        FileReader mappingFR = new FileReader(mappingFile);
+        
+        /*
+         * PROBLEM:
+         * Properties type is map, doesn't save order.
+         * Create parallel array to preserve order, use to will in linkedHashMaps defined above
+         * 
+         */
+        
     	try {
-			dataMapping.load(new FileReader(mappingFile));
+			dataMapping.load(mappingFR);
 		} catch (FileNotFoundException e) {
 			wmd.debug("ERROR: "+mappingFile+" not found");
 			throw e;

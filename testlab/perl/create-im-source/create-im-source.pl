@@ -16,8 +16,8 @@ my $speciesraw = << "SPECIES";
 <!ENTITY       c_elegans_taxon_id "6239">
 <!ENTITY      c_japonica_taxon_id "281687">
 <!ENTITY       c_remanei_taxon_id "31234">
-<!ENTITY           c_sp5_taxon_id "unknown">
-<!ENTITY          c_sp11_taxon_id "unknown">
+<!ENTITY           c_sp5_taxon_id "-5">
+<!ENTITY          c_sp11_taxon_id "-11">
 <!ENTITY h_bacteriophora_taxon_id "37862">
 <!ENTITY     h_contortus_taxon_id "6289">
 <!ENTITY         m_hapla_taxon_id "6305">

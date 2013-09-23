@@ -55,7 +55,17 @@
     	<collection name="referenceAllele" referenced-type="Allele" />
     </class>
 	<class name="CDS" is-interface="true">
+		<attribute name="status" type="java.lang.String"/>
+		<attribute name="method" type="java.lang.String"/>
+		<attribute name="startNotFound" type="java.lang.String"/>
+		<attribute name="endNotFound" type="java.lang.String"/>
+		<attribute name="remark" type="java.lang.String"/>
 		<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsCDSs" />
+		<collection name="oligoSet" referenced-type="OligoSet" reverse-reference="overlapsCDS"/>
+		<collection name="expressionPatterns" referenced-type="ExperssionPattern" reverse-reference="CDSs"/>
+		<collection name="RNAi" referenced-type="RNAi" reverse-reference="predictedGeneCDS"/>
+		<collection name="variations" referenced-type="Allele" reverse-reference="affectsCDS"/>
+		<collection name="RNASeqFPKM" referenced-type="LifeStage" />
 	</class>
 	<class name="BioEntity" is-interface="true">
 		<attribute name="lastUpdated" type="java.util.Date"/>
@@ -117,6 +127,7 @@
 		<collection name="GOTerms" referenced-type="OntologyTerm" />
 		<collection name="anatomyTerms" referenced-type="AnatomyTerm" />
 		<collection name="lifeStages" referenced-type="LifeStage" reverse-reference="expressionPatterns"/>
+		<collection name="CDSs" referenced-type="CDS" reverse-reference="experssionPatterns"/>
 	</class>
 	<class name="AnatomyTerm" is-interface="true">
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
@@ -176,6 +187,7 @@
 	</class>
 	<class name="RNAi" extends="BioEntity" is-interface="true">
 		<collection name="inhibitsGene" referenced-type="Gene" reverse-reference="RNAiResult"/>
+		<collection name="predictedGeneCDS" referenced-type="RNAi" reverse-reference="RNAi"/>
 	</class>
 	<class name="Transgene" extends="SequenceFeature" is-interface="true">
 		<collection name="drivenByGenes" referenced-type="Gene" reverse-reference="drivesTransgenes"/>
@@ -191,5 +203,6 @@
 	<class name="OligoSet" is-interface="true">
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
 		<collection name="overlapsTranscript" referenced-type="Transcript" reverse-reference="oligoSet"/>
+		<collection name="overlapsCDS" referenced-type="CDS" reverse-reference="oligoSet"/>
 	</class>
 </classes>

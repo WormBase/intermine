@@ -4,7 +4,7 @@ cd ..;
 
 cd integrate;
 ant -v -Dsource=\
-wb-acedb-gene\
+c_elegans-gff3-cds\
 >> ../pbuild.log;
 cd ..;
 
