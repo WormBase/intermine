@@ -70,7 +70,7 @@ public class XPathResolver {
 	 * @throws Exception
 	 */
 	private void createDataMapping(String mappingFile ) throws Exception{
-        Properties dataMapping = new LinkedProperties();
+        LinkedProperties dataMapping = new LinkedProperties();
         FileReader mappingFR = new FileReader(mappingFile);
         
         /*
