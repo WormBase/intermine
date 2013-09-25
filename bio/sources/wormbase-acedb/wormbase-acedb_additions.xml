@@ -62,9 +62,8 @@
 		<attribute name="remark" type="java.lang.String"/>
 		<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsCDSs" />
 		<collection name="oligoSet" referenced-type="OligoSet" reverse-reference="overlapsCDS"/>
-		<collection name="expressionPatterns" referenced-type="ExperssionPattern" reverse-reference="CDSs"/>
+		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="CDSs"/>
 		<collection name="RNAi" referenced-type="RNAi" reverse-reference="predictedGeneCDS"/>
-		<collection name="variations" referenced-type="Allele" reverse-reference="affectsCDS"/>
 		<collection name="RNASeqFPKM" referenced-type="LifeStage" />
 	</class>
 	<class name="BioEntity" is-interface="true">
@@ -80,7 +79,11 @@
 	</class>
 	<class name="Protein" is-interface="true">
 		<attribute name="geneName" type="java.lang.String"/>
+		<attribute name="description" type="java.lang.String"/>
+		<attribute name="live" type="java.lang.String"/>
+		<attribute name="remark" type="java.lang.String"/>
 		<collection name="motifs" referenced-type="Motif" reverse-reference="proteins"/>
+		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="proteins"/>
 	</class>
 	<class name="Motif" extends="BioEntity" is-interface="true">
 		<collection name="proteins" referenced-type="Protein" reverse-reference="motifs"/>
@@ -115,6 +118,7 @@
 	<class name="Phenotype" extends="OntologyTerm" is-interface="true">
 		<collection name="observedIn" referenced-type="BioEntity" reverse-reference="phenotypesObserved" />
 		<collection name="notObservedIn" referenced-type="BioEntity" reverse-reference="phenotypesNotObserved" />
+		<collection name="processes" referenced-type="Process" reverse-reference="observedIn" />
 	</class>
 	<class name="ExpressionPattern" is-interface="true">
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
@@ -125,9 +129,11 @@
 		<collection name="genesExpressed" referenced-type="Gene" reverse-reference="expressionPatterns" />
 		<!--<collection name="GOTerms" referenced-type="GOTerm" />-->
 		<collection name="GOTerms" referenced-type="OntologyTerm" />
-		<collection name="anatomyTerms" referenced-type="AnatomyTerm" />
-		<collection name="lifeStages" referenced-type="LifeStage" reverse-reference="expressionPatterns"/>
-		<collection name="CDSs" referenced-type="CDS" reverse-reference="experssionPatterns"/>
+		<collection name="expressedInAnatomyTerm" referenced-type="AnatomyTerm" />
+		<collection name="CDSs" referenced-type="CDS" reverse-reference="expressionPatterns"/>
+		<collection name="expressedInLifeStage" referenced-type="LifeStage" reverse-reference="expressionPatterns"/>
+		<collection name="proteins" referenced-type="Protein" reverse-reference="expressionPatterns"/>
+		<collection name="homologousProteins" referenced-type="Protein" />
 	</class>
 	<class name="AnatomyTerm" is-interface="true">
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
@@ -139,12 +145,15 @@
 		<collection name="attributeOf" referenced-type="ExpressionPattern"/>
 		<collection name="lifeStages" referenced-type="LifeStage" reverse-reference="anatomyTerms"/>
 		<collection name="expressionClusters" referenced-type="ExpressionCluster" reverse-reference="anatomyTerms"/>
+		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="expressedInAnatomyTerm"/>
 	</class>
 	<class name="ExpressionCluster" is-interface="true">
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
 		<attribute name="description" type="java.lang.String"/>
 		<attribute name="algorithm" type="java.lang.String"/>
 		<attribute name="regulatedByTreatment" type="java.lang.String"/>
+		<attribute name="remark" type="java.lang.String"/>
+		<reference name="organism" referenced-type="Organism"/>
 		<collection name="regulatedByGene" referenced-type="Gene" reverse-reference="regulatesExprCluster"/>
 		<collection name="regulatedByMolecule" referenced-type="Molecule" reverse-reference="regulatesExprCluster"/>
 		<collection name="genes" referenced-type="Gene" reverse-reference="expressionClusters"/>
@@ -160,6 +169,7 @@
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
 		<collection name="expressionClusters" referenced-type="ExpressionCluster" reverse-reference="processes"/>
 		<collection name="genes" referenced-type="Gene" reverse-reference="processes"/>
+		<collection name="observedIn" referenced-type="Phenotype" reverse-reference="processes" />
 	</class>
 	<class name="LifeStage" is-interface="true">
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
@@ -172,7 +182,7 @@
 		<collection name="followedBy" referenced-type="LifeStage" />
 		<collection name="subStages" referenced-type="LifeStage" />
 		<collection name="anatomyTerms" referenced-type="AnatomyTerm" reverse-reference="lifeStages"/>
-		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="lifeStages"/>
+		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="expressedInLifeStage"/>
 		<collection name="expressionClusters" referenced-type="ExpressionCluster" reverse-reference="lifeStages"/>
 	</class>
 	<class name="Sequence" extends="BioEntity" is-interface="true">
@@ -187,7 +197,7 @@
 	</class>
 	<class name="RNAi" extends="BioEntity" is-interface="true">
 		<collection name="inhibitsGene" referenced-type="Gene" reverse-reference="RNAiResult"/>
-		<collection name="predictedGeneCDS" referenced-type="RNAi" reverse-reference="RNAi"/>
+		<collection name="predictedGeneCDS" referenced-type="CDS" reverse-reference="RNAi"/>
 	</class>
 	<class name="Transgene" extends="SequenceFeature" is-interface="true">
 		<collection name="drivenByGenes" referenced-type="Gene" reverse-reference="drivesTransgenes"/>
