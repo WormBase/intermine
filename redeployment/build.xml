@@ -305,7 +305,7 @@
         
     </target>
     
-    <target name="ace-xml" description="Copies and processes all AceDB XML files" depends="get-all-ace-xml, process-all-ace-xml"/>
+    <target name="ace-xml" description="Copies and processes all Ace types in ace-classes-file" depends="get-all-ace-xml, process-all-ace-xml"/>
     
     <target name="get-all-ace-xml" description="Copies all AcdDB XML files in class list">
         <loadfile property="ace-classes-list" srcfile="${ace-classes-file}"/>
