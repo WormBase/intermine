@@ -1,12 +1,7 @@
-cd dbmodel;
-ant clean build-db -v > ../pbuild.log;  
-cd ..;
+../bio/scripts/project_build -v -b -a \
+'a_suum-gff3-cds,c_sp11-gff3-gene'\
+ localhost wormmine_dump
 
-cd integrate;
-ant -v -Dsource=\
-c_elegans-gff3-cds\
->> ../pbuild.log;
-cd ..;
 
 #cd postprocess;
 #ant;

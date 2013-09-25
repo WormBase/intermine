@@ -170,6 +170,7 @@
 		<collection name="expressionClusters" referenced-type="ExpressionCluster" reverse-reference="processes"/>
 		<collection name="genes" referenced-type="Gene" reverse-reference="processes"/>
 		<collection name="observedIn" referenced-type="Phenotype" reverse-reference="processes" />
+		<collection name="lifeStages" referenced-type="LifeStage" reverse-reference="processes" />
 	</class>
 	<class name="LifeStage" is-interface="true">
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
@@ -184,6 +185,7 @@
 		<collection name="anatomyTerms" referenced-type="AnatomyTerm" reverse-reference="lifeStages"/>
 		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="expressedInLifeStage"/>
 		<collection name="expressionClusters" referenced-type="ExpressionCluster" reverse-reference="lifeStages"/>
+		<collection name="processes" referenced-type="Process" reverse-reference="lifeStages" />
 	</class>
 	<class name="Sequence" extends="BioEntity" is-interface="true">
 		<collection name="genes" referenced-type="Gene" reverse-reference="otherSequence"/>
