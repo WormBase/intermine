@@ -16,7 +16,7 @@ import javax.xml.transform.sax.SAXSource;
 import javax.xml.xpath.*;
 
 import org.apache.commons.lang.StringUtils;
-import org.intermine.bio.dataconversion.MappingFileKey;
+import org.intermine.bio.dataconversion.*;
 import org.xml.sax.InputSource;
 
 import net.sf.saxon.s9api.*;
@@ -70,7 +70,7 @@ public class XPathResolver {
 	 * @throws Exception
 	 */
 	private void createDataMapping(String mappingFile ) throws Exception{
-        Properties dataMapping = new Properties();
+        Properties dataMapping = new LinkedProperties();
         FileReader mappingFR = new FileReader(mappingFile);
         
         /*
