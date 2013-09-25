@@ -329,14 +329,14 @@
         <copy todir="${datadir-ace}/${class}/raw" file="${ace-xml-dir}/${class}.xml"/>
     </target>
     
-    <target name="process-all-ace-xml">
+    <target name="process-all-ace-xml" description="Processes all AceDB XML files">
         <loadfile property="ace-classes-list" srcfile="${ace-classes-file}"/>
         <echo message="Processing the following ace XML:"/>
         <echo message="${ace-classes-list}" />
         <foreach list="${ace-classes-list}" target="process-ace-xml" param="class" delimiter="${line.separator}" inheritall="true" />
     </target>
     
-    <target name="process-ace-xml" description="Processes an AceDB XML file">
+    <target name="process-ace-xml">
         <mkdir dir="${datadir-ace}/${class}/final"/>
         <ant dir="${ace-pp-dir}" inheritAll="false" >
             <property name="input-file" value="${datadir-ace}/${class}/raw/${class}.xml"/>

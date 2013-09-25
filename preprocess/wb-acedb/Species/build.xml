@@ -12,7 +12,7 @@
         <echo>
             Nothing to be done here
         </echo>
-        
+        <copy file="${input-file}" tofile="${output-file}"/>
     </target>
     
     <target name="purify">
