@@ -42,6 +42,7 @@
 		<collection name="drivesTransgenes" referenced-type="Transgene" reverse-reference="drivenByGenes"/>
 		<collection name="transgeneProducts" referenced-type="Transgene" reverse-reference="reporterGenes"/>
 		<collection name="processes" referenced-type="Process" reverse-reference="genes"/>
+		<collection name="homologs" referenced-type="Homolog" reverse-reference="gene"/>
 	</class>
     <class name="Transcript" is-interface="true">
         <attribute name="method" type="java.lang.String"/>
@@ -231,5 +232,14 @@
 	</class>
 	<class name="Pseudogene" extends="SequenceFeature" is-interface="true">
 		<collection name="RNAis" referenced-type="RNAi" reverse-reference="inhibitsPseudogene"/>
+	</class>
+	<class name="Homolog" is-interface="true">
+		<attribute name="type" type="java.lang.String"/>
+		<reference name="gene" referenced-type="Gene" reverse-reference="homologs"/>
+		<reference name="homolog" referenced-type="Gene"/>
+		<collection name="fromAnalysis" referenced-type="Analysis"/>
+	</class>
+	<class name="Analysis" is-interface="true">
+		<attribute name="name" type="java.lang.String"/>
 	</class>
 </classes>

@@ -11,6 +11,8 @@ import java.util.LinkedHashMap;
 import java.util.Properties;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.xpath.*;
@@ -33,6 +35,7 @@ public class XPathResolver {
     private MappingFileKey PIDKey = null;
     private XdmNode currentXMLItem;
     private LinkedHashMap<String, MappingFileKey> field2Key;
+    private HashMap<String, HashMap<String, XPathExecutable>> proxyMap = null;
     
 	/**
 	 * Parses the mapping file and resolves it's mappings on arbitrary chunks of XML.
@@ -44,6 +47,7 @@ public class XPathResolver {
 		xpcomp = saxonProcessor.newXPathCompiler();
 		field2Key = new LinkedHashMap<String, MappingFileKey>();
 		key2Exec = new LinkedHashMap<MappingFileKey, XPathExecutable>();
+		proxyMap = new HashMap<String, HashMap<String, XPathExecutable>>();
 		
 		createDataMapping(mappingFilePath);
 	}
@@ -94,7 +98,8 @@ public class XPathResolver {
     	wmd.debug("=== Mapping file entries ===");
         String rawPropKey;
         
-        // fill mapping file hash
+        Vector<MappingFileKey> keyList = new Vector<MappingFileKey>();
+        // fill mapping file vector
         while( dataPathEnum.hasMoreElements() ){
         	rawPropKey = (String) dataPathEnum.nextElement(); // ex: "symbol"
         	if(rawPropKey.length() == 0){
@@ -102,19 +107,27 @@ public class XPathResolver {
         	}
         	
         	MappingFileKey propKey = new MappingFileKey(rawPropKey);
-        	
         	wmd.debug("=== "+propKey.getRawKey()+" ===");
         	wmd.debug("cast type: "+propKey.getCastType());
-        	wmd.debug("datapath: "+propKey.getDataPath());
-
-        	String xpathQuery = dataMapping.getProperty(rawPropKey); // ex: "/Transcript/text()[1]"
+        	wmd.debug("datapath: "+propKey.getField());
         	
-        	// The XPath object compiles the XPath expression
-        	XPathExecutable xpexec = xpcomp.compile( xpathQuery );
-	        
-	        field2Key.put(propKey.getDataPath(),propKey);
-	        key2Exec.put(propKey, xpexec);
+        	if(propKey.hasSubField()){ // we gots us a proxy class
+        		String proxyName = propKey.getField();
+        		if(!proxyMap.containsKey(proxyName)){
+        			proxyMap.put(proxyName, new HashMap<String, XPathExecutable>());
+        		}
+     			wmd.debug("proxy: "+proxyName);
+     			proxyMap.get(proxyName).put(
+        				propKey.getSubField(), xpcomp.compile(dataMapping.getProperty(rawPropKey)));
+        	}else{
+		        field2Key.put(propKey.getField(),propKey);
+		        key2Exec.put(propKey, xpcomp.compile(dataMapping.getProperty(rawPropKey)));
+        		
+        	}
+        	
+        	
         }
+        
     	wmd.debug("=== ==================== ===");
 	}
 	
@@ -163,6 +176,10 @@ public class XPathResolver {
 		}else{
 			return null;
 		}
+	}
+	
+	public HashMap<String, HashMap<String, XPathExecutable>> getProxyMapping(){
+		return proxyMap;
 	}
 
 	/**

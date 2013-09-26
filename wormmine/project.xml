@@ -1171,6 +1171,8 @@
           <property name="rejects.file" 
               value="&build_output;/wormbase-acedb-Gene-rejects.xml"/>
           <property name="data.set" value="AceDB XML (Gene)"/>
+          
+          <property name="debug" value="true" />
       </source>
       
       <!-- LifeStage -->

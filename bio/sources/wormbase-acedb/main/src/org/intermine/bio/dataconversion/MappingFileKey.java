@@ -7,9 +7,11 @@ public class MappingFileKey {
 
 	private Pattern paransB4XPath;
 	private String castType = null;
-	private String dataPath = null;
+	private String field = null;
 	private String rawKey	= null;
 	private boolean forcedBool = false;
+	private boolean hasSubField = false; // true if field stores value(s) in linked object
+	private String subField = null;
 	
 	/**
 	 * This class is used as a key in the hash representing mapping files.
@@ -17,9 +19,10 @@ public class MappingFileKey {
 	 */
 	public MappingFileKey(String mappingFileKey) {
 		rawKey = mappingFileKey;
+		String unparsedKey = mappingFileKey;
 		
 		// Is this field type casted?
-		// (castType) xpath
+		// (castType) field
 		paransB4XPath  = Pattern.compile("\\((.*)\\)\\s*");
         Matcher typeCastMatcher = paransB4XPath.matcher(mappingFileKey);
      	if(typeCastMatcher.find()){
@@ -27,28 +30,29 @@ public class MappingFileKey {
     		if( matchedText != null && matchedText.length()!=0 ){
     			castType = matchedText;
     		}
-	     	dataPath = mappingFileKey.substring(typeCastMatcher.end());
+	     	field = mappingFileKey.substring(typeCastMatcher.end());
     	}else{
-    		dataPath = mappingFileKey;
+    		field = mappingFileKey;
     	}
      	
      	// Is this field forced boolean?
      	// if.xpath
-     	Pattern strB4Dot = Pattern.compile("(.*?)\\.(.*)");
-     	Matcher fNMatcher = strB4Dot.matcher(dataPath);
-     	if( fNMatcher.find() ){
-	        String prefix = fNMatcher.group(1);
-	        if(prefix.equalsIgnoreCase("if")){
-	        	dataPath = fNMatcher.group(2);
-	        	forcedBool = true;
-	        }else{
-//	        	wmd.debug("prefix '"+prefix+"' ignored on '"+dataPath+"'");
-	        	dataPath = fNMatcher.group(2);
-	        	
-	        }
-     		
+     	String boolTypeRegex = "^\\s*if\\.";
+     	if(Pattern.compile(boolTypeRegex).matcher(field).find()){
+     		field = field.replaceFirst(boolTypeRegex,"");
+     		forcedBool = true;
      	}
-	}
+
+     	// Is this field forced boolean?
+     	// if.xpath
+     	Pattern strB4Dot = Pattern.compile("(.*?)\\.(.*)");
+     	Matcher fNMatcher = strB4Dot.matcher(field);
+     	if( fNMatcher.find() ){
+	        field = fNMatcher.group(1);
+        	hasSubField = true;
+        	subField = fNMatcher.group(2);
+     	}
+}
 	
     /**
      * Gets cast type from property key if exists aka: (Gene)Datapath
@@ -59,8 +63,8 @@ public class MappingFileKey {
 		return castType;
 	}
 	
-	public String getDataPath(){
-		return dataPath;
+	public String getField(){
+		return field;
 	}
 	
 	public String getRawKey(){
@@ -69,6 +73,14 @@ public class MappingFileKey {
 	
 	public boolean isForcedBool(){
 		return forcedBool;
+	}
+	
+	public boolean hasSubField(){
+		return hasSubField;
+	}
+	
+	public String getSubField(){
+		return subField;
 	}
 	
 	public boolean equals(MappingFileKey m){

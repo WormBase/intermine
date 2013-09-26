@@ -128,8 +128,6 @@ public class WormbaseAcedbConverter extends BioFileConverter
 
 		FileParser fp = new FileParser(reader);
     	
-        
-	        
     	// foreach XML string
     	String xmlChunk;
     	int count=0; // 
@@ -143,7 +141,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 //    			continue;
 //    		}
     		
-    		try{
+   			try{
     			aceOracle.setXML(xmlChunk);
     		}catch(IOException e){
     			continue;
@@ -156,16 +154,15 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        MappingFileKey[] fields = aceOracle.getMappingFileFields(); 
 	        
 	        for(int i=0; i < fields.length; i++){
-		        System.out.println("JDJDJD:::"+fields[i].getRawKey());
+		        //System.out.println("JDJDJD:::"+fields[i].getRawKey());
 	        }
-	        System.out.println();System.out.println();
+	        //System.out.println();System.out.println();
 	        
 	        String ID = null;
 	        String castType = null;
 	        MappingFileKey propKey;
 	        boolean firstPass = true;
 	        
-	        // ===================== my place
 	        
 	        // foreach mapping file key, extra first loop adds the PID
 	        // Same PID added twice, overwrites self
@@ -178,13 +175,14 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        				getClassPIDField(classCD.getSimpleName()),
 	        				classCD.getSimpleName(), 
 	        				keyFilePath));
-	        		wmd.debug("first pass: setting key to "+propKey.getDataPath()); 
+	        		wmd.debug("first pass: setting key to "+propKey.getField()); 
 	        	}else{
 	        		propKey = fields[i];
 	        	}
 	        	
 	        	
-			    String fieldName = propKey.getDataPath();
+	        	
+			    String fieldName = propKey.getField();
 	        	wmd.debug("fieldname="+fieldName);
 	        	
 	        	wmd.debug("Retrieving:["+propKey.getRawKey()+"]");
@@ -194,10 +192,13 @@ public class WormbaseAcedbConverter extends BioFileConverter
 					continue;
 				}
 
+	        	
+	        	
 		        FieldDescriptor fd = classCD.getFieldDescriptorByName(fieldName);
 		        if( fd == null ){
 		        	throw new Exception(classCD.getName()+"."+fieldName+" not found in model");
 		        }
+		        
 		        
 		        if(fd.isAttribute()){
 	        	
@@ -298,8 +299,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 			        		}
 				        }
 		        	}else{
-		        		throw new Exception(propKey.getDataPath()+" contains a '.', "+
-		        				"but is not a reference or collection");
+		        		throw new Exception(propKey.getField()+" cannot be categorized");
 		        	}
 		        }
         		firstPass = false;
@@ -337,6 +337,8 @@ public class WormbaseAcedbConverter extends BioFileConverter
     	
     }
     
+    
+    
     /**
      * Gets ID of referenced object if exists.  It it doesn't exist, creates it
      * and returns ID of newly created object.
@@ -369,7 +371,7 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	
 	/**
 	 * Stores item in working buffer, overwriting any existing pairs.  Buffer
-	 * is flushed once all items are dealt with.
+	 * is flushed once all records have been parsed.
 	 * @param className
 	 * @param pID
 	 * @param item
