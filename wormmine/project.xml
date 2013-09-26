@@ -164,6 +164,7 @@
         <property name="src.data.dir"          location="&datadir;/fasta/c_remanei/genomic/" />
     </source> 
 
+    <!--
     <source name="c_sp5-genomic-fasta" type="fasta">
         <property name="fasta.taxonId"         value="&c_sp5_taxon_id;"/>
         <property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
@@ -185,6 +186,7 @@
         <property name="fasta.includes"        value="*.fa*"/>
         <property name="src.data.dir"          location="&datadir;/fasta/c_sp11/genomic/" />
     </source> 
+    -->
 
     <source name="h_bacteriophora-genomic-fasta" type="fasta">
         <property name="fasta.taxonId"         value="&h_bacteriophora_taxon_id;"/>
@@ -391,6 +393,7 @@
         <property name="fasta.PIDPrefix"        value="&c_remanei_protein_prefix;"/>
     </source>
 
+    <!--
     <source name="c_sp5-protein-fasta" type="fasta">
         <property name="fasta.taxonId"          value="&c_sp5_taxon_id;"/>
         <property name="fasta.className"        value="org.intermine.model.bio.Protein"/>
@@ -418,6 +421,7 @@
             value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
         <property name="fasta.PIDPrefix"        value="&c_sp11_protein_prefix;"/>
     </source>
+    -->
 
     <source name="h_bacteriophora-protein-fasta" type="fasta">
         <property name="fasta.taxonId"          value="&h_bacteriophora_taxon_id;"/>
@@ -802,6 +806,7 @@
         <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
     </source>
 
+    <!--
     <source name="c_sp5-gff3-gene" type="wormbase-gff3-core" dump="false">
         <property name="gff3.taxonId"           value="&c_sp5_taxon_id;"/>
         <property name="gff3.seqDataSourceName" value="WormBase"/>
@@ -867,7 +872,8 @@
         <property name="gff3.allowedClasses"    value="cds"/>
         <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
     </source>
-
+    -->
+      
     <source name="h_bacteriophora-gff3-gene" type="wormbase-gff3-core" dump="false">
         <property name="gff3.taxonId"           value="&h_bacteriophora_taxon_id;"/>
         <property name="gff3.seqDataSourceName" value="WormBase"/>
