@@ -53,6 +53,7 @@
 		<collection name="RNASeqFPKM" referenced-type="LifeStage" />
 		<collection name="associatedFeatures" referenced-type="Feature" reverse-reference="associatedTranscripts"/>
     	<collection name="referenceAllele" referenced-type="Allele" />
+    	<collection name="RNAis" referenced-type="RNAi" reverse-reference="inhibitsTranscript"/>
     </class>
 	<class name="CDS" is-interface="true">
 		<attribute name="status" type="java.lang.String"/>
@@ -63,7 +64,7 @@
 		<collection name="affectedByAlleles" referenced-type="Allele" reverse-reference="affectsCDSs" />
 		<collection name="oligoSet" referenced-type="OligoSet" reverse-reference="overlapsCDS"/>
 		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="CDSs"/>
-		<collection name="RNAi" referenced-type="RNAi" reverse-reference="predictedGeneCDS"/>
+		<collection name="RNAi" referenced-type="RNAi" reverse-reference="inhibitsPredictedGene"/>
 		<collection name="RNASeqFPKM" referenced-type="LifeStage" />
 	</class>
 	<class name="BioEntity" is-interface="true">
@@ -97,9 +98,9 @@
 		<attribute name="KOAllele" type="java.lang.String" />
 		<attribute name="NBPAllele" type="java.lang.String" />
 		<attribute name="nemaAllele" type="java.lang.String" />
-		<attribute name="amber_UAG" type="java.lang.String" />
-		<attribute name="ochre_UAA" type="java.lang.String" />
-		<attribute name="opal_UGA" type="java.lang.String" />
+		<attribute name="amberUAG" type="java.lang.String" />
+		<attribute name="ochreUAA" type="java.lang.String" />
+		<attribute name="opalUGA" type="java.lang.String" />
 		<attribute name="donorSpliceSite" type="java.lang.String" />
 		<attribute name="acceptorSpliceSite" type="java.lang.String" />
 		<collection name="affectsGenes" referenced-type="Gene" reverse-reference="affectedByAlleles" />
@@ -111,6 +112,7 @@
 	<class name="Laboratory" is-interface="true">
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
 		<collection name="variations" referenced-type="Allele" reverse-reference="fromLabs" />
+		<collection name="RNAis" referenced-type="RNAi" reverse-reference="laboratories"/>
 	</class>
 	<class name="OntologyTerm" is-interface="true">
 		<collection name="children" referenced-type="OntologyTerm"/>
@@ -198,8 +200,18 @@
 		<collection name="associatedTranscripts" referenced-type="Transcript" reverse-reference="associatedFeatures"/>
 	</class>
 	<class name="RNAi" extends="BioEntity" is-interface="true">
+		<attribute name="DNA" type="java.lang.String"/>
+		<attribute name="uniquelyMapped" type="java.lang.String"/>
+		<attribute name="remark" type="java.lang.String"/>
+		<attribute name="method" type="java.lang.String"/>
+		<reference name="lifeStage" referenced-type="LifeStage" />
+		<reference name="strain" referenced-type="Strain" />
 		<collection name="inhibitsGene" referenced-type="Gene" reverse-reference="RNAiResult"/>
-		<collection name="predictedGeneCDS" referenced-type="CDS" reverse-reference="RNAi"/>
+		<collection name="inhibitsPredictedGene" referenced-type="CDS" reverse-reference="RNAi"/>
+		<collection name="laboratories" referenced-type="Laboratory" reverse-reference="RNAis"/>
+		<collection name="inhibitsTranscript" referenced-type="Transcript" reverse-reference="RNAis"/>
+		<collection name="inhibitsPseudogene" referenced-type="Pseudogene" reverse-reference="RNAis"/>
+		
 	</class>
 	<class name="Transgene" extends="SequenceFeature" is-interface="true">
 		<collection name="drivenByGenes" referenced-type="Gene" reverse-reference="drivesTransgenes"/>
@@ -216,5 +228,8 @@
 		<attribute name="primaryIdentifier" type="java.lang.String"/>
 		<collection name="overlapsTranscript" referenced-type="Transcript" reverse-reference="oligoSet"/>
 		<collection name="overlapsCDS" referenced-type="CDS" reverse-reference="oligoSet"/>
+	</class>
+	<class name="Pseudogene" extends="SequenceFeature" is-interface="true">
+		<collection name="RNAis" referenced-type="RNAi" reverse-reference="inhibitsPseudogene"/>
 	</class>
 </classes>

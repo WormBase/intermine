@@ -33,9 +33,11 @@ open( my $outfile, '>'.$outfile_path ) or die "$!";
 
 foreach my $mapping_file_path ( @mapping_file_paths ){
 
-    my ($aceclazz) = $mapping_file_path =~ /(\S+)_mapping.properties/;
+    my ($aceclazz) = $mapping_file_path =~ m|([^/\s]+)_mapping.properties|;
     my $clazz = $ace_to_im{$aceclazz} ? $ace_to_im{$aceclazz} : $aceclazz;
     
+    print "class=".$clazz."\n"; # DELETE
+
     printf $outfile ("%s%s - %s\n",
       $aceclazz,
       $ace_to_im{$aceclazz} ? $ace_to_im{$aceclazz} : '',
@@ -47,7 +49,7 @@ foreach my $mapping_file_path ( @mapping_file_paths ){
     while( <$infile> ){
         next if /^#|^\s*$/;
         
-        my ($key, $value) = /(.*?)\s*=\s*(\S.*)/;
+        my ($key, $value) = /(?:\S+\.|\(\S+\)\s*)?(.*?)\s*=\s*(\S.*)/;
         push @mapped_fields, $key;
     }
     #print join("\n",@mapped_fields),"\n";
@@ -58,9 +60,15 @@ foreach my $mapping_file_path ( @mapping_file_paths ){
     #print $_,"\n" foreach $cd->collections;
 
     foreach my $field ( @mapped_fields ){
-        my $query = $service->new_query(class => $clazz);
-        $query->select('primaryIdentifier')->where($field => { isnt => undef} );
-        printf $outfile ("%-20s - %s\n", $query->count() > 0 ? 'OK' : 'NO RECORDS FOUND', $field);
+        my $query;
+        eval{
+            $query = $service->new_query(class => $clazz);
+            $query->select('primaryIdentifier')->where($field => { isnt => undef} );
+        };
+
+        printf $outfile ("%-20s - %s\n", 
+            $@ ? $@ : 
+                $query->count() > 0 ? 'OK' : 'NO RECORDS FOUND', $field);
     }
     print $outfile "\n\n";
 

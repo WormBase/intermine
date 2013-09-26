@@ -3,8 +3,8 @@ use strict;
 =info
 
 	Wraps contents of all <Text> and <Txt> elements per paragraph of XML with <![CDATA[ ]]>.  
+	Alphabetizes tags beginning with a number
 	
-
 =cut
 
 my %strnum = (
