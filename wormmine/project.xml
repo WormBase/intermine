@@ -56,12 +56,12 @@
   <sources>
 	  
 	<source name="go" type="go" dump="false">
-		<property name="src.data.file" location="&datadir;/go/gene_ontology.1_2.obo"/>
+		<property name="src.data.file" location="&datadir;/go/gene_ontology.WS239.obo"/>
 	</source>
 	
 	<source name="go-annotation" type="go-annotation" dump="true">
-		<property name="ontologyfile" location="&datadir;/go/gene_ontology.1_2.obo"/>
-		<property name="src.data.dir" location="&datadir;/go-annotation/final"/>
+		<property name="ontologyfile" location="&datadir;/go/gene_ontology.WS239.obo"/>
+		<property name="src.data.dir" location="&datadir;/go-association/final/prepped_gene_association.WS239.wb"/>
 	</source>
 
 	<!-- Genomic fasta -->
@@ -254,7 +254,7 @@
         <property name="src.data.dir"          location="&datadir;/fasta/s_ratti/genomic/" />
     </source> 
 
-    <source name="t_spiralis-genomic-fasta" type="fasta">
+    <source name="t_spiralis-genomic-fasta" type="fasta" dump="true">
         <property name="fasta.taxonId"         value="&t_spiralis_taxon_id;"/>
         <property name="fasta.className"       value="org.intermine.model.bio.Chromosome"/>
         <property name="fasta.classAttribute"  value="primaryIdentifier"/>
@@ -493,7 +493,7 @@
         <property name="fasta.PIDPrefix"        value="&s_ratti_protein_prefix;"/>
     </source>
 
-    <source name="t_spiralis-protein-fasta" type="fasta">
+    <source name="t_spiralis-protein-fasta" type="fasta" dump="true">
         <property name="fasta.taxonId"          value="&t_spiralis_taxon_id;"/>
         <property name="fasta.className"        value="org.intermine.model.bio.Protein"/>
         <property name="fasta.classAttribute"   value="primaryIdentifier"/>
@@ -1094,7 +1094,7 @@
         <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
     </source>
 
-    <source name="t_spiralis-gff3-cds" type="wormbase-gff3-core" dump="false">
+    <source name="t_spiralis-gff3-cds" type="wormbase-gff3-core" dump="true">
         <property name="gff3.taxonId"           value="&t_spiralis_taxon_id;"/>
         <property name="gff3.seqDataSourceName" value="WormBase"/>
         <property name="gff3.dataSourceName"    value="WormBase"/>
@@ -1148,7 +1148,7 @@
       </source>
       
       <!-- EpressionPattern -->
-      <source name="wb-acedb-Expr_pattern" type="wormbase-acedb" dump="false">
+      <source name="wb-acedb-Expr_pattern" type="wormbase-acedb" dump="true">
           <property name="source.class" value="EpressionPattern"/>
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/Expr_pattern/final" />
           <property name="mapping.file" 
@@ -1174,7 +1174,7 @@
       </source>
       
       <!-- LifeStage -->
-      <source name="wb-acedb-Life_stage" type="wormbase-acedb" dump="false">
+      <source name="wb-acedb-Life_stage" type="wormbase-acedb" dump="true">
           <property name="source.class" value="LifeStage"/>
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/Life_stage/final" />
           <property name="mapping.file" 
@@ -1200,7 +1200,7 @@
       </source>
       
       <!-- Protein -->
-      <source name="wb-acedb-Protein" type="wormbase-acedb" dump="false">
+      <source name="wb-acedb-Protein" type="wormbase-acedb" dump="true">
           <property name="source.class" value="Protein"/>
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/Protein/final" />
           <property name="mapping.file" 
@@ -1252,7 +1252,7 @@
       </source>
       
       <!-- Allele -->
-      <source name="wb-acedb-Variation" type="wormbase-acedb" dump="false">
+      <source name="wb-acedb-Variation" type="wormbase-acedb" dump="true">
           <property name="source.class" value="Allele"/>
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/Variation/final" />
           <property name="mapping.file" 

@@ -10,8 +10,10 @@ notes
 
 datadir
 datadir_old
+build_output
 
 wormmine/dbmodel/build/*
+
 
 # Standard patterns
 bin/
