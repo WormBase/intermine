@@ -1163,7 +1163,9 @@
       <!-- Gene -->
       <source name="wb-acedb-Gene" type="wormbase-acedb" dump="false">
           <property name="source.class" value="Gene"/>
+          <!--
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/Gene/final" />
+          -->
           <property name="mapping.file" 
               value="&build_config;/wormbase-acedb/Gene_mapping.properties" />
           <property name="key.file"
@@ -1172,6 +1174,7 @@
               value="&build_output;/wormbase-acedb-Gene-rejects.xml"/>
           <property name="data.set" value="AceDB XML (Gene)"/>
           
+          <property name="src.data.dir" location="/home/jdmswong/idev/useful" />
           <property name="debug" value="true" />
       </source>
       

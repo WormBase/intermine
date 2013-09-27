@@ -234,6 +234,7 @@
 		<collection name="RNAis" referenced-type="RNAi" reverse-reference="inhibitsPseudogene"/>
 	</class>
 	<class name="Homolog" is-interface="true">
+		<attribute name="key" type="java.lang.String"/>
 		<attribute name="type" type="java.lang.String"/>
 		<reference name="gene" referenced-type="Gene" reverse-reference="homologs"/>
 		<reference name="homolog" referenced-type="Gene"/>

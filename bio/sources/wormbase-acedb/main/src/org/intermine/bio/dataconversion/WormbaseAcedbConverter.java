@@ -23,12 +23,11 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.regex.*;
 
-
-
 import org.apache.commons.lang.StringUtils;
 import org.intermine.dataconversion.*;
 import org.intermine.metadata.*;
 import org.intermine.util.TypeUtil;
+import org.intermine.xml.full.Attribute;
 import org.intermine.xml.full.Item;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -36,8 +35,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 
 import net.sf.saxon.s9api.*;
-
-
 import wormbase.model.parser.*;
 
 /**
@@ -180,133 +177,23 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        		propKey = fields[i];
 	        	}
 	        	
+	    	    String fieldName = propKey.getField();
+	    	    castType = propKey.getCastType();
+	    	    
+	        	//=================================
+	    	    if(function(fieldName,firstPass, item, castType) == -1){
+	    	    	continue;
+	    	    }
 	        	
-	        	
-			    String fieldName = propKey.getField();
-	        	wmd.debug("fieldname="+fieldName);
-	        	
-	        	wmd.debug("Retrieving:["+propKey.getRawKey()+"]");
-	        	String[] queryResults = aceOracle.getFieldValue(fieldName);
-	        	if(queryResults.length == 0){
-					wmd.debug("No results returned, moving on...");
-					continue;
-				}
-
-	        	
-	        	
-		        FieldDescriptor fd = classCD.getFieldDescriptorByName(fieldName);
-		        if( fd == null ){
-		        	throw new Exception(classCD.getName()+"."+fieldName+" not found in model");
-		        }
-		        
-		        
-		        if(fd.isAttribute()){
-	        	
-		        	String xPathValue = StringUtils.join(queryResults, ',');
-		        	wmd.debug("xpathvalue:"+xPathValue);
-			        if(fieldName.equals(getClassPIDField(classCD.getSimpleName()))){
-			        	if(firstPass){
-			        		ID = xPathValue;
-					        // if this record's pID exists in the hash, replace the incumbent
-					        if(itemHasBeenProcessed(currentClass, ID)){
-					        	String existingRecordsIMID = getRefItem(currentClass, ID).getIdentifier();
-					        	wmd.log("found cached stand-in record, replacing "+
-					        			item.getIdentifier()+" with "+existingRecordsIMID);
-					        	item.setIdentifier(existingRecordsIMID);
-					        }
-				        	setRefItem(currentClass, ID, item);
-			        	}else{
-			        		wmd.debug("=======================");
-			        		continue;
-			        	}
-			        	
-			        }
-			        
-		        	// DataPath describes attribute
-			        if (!StringUtils.isEmpty(xPathValue)) {
-						wmd.debug("Setting attribute ["+fieldName+"] to ["+xPathValue+"]");
-						item.setAttribute(fieldName, xPathValue);
-					}else{
-						wmd.debug("ignoring attribute ["+fieldName+"], no value");
-					}
-		        	
-		        }else{
-		        	
-		        	ReferenceDescriptor rd = (ReferenceDescriptor) fd; 
-		        	
-		        	String refClassName;
-        			if(propKey.getCastType() != null){
-        				refClassName = propKey.getCastType();
-        			}else{
-			        	refClassName = TypeUtil.unqualifiedName(rd.getReferencedClassName());
-        			}
-		        	
-		        	
-		        	if( rd.relationType() == FieldDescriptor.ONE_ONE_RELATION ||
-		        		rd.relationType() == FieldDescriptor.N_ONE_RELATION   )
-		        	{
-	//			        wmd.debug("This is a reference");
-		        		if(queryResults.length > 1) 
-		        			throw new Exception("Reference "+fieldName+" returns more than one result for record "+ID);
-		        		
-		        		String xPathValue = queryResults[0];
-			        	Item referencedItem;
-		        		if(!xPathValue.isEmpty()){
-	        				referencedItem = getRefItem(refClassName, xPathValue);
-			        	}else{
-			        		wmd.debug("ID not defined, moving on...");
-			        		wmd.debug("=======================");
-			        		continue;
-			        	}
-			        	
-			        	wmd.debug("Setting current "+currentClass+"."+fd.getName()+" to: ("+refClassName+")["+xPathValue+"]" );
-			        	item.setReference(rd.getName(), referencedItem.getIdentifier());
-			        	
-			        	if( 		rd.relationType() == FieldDescriptor.ONE_ONE_RELATION ){
-	//				        		wmd.debug("1:1");
-			        		setRevRefIfExists(item, referencedItem, rd);
-			        	}else if(	rd.relationType() == FieldDescriptor.N_ONE_RELATION){
-	//				        		wmd.debug("N:1");
-			        		addToRevColIfExists(item, referencedItem, rd);
-			        	}
-		        		
-		        	}else if( rd.isCollection() ){
-	//			        		wmd.debug("This is a collection"); 
-		        		CollectionDescriptor cd = (CollectionDescriptor) rd;
-		        		
-		        		//if(cd.relationType() == FieldDescriptor.ONE_N_RELATION ){wmd.debug("1:N");}else if(cd.relationType() == FieldDescriptor.M_N_RELATION){wmd.debug("M:N");}
-		        		
-		        		Item referencedItem = createItem(refClassName); // Initialized by necessity
-		        		
-				        for(int j = 0; j < queryResults.length; j++) {
-				            
-			        		if(!queryResults[j].isEmpty()){
-				        		referencedItem = getRefItem(refClassName, queryResults[j]);
-				        	}else{
-				        		continue;
-				        	}
-	
-			        		
-			        		item.addToCollection(cd.getName(), referencedItem);
-			        		
-				            wmd.debug(cd.getName()+":["+queryResults[j]+"]");
-		        		
-			        		if( 		cd.relationType() == FieldDescriptor.ONE_N_RELATION ){
-			        			setRevRefIfExists(item, referencedItem, cd);
-			        		}else if(	cd.relationType() == FieldDescriptor.M_N_RELATION   ){
-	//				        			wmd.debug("M:N");
-			        			addToRevColIfExists(item, referencedItem, rd);
-			        		}
-				        }
-		        	}else{
-		        		throw new Exception(propKey.getField()+" cannot be categorized");
-		        	}
-		        }
         		firstPass = false;
 		        wmd.debug("=======================");
 	        }
 	        
-	        if( ID == null ){
+	        String pidField = getClassPIDField(classCD.getSimpleName());
+	        Attribute attr = item.getAttribute(pidField);
+	        String attrVal = attr.getValue();
+	        
+	        if( attrVal == null ){
 	        	throw new Exception(getClassPIDField(classCD.getSimpleName())+
 	        			" set as class ID but not defined. Record ending at line:"+fp.getCurrentLine());
 	        }
@@ -337,7 +224,129 @@ public class WormbaseAcedbConverter extends BioFileConverter
     	
     }
     
-    
+    public int function(String fieldName, boolean firstPass, Item item, String castType) throws Exception{
+    	
+    	
+    	wmd.debug("fieldname="+fieldName);
+    	
+    	String[] queryResults = aceOracle.getFieldValue(fieldName);
+    	if(queryResults.length == 0){
+			wmd.debug("No results returned, moving on...");
+			return -1;
+		}
+
+    	
+    	
+        FieldDescriptor fd = classCD.getFieldDescriptorByName(fieldName);
+        if( fd == null ){
+        	throw new Exception(classCD.getName()+"."+fieldName+" not found in model");
+        }
+        
+        
+        if(fd.isAttribute()){
+    	
+        	String xPathValue = StringUtils.join(queryResults, ',');
+        	wmd.debug("xpathvalue:"+xPathValue);
+	        if(fieldName.equals(getClassPIDField(classCD.getSimpleName()))){
+	        	if(firstPass){
+	        		String ID = xPathValue;
+			        // if this record's pID exists in the hash, replace the incumbent
+			        if(itemHasBeenProcessed(currentClass, ID)){
+			        	String existingRecordsIMID = getRefItem(currentClass, ID).getIdentifier();
+			        	wmd.log("found cached stand-in record, replacing "+
+			        			item.getIdentifier()+" with "+existingRecordsIMID);
+			        	item.setIdentifier(existingRecordsIMID);
+			        }
+		        	setRefItem(currentClass, ID, item);
+	        	}else{
+	        		wmd.debug("=======================");
+	        		return -1;
+	        	}
+	        	
+	        }
+	        
+        	// DataPath describes attribute
+	        if (!StringUtils.isEmpty(xPathValue)) {
+				wmd.debug("Setting attribute ["+fieldName+"] to ["+xPathValue+"]");
+				item.setAttribute(fieldName, xPathValue);
+			}else{
+				wmd.debug("ignoring attribute ["+fieldName+"], no value");
+			}
+        	
+        }else{
+        	
+        	ReferenceDescriptor rd = (ReferenceDescriptor) fd; 
+        	
+        	String refClassName;
+			if(castType != null){
+				refClassName = castType;
+			}else{
+	        	refClassName = TypeUtil.unqualifiedName(rd.getReferencedClassName());
+			}
+        	
+        	
+        	if( rd.relationType() == FieldDescriptor.ONE_ONE_RELATION ||
+        		rd.relationType() == FieldDescriptor.N_ONE_RELATION   )
+        	{
+//			        wmd.debug("This is a reference");
+        		if(queryResults.length > 1) 
+        			throw new Exception("Reference "+fieldName+" returns more than one result for value of  "+fieldName);
+        		
+        		String xPathValue = queryResults[0];
+	        	Item referencedItem;
+        		if(!xPathValue.isEmpty()){
+    				referencedItem = getRefItem(refClassName, xPathValue);
+	        	}else{
+	        		wmd.debug("ID not defined, moving on...");
+	        		wmd.debug("=======================");
+	        		return -1;
+	        	}
+	        	
+	        	wmd.debug("Setting current "+currentClass+"."+fd.getName()+" to: ("+refClassName+")["+xPathValue+"]" );
+	        	item.setReference(rd.getName(), referencedItem.getIdentifier());
+	        	
+	        	if( 		rd.relationType() == FieldDescriptor.ONE_ONE_RELATION ){
+//				        		wmd.debug("1:1");
+	        		setRevRefIfExists(item, referencedItem, rd);
+	        	}else if(	rd.relationType() == FieldDescriptor.N_ONE_RELATION){
+//				        		wmd.debug("N:1");
+	        		addToRevColIfExists(item, referencedItem, rd);
+	        	}
+        		
+        	}else if( rd.isCollection() ){
+//			        		wmd.debug("This is a collection"); 
+        		CollectionDescriptor cd = (CollectionDescriptor) rd;
+        		
+        		//if(cd.relationType() == FieldDescriptor.ONE_N_RELATION ){wmd.debug("1:N");}else if(cd.relationType() == FieldDescriptor.M_N_RELATION){wmd.debug("M:N");}
+        		
+        		Item referencedItem = createItem(refClassName); // Initialized by necessity
+        		
+		        for(int j = 0; j < queryResults.length; j++) {
+		            
+	        		if(!queryResults[j].isEmpty()){
+		        		referencedItem = getRefItem(refClassName, queryResults[j]);
+		        	}else{
+		        		continue;
+		        	}
+
+	        		
+	        		item.addToCollection(cd.getName(), referencedItem);
+	        		
+		            wmd.debug(cd.getName()+":["+queryResults[j]+"]");
+        		
+	        		if( 		cd.relationType() == FieldDescriptor.ONE_N_RELATION ){
+	        			setRevRefIfExists(item, referencedItem, cd);
+	        		}else if(	cd.relationType() == FieldDescriptor.M_N_RELATION   ){
+//				        			wmd.debug("M:N");
+	        			addToRevColIfExists(item, referencedItem, rd);
+	        		}
+		        }
+        	}else{
+        		throw new Exception(fieldName+" cannot be categorized");
+        	}
+        }
+        return 0;
+    }
     
     /**
      * Gets ID of referenced object if exists.  It it doesn't exist, creates it
