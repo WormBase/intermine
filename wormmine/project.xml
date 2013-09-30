@@ -61,7 +61,7 @@
 	
 	<source name="go-annotation" type="go-annotation" dump="true">
 		<property name="ontologyfile" location="&datadir;/go/gene_ontology.WS239.obo"/>
-		<property name="src.data.dir" location="&datadir;/go-association/final/prepped_gene_association.WS239.wb"/>
+		<property name="src.data.dir" location="&datadir;/go-association/final"/>
 	</source>
 
 	<!-- Genomic fasta -->

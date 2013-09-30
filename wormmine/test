@@ -1,5 +1,5 @@
 ../bio/scripts/project_build -v -b -a \
-'*gff3*'\
+'a_suum-gff3-gene'\
  localhost wormmine_dump
 
 

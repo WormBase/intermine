@@ -14,12 +14,16 @@
             <param name="input-file" value="${input-file}"/>
             <param name="output-file" value="${input-file}-sorted"/>    
         </antcall>
-        <antcall target="filter" inheritall="false">
+        <antcall target="filter-uniprot" inheritall="false">
             <param name="input-file" value="${input-file}-sorted"/>
-            <param name="output-file" value="${output-file}"/>    
+            <param name="output-file" value="${input-file}-sorted-nouniprot"/>    
         </antcall>
         <delete file="${input-file}-sorted" />
-        
+        <antcall target="filter-evidence" inheritall="false">
+            <param name="input-file" value="${input-file}-sorted-nouniprot"/>
+            <param name="output-file" value="${output-file}"/>    
+        </antcall>
+        <delete file="${input-file}-sorted-nouniprot" />
     </target>
     
     <target name="sort" description="sorts gaf by gene id">
@@ -34,18 +38,26 @@
         </exec>
     </target>
     
-    <target name="filter" description="filters out uniprot records" >
-        <echo>
-            Filtering out UniProt records
-            Input: ${input-file}
-            Output: ${output-file}
-        </echo>
+    <target name="filter-uniprot" description="filters out uniprot records" >
         <exec executable="grep" failonerror="true" output="${output-file}">
             <arg line="-vE ^UniProtKB"/>
             <arg value="${input-file}"/>
         </exec>
+
         
     </target>
     
+    <target name="filter-evidence" description="filters out columns with no evidence column" >
+        <echo>
+            Filtering out records with no evidence column
+            Input: ${input-file}
+            Output: ${output-file}
+        </echo>
+        <exec executable="awk" failonerror="true" output="${output-file}">
+            <arg line="-F $'\t'"/>
+            <arg line="'$6!=&quot;&quot; {print $0}'" />
+            <arg value="${input-file}"/>
+        </exec>
+    </target>
     
 </project>
