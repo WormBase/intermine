@@ -17,8 +17,6 @@ my $speciesraw = << "SPECIES";
 <!ENTITY       c_elegans_taxon_id "6239">
 <!ENTITY      c_japonica_taxon_id "281687">
 <!ENTITY       c_remanei_taxon_id "31234">
-<!ENTITY           c_sp5_taxon_id "-5">
-<!ENTITY          c_sp11_taxon_id "-11">
 <!ENTITY h_bacteriophora_taxon_id "37862">
 <!ENTITY     h_contortus_taxon_id "6289">
 <!ENTITY         m_hapla_taxon_id "6305">
@@ -53,7 +51,7 @@ my $tt = Template->new({
 #print $_."-protein-fasta,\\\n" foreach @species;
 
 
-foreach my $type (qw/acexml/){
+foreach my $type (qw/gff3/){
 
     if( $type eq 'acexml' ){
         my $template = &gen_ace_template;
@@ -65,7 +63,33 @@ foreach my $type (qw/acexml/){
                 }, \$result) || die $tt->error;
         }
         print $result;
+    }elsif($type eq 'gff3'){
+
+                open(LOG, '>log.txt') or die "$!"; # DELETE
+
+        my $template;
+        $template = &gen_gff3_template;
+        foreach my $subtype ( qw/gene mrna cds/ ){
+            print "\n\n    <!-- GFF3 $subtype -->\n";
+            foreach my $species (@species){
+                my $result;
+                $tt->process(\$template, {
+                    species => $species,
+                    type => $subtype,
+                    typeMapping => -d "$datadir/wormbase-gff3/$species/mapping"
+                    }, \$result) || die $tt->error; 
+            
+     
+                
+                print LOG $subtype.'-'.$species."\n"; # DELETE
+                print $result;
+           }
+
+        }
+
     }else{
+
+
 
         foreach my $species (@species){
             my $result;
@@ -86,18 +110,6 @@ foreach my $type (qw/acexml/){
                         species => $species,
                         typeMapping => -d "$datadir/wormbase-gff3/$species/mapping"
                         }, \$result) || die $tt->error; 
-                    print $result;
-                }
-                case 'gff3' {
-                    $template = &gen_gff3_template;
-                    foreach my $subtype (qw/gene mrna cds/){
-                        $tt->process(\$template, {
-                            species => $species,
-                            type => $subtype,
-                            typeMapping => -d "$datadir/wormbase-gff3/$species/mapping"
-                            }, \$result) || die $tt->error; 
-                    
-                    }
                     print $result;
                 }
             }

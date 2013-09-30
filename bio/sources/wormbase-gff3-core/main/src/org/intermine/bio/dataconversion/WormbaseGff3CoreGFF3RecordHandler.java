@@ -77,6 +77,8 @@ public class WormbaseGff3CoreGFF3RecordHandler extends GFF3RecordHandler
     		key2refID.put(PID, feature.getIdentifier());
     	}
     	
+    	new Exception().printStackTrace();
+    	
     	// Convert record type if available
     	String recordType = record.getType();
     	if( typeMap != null && typeMap.containsKey(recordType) ){

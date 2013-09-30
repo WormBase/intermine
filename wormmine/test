@@ -1,5 +1,7 @@
-../bio/scripts/project_build -v -b -a \
-'a_suum-gff3-gene'\
+../bio/scripts/project_build -v \
+-b \
+-a \
+'a_suum-protein-fasta'\
  localhost wormmine_dump
 
 
