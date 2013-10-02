@@ -86,6 +86,7 @@
 		<attribute name="remark" type="java.lang.String"/>
 		<collection name="motifs" referenced-type="Motif" reverse-reference="proteins"/>
 		<collection name="expressionPatterns" referenced-type="ExpressionPattern" reverse-reference="proteins"/>
+		<collection name="homologousProteins" referenced-type="Protein"/>
 	</class>
 	<class name="Motif" extends="BioEntity" is-interface="true">
 		<collection name="proteins" referenced-type="Protein" reverse-reference="motifs"/>
