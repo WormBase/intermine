@@ -13,15 +13,9 @@
         </echo>
         <antcall target="purify" inheritall="false">
             <param name="input-file" value="${input-file}"/>
-            <param name="output-file" value="${input-file}-temp"/>    
+            <param name="output-file" value="${output-file}"/>    
             <param name="purify-script" value="${purify-script}"/>
         </antcall>
-        <antcall target="prep" inheritall="false">
-            <param name="input-file" value="${input-file}-temp"/>
-            <param name="output-file" value="${output-file}"/>    
-            <param name="prep-script" value="${prep-script}"/>
-        </antcall>
-        <delete file="${input-file}-temp" />
         
     </target>
     
@@ -33,13 +27,5 @@
             <arg value="${output-file}"/>
         </exec>
     </target>
-    
-    <target name="prep">
-        <exec executable="perl" failonerror="true">
-            <arg value="${prep-script}"/>
-            <arg value="${input-file}"/>
-            <arg value="${output-file}"/>
-        </exec>
-    </target>
-    
+        
 </project>

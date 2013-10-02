@@ -1,3 +1,42 @@
+<Expr_pattern>Chronogram1
+  <Expression_of>
+    <Gene>
+      <Gene>WBGene00007534</Gene>
+    </Gene>
+  </Expression_of>
+  <Homol>
+    <Homol_homol>
+      <Homol_data>C12D8:Expr</Homol_data>
+    </Homol_homol>
+  </Homol>
+  <Type>
+    <Reporter_gene>
+      <Text>[C12D8.1:gfp] transcriptional fusion.</Text>
+    </Reporter_gene>
+    <Localizome></Localizome>
+  </Type>
+  <Picture>
+    <Picture>WBPicture0000000002</Picture>
+  </Picture>
+  <Remark>
+    <Text>Original chronogram file: chronogram.1.xml</Text>
+  </Remark>
+  <Experiment>
+    <Strain>
+      <Strain>BC11926</Strain>
+    </Strain>
+  </Experiment>
+  <Reference>
+    <Paper>WBPaper00029359</Paper>
+  </Reference>
+  <Transgene>
+    <Transgene>WBTransgene00004280</Transgene>
+  </Transgene>
+  <Curated_by>
+    <Txt>Caltech</Txt>
+  </Curated_by>
+</Expr_pattern>
+
 
 <RNAi>WBRNAi00000001
   <History_name>

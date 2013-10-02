@@ -155,11 +155,6 @@ public class WormbaseAcedbConverter extends BioFileConverter
 	        
 	        MappingFileKey[] fields = aceOracle.getMappingFileFields(); 
 	        
-	        for(int i=0; i < fields.length; i++){
-		        System.out.println("JDJDJD:::"+fields[i].getRawKey());
-	        }
-	        System.out.println();System.out.println();
-	        
 	        String ID = null;
 	        String castType = null;
 	        MappingFileKey propKey;
@@ -520,6 +515,9 @@ public class WormbaseAcedbConverter extends BioFileConverter
     	currentClass = sourceClass;
         
         classCD = model.getClassDescriptorByName(currentClass); 
+        
+        System.out.println("current class: "+currentClass);
+        System.out.println("class descriptor: "+classCD.toString());
     }
     
     public void setRejectsFile(String rejectsFile){

@@ -26,8 +26,8 @@ my ($infilename, $outfilename) = @ARGV;
 &usage unless scalar @ARGV == 2;
 
 my ($infile, $outfile);
-open( $infile, $infilename) or die;
-open( $outfile, '>'.$outfilename) or die;
+open( $infile, $infilename) or die "$!";
+open( $outfile, '>'.$outfilename) or die "$!";
 
 my $strbuffer = '';
 while(<$infile>){

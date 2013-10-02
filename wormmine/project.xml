@@ -589,7 +589,7 @@
         <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
     </source>
 
-    <source name="c_japonica-gff3-gene" type="wormbase-gff3-core" dump="false">
+    <source name="c_japonica-gff3-gene" type="wormbase-gff3-core" dump="true">
         <property name="gff3.taxonId"           value="&c_japonica_taxon_id;"/>
         <property name="gff3.seqDataSourceName" value="WormBase"/>
         <property name="gff3.dataSourceName"    value="WormBase"/>
@@ -677,7 +677,7 @@
         <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
     </source>
 
-    <source name="t_spiralis-gff3-gene" type="wormbase-gff3-core" dump="false">
+    <source name="t_spiralis-gff3-gene" type="wormbase-gff3-core" dump="true">
         <property name="gff3.taxonId"           value="&t_spiralis_taxon_id;"/>
         <property name="gff3.seqDataSourceName" value="WormBase"/>
         <property name="gff3.dataSourceName"    value="WormBase"/>
@@ -768,7 +768,7 @@
         <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
     </source>
 
-    <source name="c_japonica-gff3-mrna" type="wormbase-gff3-core" dump="false">
+    <source name="c_japonica-gff3-mrna" type="wormbase-gff3-core" dump="true">
         <property name="gff3.taxonId"           value="&c_japonica_taxon_id;"/>
         <property name="gff3.seqDataSourceName" value="WormBase"/>
         <property name="gff3.dataSourceName"    value="WormBase"/>
@@ -856,7 +856,7 @@
         <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
     </source>
 
-    <source name="t_spiralis-gff3-mrna" type="wormbase-gff3-core" dump="false">
+    <source name="t_spiralis-gff3-mrna" type="wormbase-gff3-core" dump="true">
         <property name="gff3.taxonId"           value="&t_spiralis_taxon_id;"/>
         <property name="gff3.seqDataSourceName" value="WormBase"/>
         <property name="gff3.dataSourceName"    value="WormBase"/>
@@ -1064,7 +1064,7 @@
       </source>
       
       <!-- CDS -->
-      <source name="wb-acedb-CDS" type="wormbase-acedb" dump="false">
+      <source name="wb-acedb-CDS" type="wormbase-acedb" dump="true">
           <property name="source.class" value="CDS"/>
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/CDS/final" />
           <property name="mapping.file" 
@@ -1089,9 +1089,9 @@
           <property name="data.set" value="AceDB XML (Expression_cluster)"/>
       </source>
       
-      <!-- EpressionPattern -->
+      <!-- ExpressionPattern -->
       <source name="wb-acedb-Expr_pattern" type="wormbase-acedb" dump="true">
-          <property name="source.class" value="EpressionPattern"/>
+          <property name="source.class" value="ExpressionPattern"/>
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/Expr_pattern/final" />
           <property name="mapping.file" 
               value="&build_config;/wormbase-acedb/Expr_pattern_mapping.properties" />
