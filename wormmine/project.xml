@@ -1103,7 +1103,7 @@
       </source>
       
       <!-- Gene -->
-      <source name="wb-acedb-Gene" type="wormbase-acedb" dump="false">
+      <source name="wb-acedb-Gene" type="wormbase-acedb" dump="true">
           <property name="source.class" value="Gene"/>
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/Gene/final" />
           <property name="mapping.file" 
@@ -1116,7 +1116,7 @@
       </source>
       
       <!-- LifeStage -->
-      <source name="wb-acedb-Life_stage" type="wormbase-acedb" dump="true">
+      <source name="wb-acedb-Life_stage" type="wormbase-acedb" dump="false">
           <property name="source.class" value="LifeStage"/>
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/Life_stage/final" />
           <property name="mapping.file" 
@@ -1129,7 +1129,7 @@
       </source>
       
       <!-- Phenotype -->
-      <source name="wb-acedb-Phenotype" type="wormbase-acedb" dump="false">
+      <source name="wb-acedb-Phenotype" type="wormbase-acedb" dump="true">
           <property name="source.class" value="Phenotype"/>
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/Phenotype/final" />
           <property name="mapping.file" 
