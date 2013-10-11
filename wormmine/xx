@@ -1,2 +1,1 @@
-../bio/scripts/project_build -v -l localhost wormmine_dump
-
+rebuild_mine.sh
