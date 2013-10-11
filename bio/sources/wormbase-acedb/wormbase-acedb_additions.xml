@@ -133,7 +133,7 @@
 		<collection name="genesExpressed" referenced-type="Gene" reverse-reference="expressionPatterns" />
 		<!--<collection name="GOTerms" referenced-type="GOTerm" />-->
 		<collection name="GOTerms" referenced-type="OntologyTerm" />
-		<collection name="expressedInAnatomyTerm" referenced-type="AnatomyTerm" />
+		<collection name="expressedInAnatomyTerm" referenced-type="AnatomyTerm" reverse-reference="expressionPatterns"/>
 		<collection name="CDSs" referenced-type="CDS" reverse-reference="expressionPatterns"/>
 		<collection name="expressedInLifeStage" referenced-type="LifeStage" reverse-reference="expressionPatterns"/>
 		<collection name="proteins" referenced-type="Protein" reverse-reference="expressionPatterns"/>

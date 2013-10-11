@@ -1218,17 +1218,17 @@
   <post-processing>
 	
 	<post-process name="create-chromosome-locations-and-lengths"/>
-<!--
-	<post-process name="transfer-sequences"/>
--->
+
 	<post-process name="do-sources"/>
 	  
 	<!-- Webapp post-processes -->
 	<post-process name="create-search-index"/>
+
 	<post-process name="summarise-objectstore"/>
+
 	<post-process name="create-autocomplete-index"/>
 	<post-process name="create-attribute-indexes"/>
-
+    <post-process name="transfer-sequences"/>
 
 
   </post-processing>
