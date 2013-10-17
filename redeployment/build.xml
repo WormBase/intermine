@@ -20,7 +20,7 @@
             <format property="TODAY" pattern="MM-dd-yy"/>
         </tstamp>
         <echo>Backing up ${datadir}</echo>
-        <copy todir="${backup-dir}/${backup-dirname}-${TODAY}">
+        <copy todir="${backup-dirname}-${TODAY}">
             <fileset dir="${datadir}" casesensitive="no">
                 <exclude name="**/*test*"/>
                 <exclude name="**/*delete*"/>
