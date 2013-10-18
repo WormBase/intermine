@@ -17,11 +17,10 @@ my (
 
 open( my $ace_map, $ace_map_path ) or die "$!";
 my %ace_to_im = ();
-<$ace_map>;
 while( <$ace_map> ){
     next if /^#|^\s*$/;
     
-    my ($key, $value) = /(.*?)\s*=\s*(\S.*)/;
+    my ($key, $value) = /(\S*)\s*=\s*(\S.*)/;
     $ace_to_im{$key} = $value;
 }
 #print join("\n",@mapped_fields),"\n";
@@ -40,7 +39,7 @@ foreach my $mapping_file_path ( @mapping_file_paths ){
 
     printf $outfile ("%s%s - %s\n",
       $aceclazz,
-      $ace_to_im{$aceclazz} ? $ace_to_im{$aceclazz} : '',
+      $ace_to_im{$aceclazz} ? ' = '.$ace_to_im{$aceclazz} : '',
       $mapping_file_path);
 
     open( my $infile, $mapping_file_path ) or die "$!";
@@ -81,7 +80,6 @@ Usage:
     perl $0 <output file> <ace map file> <mapping file path> [... <mapping file path>]
 
 Generates basic "presence" acceptance tests got a given wormbase-acedb mapping file.
-Covers attributes and references. 
 
 The ace map file maps ace classes to intermine classes.  Example line:
     Anatomy_term    = AnatomyTerm
