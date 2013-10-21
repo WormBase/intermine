@@ -19,7 +19,6 @@
 		<attribute name="operon" type="java.lang.String"/>
 		<attribute name="version" type="java.lang.String"/>
 		<attribute name="CGCName" type="java.lang.String"/>
-		<attribute name="sequenceName" type="java.lang.String"/>
 		<attribute name="status" type="java.lang.String"/>
 		<attribute name="geneClass" type="java.lang.String"/>
 		<attribute name="sequenceFeatures" type="java.lang.String"/>
