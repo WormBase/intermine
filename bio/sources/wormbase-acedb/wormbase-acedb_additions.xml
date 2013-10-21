@@ -206,8 +206,13 @@
 		<attribute name="uniquelyMapped" type="java.lang.String"/>
 		<attribute name="remark" type="java.lang.String"/>
 		<attribute name="method" type="java.lang.String"/>
+		<attribute name="genotype" type="java.lang.String"/>
+		<attribute name="treatment" type="java.lang.String"/>
+		<attribute name="temperature" type="java.lang.String"/>
+		<attribute name="deliveredBy" type="java.lang.String"/>
 		<reference name="lifeStage" referenced-type="LifeStage" />
 		<reference name="strain" referenced-type="Strain" />
+		<reference name="reference" referenced-type="Publication" />
 		<collection name="inhibitsGene" referenced-type="Gene" reverse-reference="RNAiResult"/>
 		<collection name="inhibitsPredictedGene" referenced-type="CDS" reverse-reference="RNAi"/>
 		<collection name="laboratories" referenced-type="Laboratory" reverse-reference="RNAis"/>
@@ -243,5 +248,8 @@
 	</class>
 	<class name="Analysis" is-interface="true">
 		<attribute name="name" type="java.lang.String"/>
+	</class>
+	<class name="Reference" is-interface="true">
+		<attribute name="primaryIdentifier" type="java.lang.String"/>
 	</class>
 </classes>

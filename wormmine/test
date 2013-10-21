@@ -1,7 +1,7 @@
 ../bio/scripts/project_build -v \
 -b \
 -a \
-'a_suum-protein-fasta'\
+'wb-acedb-RNAi'\
  localhost wormmine_dump
 
 
