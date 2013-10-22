@@ -7,11 +7,12 @@ use Webservice::InterMine ('http://206.108.125.174:8080/wormmine/service');
 
 #my $clazz = 'Gene';
 
-die &usage unless scalar @ARGV >= 3;
+die &usage unless scalar @ARGV >= 4;
 
 my (
     $outfile_path, 
     $ace_map_path,
+    $key_mapping_path,
     @mapping_file_paths,
 ) = @ARGV;
 
@@ -25,6 +26,16 @@ while( <$ace_map> ){
 }
 #print join("\n",@mapped_fields),"\n";
 close($ace_map);
+
+# fill key mapping
+my %key_mapping = ();
+open( my $key_mapping, $key_mapping_path ) or die "$!";
+while(<$key_mapping>){
+    next unless /(\w+).*?=\s*(\w+)/;
+    my ($key, $value) = ($1,$2);
+    $key_mapping{$key} = $value;
+}
+close($key_mapping);
 
 #my $mapping_file_path = $mapping_file_dir; # REMOVE 
 open( my $outfile, '>'.$outfile_path ) or die "$!";
@@ -62,7 +73,7 @@ foreach my $mapping_file_path ( @mapping_file_paths ){
         my $query;
         eval{
             $query = $service->new_query(class => $clazz);
-            $query->select('primaryIdentifier')->where($field => { isnt => undef} );
+            $query->select($key_mapping{$clazz})->where($field => { isnt => undef} );
         };
 
         printf $outfile ("%-20s - %s\n", 
@@ -77,12 +88,16 @@ sub usage{
 <<USAGE;
 Usage:
 
-    perl $0 <output file> <ace map file> <mapping file path> [... <mapping file path>]
+    perl $0 <output file> <ace map file> <key mapping file path> <mapping file path> [... <mapping file path>]
 
 Generates basic "presence" acceptance tests got a given wormbase-acedb mapping file.
 
 The ace map file maps ace classes to intermine classes.  Example line:
     Anatomy_term    = AnatomyTerm
+
+The key mapping file tells the script what fields of each class is used as a key.
+    Pseudogene.key  = primaryIdentifier
+
 
 Puts results in a single output file.
 USAGE
