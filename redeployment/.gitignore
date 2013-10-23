@@ -1,0 +1,8 @@
+# Hide unnecessary ant-contrib files
+ant-contrib/docs
+ant-contrib/lib
+
+# Unused commons-net library
+commons-net*
+
+*test*

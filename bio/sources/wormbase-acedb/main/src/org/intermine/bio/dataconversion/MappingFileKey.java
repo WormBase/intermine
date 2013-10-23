@@ -5,13 +5,21 @@ import java.util.regex.Pattern;
 
 public class MappingFileKey {
 
-	Pattern paransB4XPath;
-	String castType = null;
-	String dataPath = null;
-	String rawKey	= null;
+	private Pattern paransB4XPath;
+	private String castType = null;
+	private String dataPath = null;
+	private String rawKey	= null;
+	private boolean forcedBool = false;
 	
+	/**
+	 * This class is used as a key in the hash representing mapping files.
+	 * @param mappingFileKey
+	 */
 	public MappingFileKey(String mappingFileKey) {
 		rawKey = mappingFileKey;
+		
+		// Is this field type casted?
+		// (castType) xpath
 		paransB4XPath  = Pattern.compile("\\((.*)\\)\\s*");
         Matcher typeCastMatcher = paransB4XPath.matcher(mappingFileKey);
      	if(typeCastMatcher.find()){
@@ -23,6 +31,23 @@ public class MappingFileKey {
     	}else{
     		dataPath = mappingFileKey;
     	}
+     	
+     	// Is this field forced boolean?
+     	// if.xpath
+     	Pattern strB4Dot = Pattern.compile("(.*?)\\.(.*)");
+     	Matcher fNMatcher = strB4Dot.matcher(dataPath);
+     	if( fNMatcher.find() ){
+	        String prefix = fNMatcher.group(1);
+	        if(prefix.equalsIgnoreCase("if")){
+	        	dataPath = fNMatcher.group(2);
+	        	forcedBool = true;
+	        }else{
+//	        	wmd.debug("prefix '"+prefix+"' ignored on '"+dataPath+"'");
+	        	dataPath = fNMatcher.group(2);
+	        	
+	        }
+     		
+     	}
 	}
 	
     /**
@@ -40,6 +65,10 @@ public class MappingFileKey {
 	
 	public String getRawKey(){
 		return rawKey;
+	}
+	
+	public boolean isForcedBool(){
+		return forcedBool;
 	}
 	
 	public boolean equals(MappingFileKey m){

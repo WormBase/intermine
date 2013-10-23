@@ -1,0 +1,52 @@
+<project name="process" default="default" basedir="true">
+    
+    <property name="prep-script" value="prep_${class}.pl"/>
+    
+    <property name="purge-script" value="purge_${class}.pl"/>
+    <property name="purge-whitelist" location="whitelist/species_whitelist.txt"/>
+    <property name="purge-rejects" location="rejected_by_purge.xml"/>
+    
+    <target name="default" depends="process"/>
+    
+    <!-- Expects class, input-file, output-file -->
+    <target name="process">
+        <echo>
+            Processing ${class}
+            Input: ${input-file}
+            Output: ${output-file}
+        </echo>
+        <antcall target="prep" inheritall="false">
+            <param name="input-file" value="${input-file}"/>
+            <param name="output-file" value="${input-file}-temp"/>    
+            <param name="prep-script" value="${prep-script}"/>
+        </antcall>
+        <antcall target="purge" inheritall="false">
+            <param name="input-file" value="${input-file}-temp"/>
+            <param name="output-file" value="${output-file}"/>    
+            <param name="purge-script" value="${purge-script}"/>
+        </antcall>
+        <delete file="${input-file}-temp" />
+        
+    </target>
+    
+    <target name="prep">
+        <echo message="Preparing ${input-file}"/>
+        <exec executable="perl" failonerror="true">
+            <arg value="${prep-script}"/>
+            <arg value="${input-file}"/>
+            <arg value="${output-file}"/>
+        </exec>
+    </target>
+    
+    <target name="purge">
+        <echo message="Purging ${input-file}"/>
+        <exec executable="perl" failonerror="true">
+            <arg value="${purge-script}"/>
+            <arg value="${input-file}"/>
+            <arg value="${output-file}"/>
+            <arg value="${purge-whitelist}"/>
+            <arg value="${purge-rejects}"/>
+        </exec>
+    </target>
+    
+</project>

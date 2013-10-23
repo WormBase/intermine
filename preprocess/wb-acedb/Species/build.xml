@@ -1,0 +1,35 @@
+<project name="process" default="default" basedir="true">
+    
+    <property name="prep-script" value="prep_${class}.pl"/>
+    
+    <target name="default" depends="process"/>
+    
+    <!-- Expects class, input-file, output-file -->
+    <target name="process">
+        <echo>
+            Processing ${class}
+        </echo>
+        <echo>
+            Nothing to be done here
+        </echo>
+        <copy file="${input-file}" tofile="${output-file}"/>
+    </target>
+    
+    <target name="purify">
+        <echo message="Purifying ${input-file}"/>
+        <exec executable="perl" failonerror="true">
+            <arg value="${purify-script}"/>
+            <arg value="${input-file}"/>
+            <arg value="${output-file}"/>
+        </exec>
+    </target>
+    
+    <target name="prep">
+        <exec executable="perl" failonerror="true">
+            <arg value="${prep-script}"/>
+            <arg value="${input-file}"/>
+            <arg value="${output-file}"/>
+        </exec>
+    </target>
+    
+</project>

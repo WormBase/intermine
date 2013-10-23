@@ -1,0 +1,12 @@
+<project name="process-ace" default="default" basedir="true">
+    
+    <property name="purify-script" location="purify_xace/purify_xace.pl" />
+    
+    <target name="default" depends="process"/>
+    
+    <!-- Expects class, input-file, output-file -->
+    <target name="process">
+        <ant dir="${class}" inheritAll="true" />
+    </target>
+    
+</project>

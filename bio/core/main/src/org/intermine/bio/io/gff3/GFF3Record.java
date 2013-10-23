@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
+import org.apache.commons.lang3.StringEscapeUtils;
+
 
 import org.intermine.util.StringUtil;
 import org.intermine.util.XmlUtil;
@@ -145,11 +147,12 @@ public class GFF3Record
     }
 
     private void parseAttribute(String argAttributeString, String line) throws IOException {
-        String attributeString = argAttributeString;
-        StringTokenizer sTok = new StringTokenizer(attributeString, ";", false);
-
-        while (sTok.hasMoreTokens()) {
-            String attVal = sTok.nextToken().trim();
+        String attributeString = StringEscapeUtils.unescapeHtml4(argAttributeString);
+        
+        String[] sTok = attributeString.split("(?<!\\\\);"); 
+        
+        for(int j=0; j<sTok.length; j++) {
+            String attVal = sTok[j].trim();
 
             if (attVal.length() == 0) {
                 continue;

@@ -1,12 +1,9 @@
-cd dbmodel;
-ant clean build-db -v > ../pbuild.log;  
-cd ..;
+../bio/scripts/project_build -v \
+-b \
+-a \
+'wb-acedb-RNAi'\
+ localhost wormmine_dump
 
-cd integrate;
-ant -v -Dsource=\
-wb-acedb-transcript\
- >> ../pbuild.log;
-cd ..;
 
 #cd postprocess;
 #ant;

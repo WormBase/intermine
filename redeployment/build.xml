@@ -1,0 +1,355 @@
+<project name="update-wormmine" default="default" basedir=".">
+    
+    
+    
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="ant-contrib/ant-contrib-1.0b3.jar"/>
+
+        </classpath>
+    </taskdef>
+    
+    <property file="update.properties" />
+    
+    <target name="default" depends="backup, clear, run-all"/>
+        
+    <target name="run-all" depends="fasta, gff3, go, gaf, ace-xml" description="Download and process all file types"/>
+    
+    <target name="backup" description="back up data directory">
+        <tstamp>
+            <format property="TODAY" pattern="MM-dd-yy"/>
+        </tstamp>
+        <echo>Backing up ${datadir}</echo>
+        <copy todir="${backup-dirname}-${TODAY}">
+            <fileset dir="${datadir}" casesensitive="no">
+                <exclude name="**/*test*"/>
+                <exclude name="**/*delete*"/>
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="clear" description="Deletes old data directory">
+        <echo>
+            Deleting data directory
+        </echo>
+        <delete dir="${datadir}"/>
+    </target>
+    
+    <target name="get-assembly-ids" description="gets the bioproject ids of each species' assembly, generates ${assemblies-properties}">
+        <exec executable="perl" failonerror="true">
+            <arg value="${assemblies-parser}"/>
+            <arg value="${assemblies-file}"/>
+            <arg value="${assemblies-properties}"/>
+        </exec>
+        <property file="${assemblies-properties}"/>
+    </target>
+    
+    <target name="fasta" description="Downloads and processes all gemonic and protein fasta" depends="genomic-fasta, protein-fasta" />
+    
+    <target name="genomic-fasta" description="Downloads genomic fasta" depends="get-all-genomic-fasta"/>
+    
+    <target name="get-all-fasta" description="Retrieves newest version of fasta files" depends="get-all-genomic-fasta, get-all-protein-fasta"/>
+    
+    <target name="get-all-genomic-fasta" description="Retrieves newest genomic fasta files" depends="get-assembly-ids">
+         <loadfile property="genomic-species-list" srcfile="${genomic-fasta-species-file}"/>
+         <echo message="Downloading genomic fasta for:"/>
+         <echo message="${genomic-species-list}" />
+         <foreach list="${genomic-species-list}" target="get-genomic-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
+    </target>
+    
+    <!-- Expects ${species} ex:"c_elegans" depends on get-assembly-ids -->
+    <target name="get-genomic-fasta" description="retrieves a single genomic fasta file">
+        
+        <echo>
+            Getting genomic fasta for ${species}
+        </echo>
+        
+        <!-- Sample URL: ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz -->
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        
+        <!-- Using get task -->
+        <property name="gz-filename" value="${species}.${bpid}.${release}.genomic.fa.gz" />
+        <property name="full-url">
+            ${release-url}/species/${species}/${bpid}/${gz-filename}
+        </property>
+        <property name="destdir" value="${datadir}/fasta/${species}/genomic" />
+        <mkdir dir="${destdir}" />
+        <get src="${full-url}" dest="${destdir}" verbose="false" />
+        
+        <!-- FTP disabled
+            We need FTP to enable download-if-newer functionality.  get's doesnt work with ftp
+            
+            Works with:
+        <include name="pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz" />
+        not with: 
+        <include name="${full-path}" />
+        they resolve to the same string, doesn't work for some reason
+        -->
+        <!--
+        <property name="full-path">
+            ${release-ftp-path}/species/${species}/${bpid}/${species}.${bpid}.${release}.genomic.fa.gz
+        </property>
+        <echo message="FTP path: ${full-path}"></echo>
+        <ftp    action="get" 
+                server="ftp.wormbase.org" 
+                userid="anonymous" 
+                password="WormMine"
+                verbose="yes"
+                newer="no"
+        >
+            <fileset dir=".">
+                <include name="pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz" />
+            </fileset>
+        </ftp>
+        -->
+        
+        <!-- Pass fileset result into property because gunzip doesn't take filesets --> 
+        
+        <gunzip src="${destdir}/${gz-filename}"/>
+        <delete file="${destdir}/${gz-filename}"/>
+        
+    </target>
+
+    <target name="protein-fasta" description="Downloads and processes all protein fasta" depends="get-all-protein-fasta, process-all-protein-fasta"/>
+    
+    <target name="get-all-protein-fasta" description="Retrieves newest protein fasta files" depends="get-assembly-ids">
+        <loadfile property="protein-species-list" srcfile="${protein-fasta-species-file}"/>
+        <echo message="Downloading proteins fasta for:"/>
+        <echo message="${protein-species-list}" />
+        <foreach list="${protein-species-list}" target="get-protein-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
+    </target>
+    
+    <target name="get-protein-fasta" description="retrieves a single protein fasta file">
+        
+        <echo>
+            Getting protein fasta for ${species}
+        </echo>
+        
+        <!-- Sample URL: ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz -->
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="gz-filename" value="${species}.${bpid}.${release}.protein.fa.gz" />
+        <property name="full-url">
+            ${release-url}/species/${species}/${bpid}/${gz-filename}
+        </property>
+        <property name="destdir" value="${datadir}/fasta/${species}/proteins/raw" />
+        <mkdir dir="${destdir}" />
+        <get src="${full-url}" dest="${destdir}" verbose="false" />
+        
+        <gunzip src="${destdir}/${gz-filename}"/>
+        <delete file="${destdir}/${gz-filename}"/>
+        
+    </target>
+    
+    <target name="process-all-protein-fasta" description="Runs pre-processing scripts for all protein fasta files" depends="get-assembly-ids">
+        <loadfile property="protein-species-list" srcfile="${protein-fasta-species-file}"/>
+        <echo message="Processing downloaded proteins fasta for:"/>
+        <echo message="${protein-species-list}" />
+        <foreach list="${protein-species-list}" target="process-protein-fasta" param="species" delimiter="${line.separator}" inheritall="true" />
+    </target>
+    
+    <target name="process-protein-fasta" description="Processes a species fasta file">
+        <echo>
+            Processing fasta for ${species}
+        </echo>
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="filename" value="${species}.${bpid}.${release}.protein.fa" />
+        <property name="destdir-base" value="${datadir}/fasta/${species}/proteins" />
+        <mkdir dir="${destdir-base}/prepped" />
+        
+        <!-- These properties are passed into the ant call -->
+        <property name="input-file" value="${destdir-base}/raw/${filename}"/>
+        <property name="output-file" value="${destdir-base}/prepped/prepped-${filename}"/>
+        <ant dir="${protein-fasta-pp-dir}/all" inheritAll="true" />
+        
+    </target>    
+    
+    <target name="gff3" description="Downloads and processes all gff3s" depends="get-all-gff3s, process-all-gff3s, get-all-gff3-mappings, process-all-gff3-mappings"/>
+    
+    <target name="get-all-gff3s" depends="get-assembly-ids" description="Retrieves gff3s for all species">
+        <loadfile property="gff3-species-list" srcfile="${gff3-species-file}"/>
+        <echo message="Downloading gff3s for:"/>
+        <echo message="${gff3-species-list}" />
+        <foreach list="${gff3-species-list}" target="get-gff3" param="species" delimiter="${line.separator}" inheritall="true" />
+        
+    </target>
+    
+    <target name="get-gff3" description="Retrieves single gff3 ">
+        <echo>
+            Getting gff3 for ${species}
+        </echo>
+        
+        <!-- Sample URL: ftp://ftp.wormbase.org/pub/wormbase/releases/WS238/species/c_elegans/PRJNA13758/c_elegans.PRJNA13758.WS238.genomic.fa.gz -->
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="gff3-gz-filename" value="${species}.${bpid}.${release}.annotations.gff3.gz" />
+        <property name="full-url">
+            ${release-url}/species/${species}/${bpid}/${gff3-gz-filename}
+        </property>
+        <property name="destdir" value="${datadir}/wormbase-gff3/${species}/raw" />
+        <mkdir dir="${destdir}" />
+        
+        <get src="${full-url}" dest="${destdir}" verbose="false" />
+        
+        <gunzip src="${destdir}/${gff3-gz-filename}"/>
+        <delete file="${destdir}/${gff3-gz-filename}"/>
+        
+    </target>
+    
+    <target name="process-all-gff3s" depends="get-assembly-ids" description="Processes all gff3s">
+        <loadfile property="gff3-species-list" srcfile="${gff3-species-file}"/>
+        <echo message="Processing gff3s for:"/>
+        <echo message="${gff3-species-list}" />
+        <foreach list="${gff3-species-list}" target="process-gff3" param="species" delimiter="${line.separator}" inheritall="true" />
+        
+    </target>
+    
+    <target name="process-gff3" description="Processes single gff3">
+         <echo>
+            Processing gff3 for ${species}
+        </echo>
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="filename" value="${species}.${bpid}.${release}.annotations.gff3" />
+        <property name="destdir-base" value="${datadir}/wormbase-gff3/${species}" />
+        <mkdir dir="${destdir-base}/final" />
+        
+        <!-- These properties are passed into the ant call -->
+        <property name="input-file" value="${destdir-base}/raw/${filename}"/>
+        <property name="output-file" value="${destdir-base}/final/cdogma-${filename}"/>
+        <ant dir="${gff3-pp-dir}/all" target="scrape" inheritAll="true" />
+       
+    </target>
+    
+    <target name="get-all-gff3-mappings" depends="get-assembly-ids" description="Retrieves all gff3 Gene ID mappings">
+        <loadfile property="gff3-idmap-species-list" srcfile="${gff3-idmap-species-file}"/>
+        <echo message="Downloading gff3s mappings for:"/>
+        <echo message="${gff3-idmap-species-list}" />
+        <foreach list="${gff3-idmap-species-list}" target="get-gff3-mapping" param="species" delimiter="${line.separator}" inheritall="true" />
+        
+    </target>
+    
+    <target name="get-gff3-mapping" depends="get-assembly-ids" description="Retrieves single gff3 id mapping">
+        <echo>
+            Getting gff3 ID mapping for ${species}
+        </echo>
+        
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="gff3-mapping-gz-filename" value="${species}.${bpid}.${release}.geneIDs.txt.gz" />
+        <property name="full-url">
+            ${release-url}/species/${species}/${bpid}/annotation/${gff3-mapping-gz-filename}
+        </property>
+        <property name="destdir" value="${datadir}/wormbase-gff3/${species}" />
+        <mkdir dir="${destdir}" />
+        
+        <get src="${full-url}" dest="${destdir}" verbose="false" />
+        
+        <gunzip src="${destdir}/${gff3-mapping-gz-filename}"/>
+        <delete file="${destdir}/${gff3-mapping-gz-filename}"/>
+        
+    </target>
+    
+    <target name="process-all-gff3-mappings" depends="get-assembly-ids" description="Converts all gff3 id mappings into a usable form">
+        <loadfile property="gff3-idmap-species-list" srcfile="${gff3-idmap-species-file}"/>
+        <echo message="Processing gff3 mappings for:"/>
+        <echo message="${gff3-idmap-species-list}" />
+        <foreach list="${gff3-idmap-species-list}" target="process-gff3-mapping" param="species" delimiter="${line.separator}" inheritall="true" />
+        
+    </target>
+    
+    <target name="process-gff3-mapping" depends="get-assembly-ids" description="Converts single id mapping">
+        <echo>
+            Processing gff3 mapping for ${species}
+        </echo>
+        <propertycopy name="bpid" from="bpid-${species}"/>
+        <property name="filename" value="${species}.${bpid}.${release}.geneIDs.txt" />
+        <property name="destdir-base" value="${datadir}/wormbase-gff3/${species}" />
+        <mkdir dir="${destdir-base}/mapping" />
+        
+        <!-- These properties are passed into the ant call -->
+        <property name="input-file" value="${destdir-base}/${filename}"/>
+        <property name="output-file" value="${destdir-base}/mapping/id_mapping.tab"/>
+        <ant dir="${gff3-pp-dir}/all" target="convert-id-mapping" inheritAll="true" />
+        
+    </target>
+    
+    <target name="go" depends="get-obo" description="Downloads GO Ontology file"/>
+    
+    <target name="get-obo" description="Retrieves GO ontology file">
+        <echo> 
+            Downloading gene ontology file
+        </echo>
+        <property name="destdir-go" value="${datadir}/go"/>
+        <mkdir dir="${destdir-go}"/>
+        <get src="${obo-url}" dest="${destdir-go}" />
+    </target>
+    
+    <target name="gaf" description="Downloads and processes Gene association file" depends="get-gaf, process-gaf" />
+    
+    <target name="get-gaf" description="Retrieves GO association file for all species">
+        <echo> 
+            Downloading gene association file
+        </echo>
+        <property name="destdir-gaf" value="${datadir}/go-association/raw"/>
+        <mkdir dir="${destdir-gaf}"/>
+        <get src="${gaf-url}" dest="${destdir-gaf}" />
+    </target>
+    
+    <target name="process-gaf" description="Processes GO association file">
+        <echo> 
+            Processing gene association file
+        </echo>
+        <property name="input-file" value="${datadir}/go-association/raw/${gaf-file}"/>
+        <property name="output-dir" value="${datadir}/go-association/final"/>
+        <property name="output-file" value="${output-dir}/prepped_${gaf-file}"/>
+        <mkdir dir="${output-dir}"/>
+        
+        <ant dir="${gaf-pp-dir}" inheritAll="true"/>
+        
+    </target>
+    
+    <target name="ace-xml" description="Copies and processes all Ace types in ace-classes-file" depends="get-all-ace-xml, process-all-ace-xml"/>
+    
+    <target name="get-all-ace-xml" description="Copies all AcdDB XML files in class list">
+        <loadfile property="ace-classes-list" srcfile="${ace-classes-file}"/>
+        <echo message="Copying the following ace XML:"/>
+        <echo message="${ace-classes-list}" />
+        <foreach list="${ace-classes-list}" target="get-ace-xml" param="class" delimiter="${line.separator}" inheritall="true" />
+    </target>
+    
+    <target name="get-ace-xml" description="Copies an AceDB XML file">
+        <echo>Getting ${class}.xml</echo>
+        <echo>From: ${ace-xml-dir}</echo>
+        <property name="file" location="${ace-xml-dir}/${class}.xml" />
+       
+        <fail message="Can't find ${file}">
+            <condition>
+                <not><resourcecount count="1">
+                    <fileset dir="${ace-xml-dir}" includes="${class}.xml" />
+                </resourcecount></not>
+            </condition>
+        </fail>
+        <copy todir="${datadir-ace}/${class}/raw" file="${ace-xml-dir}/${class}.xml"/>
+    </target>
+    
+    <target name="process-all-ace-xml" description="Processes all AceDB XML files">
+        <loadfile property="ace-classes-list" srcfile="${ace-classes-file}"/>
+        <echo message="Processing the following ace XML:"/>
+        <echo message="${ace-classes-list}" />
+        <foreach list="${ace-classes-list}" target="process-ace-xml" param="class" delimiter="${line.separator}" inheritall="true" />
+    </target>
+    
+    <target name="process-ace-xml">
+        <mkdir dir="${datadir-ace}/${class}/final"/>
+        <ant dir="${ace-pp-dir}" inheritAll="false" >
+            <property name="input-file" value="${datadir-ace}/${class}/raw/${class}.xml"/>
+            <property name="output-file" value="${datadir-ace}/${class}/final/final_${class}.xml"/>
+            <property name="class" value="${class}"/>
+        </ant>
+    </target>
+    
+    <target name="help">
+        <loadfile property="readme" srcfile="${readme-file}" />
+        <echo message="${readme}"/>
+    </target>
+    
+
+    
+</project>

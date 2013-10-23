@@ -1,0 +1,12 @@
+Anatomy_term
+CDS
+Expr_pattern
+Expression_cluster
+Gene
+Life_stage
+Phenotype
+Protein
+Species
+Transcript
+Variation
+RNAi

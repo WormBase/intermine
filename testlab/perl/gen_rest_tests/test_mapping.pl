@@ -1,0 +1,104 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+#use Webservice::InterMine ('http://www.wormbase.org/tools/wormmine');
+use Webservice::InterMine ('http://206.108.125.174:8080/wormmine/service');
+
+#my $clazz = 'Gene';
+
+die &usage unless scalar @ARGV >= 4;
+
+my (
+    $outfile_path, 
+    $ace_map_path,
+    $key_mapping_path,
+    @mapping_file_paths,
+) = @ARGV;
+
+open( my $ace_map, $ace_map_path ) or die "$!";
+my %ace_to_im = ();
+while( <$ace_map> ){
+    next if /^#|^\s*$/;
+    
+    my ($key, $value) = /(\S*)\s*=\s*(\S.*)/;
+    $ace_to_im{$key} = $value;
+}
+#print join("\n",@mapped_fields),"\n";
+close($ace_map);
+
+# fill key mapping
+my %key_mapping = ();
+open( my $key_mapping, $key_mapping_path ) or die "$!";
+while(<$key_mapping>){
+    next unless /(\w+).*?=\s*(\w+)/;
+    my ($key, $value) = ($1,$2);
+    $key_mapping{$key} = $value;
+}
+close($key_mapping);
+
+#my $mapping_file_path = $mapping_file_dir; # REMOVE 
+open( my $outfile, '>'.$outfile_path ) or die "$!";
+
+
+foreach my $mapping_file_path ( @mapping_file_paths ){
+
+    my ($aceclazz) = $mapping_file_path =~ m|([^/\s]+)_mapping.properties|;
+    my $clazz = $ace_to_im{$aceclazz} ? $ace_to_im{$aceclazz} : $aceclazz;
+    
+    print "class=".$clazz."\n"; # DELETE
+
+    printf $outfile ("%s%s - %s\n",
+      $aceclazz,
+      $ace_to_im{$aceclazz} ? ' = '.$ace_to_im{$aceclazz} : '',
+      $mapping_file_path);
+
+    open( my $infile, $mapping_file_path ) or die "$!";
+    my @mapped_fields;
+    <$infile>;
+    while( <$infile> ){
+        next if /^#|^\s*$/;
+        
+        my ($key, $value) = /(?:\S+\.|\(\S+\)\s*)?(.*?)\s*=\s*(\S.*)/;
+        push @mapped_fields, $key;
+    }
+    #print join("\n",@mapped_fields),"\n";
+    close($infile);
+
+    my $service = Webservice::InterMine->get_service;
+
+    #print $_,"\n" foreach $cd->collections;
+
+    foreach my $field ( @mapped_fields ){
+        my $query;
+        eval{
+            $query = $service->new_query(class => $clazz);
+            $query->select($key_mapping{$clazz})->where($field => { isnt => undef} );
+        };
+
+        printf $outfile ("%-20s - %s\n", 
+            $@ ? $@ : 
+                $query->count() > 0 ? 'OK' : 'NO RECORDS FOUND', $field);
+    }
+    print $outfile "\n\n";
+
+}
+
+sub usage{
+<<USAGE;
+Usage:
+
+    perl $0 <output file> <ace map file> <key mapping file path> <mapping file path> [... <mapping file path>]
+
+Generates basic "presence" acceptance tests got a given wormbase-acedb mapping file.
+
+The ace map file maps ace classes to intermine classes.  Example line:
+    Anatomy_term    = AnatomyTerm
+
+The key mapping file tells the script what fields of each class is used as a key.
+    Pseudogene.key  = primaryIdentifier
+
+
+Puts results in a single output file.
+USAGE
+}
