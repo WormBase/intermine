@@ -80,6 +80,9 @@
       <fieldconfig fieldExpr="chromosomeLocation" displayer="/model/chromosomeLocDisplayer.jsp"/>
       <fieldconfig fieldExpr="organism.name"/>
       <fieldconfig fieldExpr="RNAiResult" label="RNAi Result"/>
+      
+      <!-- DELETE THIS WHEN DUPLICATE FIELD "SEQUENCENAME" REMOVED -->
+      <fieldconfig fieldExpr="sequenceName" label="secondaryID"/> 
     </fields>
   </class>
 
