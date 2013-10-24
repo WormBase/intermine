@@ -76,8 +76,8 @@ foreach my $type (qw/gff3/){
                 $tt->process(\$template, {
                     species => $species,
                     type => $subtype,
-                    typeMapping => -d "$datadir/wormbase-gff3/$species/mapping"
-                    }, \$result) || die $tt->error; 
+                    IDMapping => $subtype eq 'gene' && -d "$datadir/wormbase-gff3/$species/mapping" ? 1 : 0
+                }, \$result) || die $tt->error; 
             
      
                 
@@ -162,7 +162,7 @@ sub gen_protein_template{
 TEMPLATE
 }
 
-# species, type, typeMapping = 1 or 0
+# species, type, IDMapping = 1 or 0
 sub gen_gff3_template{
 <<TEMPLATE;
     <source name="[% species %]-gff3-[% type %]" type="wormbase-gff3-core" dump="false">

@@ -511,183 +511,190 @@
 	<!-- GFF3 sources -->
 
 
-    <!-- GFF3 gene -->
-    <source name="a_suum-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&a_suum_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" A. Suum  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/a_suum/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="b_malayi-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&b_malayi_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" B. Malayi  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/b_malayi/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="b_xylophilus-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&b_xylophilus_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" B. Xylophilus  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/b_xylophilus/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="c_angaria-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&c_angaria_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" C. Angaria  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_angaria/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="c_brenneri-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&c_brenneri_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" C. Brenneri  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_brenneri/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="c_briggsae-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&c_briggsae_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" C. Briggsae  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_briggsae/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="c_elegans-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&c_elegans_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" C. Elegans  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_elegans/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="c_japonica-gff3-gene" type="wormbase-gff3-core" dump="true">
-        <property name="gff3.taxonId"           value="&c_japonica_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" C. Japonica  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_japonica/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="c_remanei-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&c_remanei_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" C. Remanei  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_remanei/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="h_bacteriophora-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&h_bacteriophora_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" H. Bacteriophora  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/h_bacteriophora/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="h_contortus-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&h_contortus_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" H. Contortus  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/h_contortus/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="m_hapla-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&m_hapla_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" M. Hapla  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/m_hapla/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="m_incognita-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&m_incognita_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" M. Incognita  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/m_incognita/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="p_pacificus-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&p_pacificus_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" P. Pacificus  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/p_pacificus/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="s_ratti-gff3-gene" type="wormbase-gff3-core" dump="false">
-        <property name="gff3.taxonId"           value="&s_ratti_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" S. Ratti  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/s_ratti/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
-    <source name="t_spiralis-gff3-gene" type="wormbase-gff3-core" dump="true">
-        <property name="gff3.taxonId"           value="&t_spiralis_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-        <property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value=" T. Spiralis  genomic annotations (GFF3 gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/t_spiralis/final"/> 
-        <property name="gff3.allowedClasses"    value="gene"/>
-        <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
-    </source>
-
+      <!-- GFF3 gene -->
+      <source name="a_suum-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&a_suum_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" A. Suum  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/a_suum/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+      </source>
+      
+      <source name="b_malayi-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&b_malayi_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" B. Malayi  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/b_malayi/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+          <property name="gff3.IDMappingFile"     value="&datadir;/wormbase-gff3/b_malayi/mapping/id_mapping.tab"/>
+      </source>
+      
+      <source name="b_xylophilus-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&b_xylophilus_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" B. Xylophilus  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/b_xylophilus/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+      </source>
+      
+      <source name="c_angaria-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&c_angaria_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" C. Angaria  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_angaria/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+      </source>
+      
+      <source name="c_brenneri-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&c_brenneri_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" C. Brenneri  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_brenneri/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+          <property name="gff3.IDMappingFile"     value="&datadir;/wormbase-gff3/c_brenneri/mapping/id_mapping.tab"/>
+      </source>
+      
+      <source name="c_briggsae-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&c_briggsae_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" C. Briggsae  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_briggsae/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+          <property name="gff3.IDMappingFile"     value="&datadir;/wormbase-gff3/c_briggsae/mapping/id_mapping.tab"/>
+      </source>
+      
+      <source name="c_elegans-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&c_elegans_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" C. Elegans  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_elegans/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+          <property name="gff3.IDMappingFile"     value="&datadir;/wormbase-gff3/c_elegans/mapping/id_mapping.tab"/>
+      </source>
+      
+      <source name="c_japonica-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&c_japonica_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" C. Japonica  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_japonica/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+          <property name="gff3.IDMappingFile"     value="&datadir;/wormbase-gff3/c_japonica/mapping/id_mapping.tab"/>
+      </source>
+      
+      <source name="c_remanei-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&c_remanei_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" C. Remanei  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/c_remanei/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+          <property name="gff3.IDMappingFile"     value="&datadir;/wormbase-gff3/c_remanei/mapping/id_mapping.tab"/>
+      </source>
+      
+      <source name="h_bacteriophora-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&h_bacteriophora_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" H. Bacteriophora  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/h_bacteriophora/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+      </source>
+      
+      <source name="h_contortus-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&h_contortus_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" H. Contortus  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/h_contortus/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+      </source>
+      
+      <source name="m_hapla-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&m_hapla_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" M. Hapla  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/m_hapla/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+      </source>
+      
+      <source name="m_incognita-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&m_incognita_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" M. Incognita  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/m_incognita/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+      </source>
+      
+      <source name="p_pacificus-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&p_pacificus_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" P. Pacificus  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/p_pacificus/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+          <property name="gff3.IDMappingFile"     value="&datadir;/wormbase-gff3/p_pacificus/mapping/id_mapping.tab"/>
+      </source>
+      
+      <source name="s_ratti-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&s_ratti_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" S. Ratti  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/s_ratti/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+      </source>
+      
+      <source name="t_spiralis-gff3-gene" type="wormbase-gff3-core" dump="false">
+          <property name="gff3.taxonId"           value="&t_spiralis_taxon_id;"/>
+          <property name="gff3.seqDataSourceName" value="WormBase"/>
+          <property name="gff3.dataSourceName"    value="WormBase"/>
+          <property name="gff3.seqClsName"        value="Chromosome"/>
+          <property name="gff3.dataSetTitle"      value=" T. Spiralis  genomic annotations (GFF3 gene)"/>
+          <property name="src.data.dir"           location="&datadir;/wormbase-gff3/t_spiralis/final"/> 
+          <property name="gff3.allowedClasses"    value="gene"/>
+          <property name="gff3.typeMappingFile"   value="&build_config;/wormbase-gff3/typeMapping.tab"/>
+      </source>
+      
 
 
     <!-- GFF3 mrna -->
