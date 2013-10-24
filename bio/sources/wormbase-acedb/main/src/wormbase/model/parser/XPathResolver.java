@@ -70,15 +70,8 @@ public class XPathResolver {
 	 * @throws Exception
 	 */
 	private void createDataMapping(String mappingFile ) throws Exception{
-        LinkedProperties dataMapping = new LinkedProperties();
+        Properties dataMapping = new Properties();
         FileReader mappingFR = new FileReader(mappingFile);
-        
-        /*
-         * PROBLEM:
-         * Properties type is map, doesn't save order.
-         * Create parallel array to preserve order, use to will in linkedHashMaps defined above
-         * 
-         */
         
     	try {
 			dataMapping.load(mappingFR);

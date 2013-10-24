@@ -1,7 +1,6 @@
 ../bio/scripts/project_build -v \
--b \
 -a \
-'wb-acedb-RNAi'\
+'wb-acedb-Anatomy_term'\
  localhost wormmine_dump
 
 
