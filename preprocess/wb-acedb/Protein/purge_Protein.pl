@@ -24,6 +24,7 @@ while(<$whitelist>){
 	chomp;
 	$species_wl{$_} = 1;
 }
+my $passing_species = join('|', keys %species_wl);
 
 my $xs = XML::Simple->new( 
 	ForceArray 	=> 1, 
@@ -48,20 +49,11 @@ sub process{
 	
 	my $xml_chunk = shift;
 	#print "[[processing item]]\n";
-	my $ref;
-	eval{
-		$ref = $xs->XMLin($xml_chunk);
-	};
-	if( $@ ){ # if eval had to catch
-		print $rejectsfile $xml_chunk."\n";
-	}
 	
-	my $id = $ref->{content};
-	return if $id =~ /^MSP:/;
+	return if grep(/^<Protein>MSP:/, $xml_chunk);
 	
-	my $species = $ref->{Origin}[0]{Species}[0]{Species}[0];
-	return unless defined $species_wl{$species};
-	
+	return unless grep(/<Species>($passing_species)<\/Species>/, $xml_chunk);
+
 	#print Dumper $species;
 	#print $id."\n";
 	print $outfile $xml_chunk."\n";
