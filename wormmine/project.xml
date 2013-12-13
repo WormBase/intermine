@@ -56,11 +56,11 @@
   <sources>
 	  
 	<source name="go" type="go" dump="false">
-		<property name="src.data.file" location="&datadir;/go/gene_ontology.WS239.obo"/>
+		<property name="src.data.file" location="&datadir;/go/gene_ontology.WS240.obo"/>
 	</source>
 	
 	<source name="go-annotation" type="go-annotation" dump="true">
-		<property name="ontologyfile" location="&datadir;/go/gene_ontology.WS239.obo"/>
+		<property name="ontologyfile" location="&datadir;/go/gene_ontology.WS240.obo"/>
 		<property name="src.data.dir" location="&datadir;/go-association/final"/>
 	</source>
 

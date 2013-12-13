@@ -70,10 +70,14 @@ public class XPathResolver {
 	 * @throws Exception
 	 */
 	private void createDataMapping(String mappingFile ) throws Exception{
-        LinkedProperties dataMapping = new LinkedProperties();
+        Properties dataMapping = new Properties();
         FileReader mappingFR = new FileReader(mappingFile);
         
         /*
+         * Used to rely on "LinkedProperties" instead of "Properties", presumably
+         * because of the comment below. Why, how, and which LinkedProperties
+         * was used is unclear though. Change to "Properties" might bomb later.
+         * 
          * PROBLEM:
          * Properties type is map, doesn't save order.
          * Create parallel array to preserve order, use to will in linkedHashMaps defined above
