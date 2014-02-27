@@ -1,0 +1,40 @@
+<project name="process" default="default" basedir="true">
+    
+    <property name="prep-script" value="prep_${class}.pl"/>
+    
+    <target name="default" depends="process"/>
+    
+    <!-- Expects class, input-file, output-file -->
+    <target name="process">
+        <echo>
+            Processing ${class}
+            Input: ${input-file}
+            Output: ${output-file}
+        </echo>
+        <antcall target="prep" inheritall="false">
+            <param name="input-file" value="${input-file}"/>
+            <param name="output-file" value="${output-file}"/>    
+            <param name="prep-script" value="${prep-script}"/>
+        </antcall>
+        <delete file="${input-file}-temp" />
+        
+    </target>
+    
+    <target name="purify">
+        <echo message="Purifying ${input-file}"/>
+        <exec executable="perl" failonerror="true">
+            <arg value="${purify-script}"/>
+            <arg value="${input-file}"/>
+            <arg value="${output-file}"/>
+        </exec>
+    </target>
+    
+    <target name="prep">
+        <exec executable="perl" failonerror="true">
+            <arg value="${prep-script}"/>
+            <arg value="${input-file}"/>
+            <arg value="${output-file}"/>
+        </exec>
+    </target>
+    
+</project>

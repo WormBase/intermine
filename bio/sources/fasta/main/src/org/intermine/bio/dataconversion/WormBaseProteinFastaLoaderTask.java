@@ -5,9 +5,12 @@ import org.intermine.model.bio.BioEntity;
 import org.intermine.model.bio.DataSet;
 import org.intermine.model.bio.Organism;
 import org.intermine.objectstore.ObjectStoreException;
+import org.intermine.model.bio.Protein;
 
 
 public class WormBaseProteinFastaLoaderTask extends FastaLoaderTask {
+	
+	String proteinPrefix = "Protein:";
 	
     /**
      * Do any extra processing needed for this record (extra attributes, objects, references etc.)
@@ -26,11 +29,16 @@ public class WormBaseProteinFastaLoaderTask extends FastaLoaderTask {
         String name = bioJavaSequence.getName();
         String[] ids = name.split("\\|");
         
-       	bioEntity.setFieldValue("primaryIdentifier", this.PIDPrefix + ids[0]);
+       	
        	bioEntity.setFieldValue("secondaryIdentifier", ids[1]);
-       
         
-        //System.out.println("JDJDLOG::"+name);
+       	if(bioEntity instanceof Protein){
+       		bioEntity.setFieldValue("primaryIdentifier", proteinPrefix + this.PIDPrefix + ids[0]);
+       		bioEntity.setFieldValue("primaryAccession", this.PIDPrefix + ids[0]);
+       	}else{
+       		bioEntity.setFieldValue("primaryIdentifier", this.PIDPrefix + ids[0]);
+       	}
+
     }
 
 	

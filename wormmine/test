@@ -1,6 +1,7 @@
-cd dbmodel;
-ant clean build-db -v > ../pbuild.log;  
-cd ..;
+../bio/scripts/project_build -v \
+-a \
+'wb-acedb-Anatomy_term'\
+ localhost wormmine_dump
 
 cd integrate;
 ant -v -Dsource=\
@@ -15,4 +16,3 @@ cd ..;
 #cd webapp;
 #ant default remove-webapp release-webapp;
 #cd ..;
-

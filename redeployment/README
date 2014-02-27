@@ -1,0 +1,12 @@
+WormMine update build
+
+run with:
+ant [-Drelease=<release>]
+
+Can specify optional WormBase release with -Drelease flag.  Whichever folder from the present WormBase URL ftp://ftp.wormbase.org/pub/wormbase/releases/ you want the program to download files from. 
+
+To pass multiple parameters to a target, follow the example:
+        ant process-all-ace-xml -Dace-classes-list=Expr_pattern$'\n'Expression_cluster
+This processes the Ace XML for both Expr_pattern and Expression_cluster
+
+Properties can be permanently set in update.properties

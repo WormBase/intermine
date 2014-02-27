@@ -1,0 +1,156 @@
+    <!-- AnatomyTerm -->
+    <source name="wb-acedb-Anatomy_term" type="wormbase-acedb" dump="false">
+        <property name="source.class" value="AnatomyTerm"/>
+        <property name="src.data.dir" location="&datadir;/wormbase-acedb/Anatomy_term/final" />
+        <property name="mapping.file" 
+            value="&build_config;/wormbase-acedb/Anatomy_term_mapping.properties" />
+        <property name="key.file"
+            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+        <property name="rejects.file" 
+            value="&build_output;/wormbase-acedb-Anatomy_term-rejects.xml"/>
+        <property name="data.set" value="AceDB XML (Anatomy_term)"/>
+    </source>
+
+    <!-- CDS -->
+    <source name="wb-acedb-CDS" type="wormbase-acedb" dump="false">
+        <property name="source.class" value="CDS"/>
+        <property name="src.data.dir" location="&datadir;/wormbase-acedb/CDS/final" />
+        <property name="mapping.file" 
+            value="&build_config;/wormbase-acedb/CDS_mapping.properties" />
+        <property name="key.file"
+            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+        <property name="rejects.file" 
+            value="&build_output;/wormbase-acedb-CDS-rejects.xml"/>
+        <property name="data.set" value="AceDB XML (CDS)"/>
+    </source>
+
+    <!-- ExpressionCluster -->
+    <source name="wb-acedb-Expression_cluster" type="wormbase-acedb" dump="false">
+        <property name="source.class" value="ExpressionCluster"/>
+        <property name="src.data.dir" location="&datadir;/wormbase-acedb/Expression_cluster/final" />
+        <property name="mapping.file" 
+            value="&build_config;/wormbase-acedb/Expression_cluster_mapping.properties" />
+        <property name="key.file"
+            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+        <property name="rejects.file" 
+            value="&build_output;/wormbase-acedb-Expression_cluster-rejects.xml"/>
+        <property name="data.set" value="AceDB XML (Expression_cluster)"/>
+    </source>
+
+    <!-- EpressionPattern -->
+    <source name="wb-acedb-Expr_pattern" type="wormbase-acedb" dump="false">
+        <property name="source.class" value="EpressionPattern"/>
+        <property name="src.data.dir" location="&datadir;/wormbase-acedb/Expr_pattern/final" />
+        <property name="mapping.file" 
+            value="&build_config;/wormbase-acedb/Expr_pattern_mapping.properties" />
+        <property name="key.file"
+            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+        <property name="rejects.file" 
+            value="&build_output;/wormbase-acedb-Expr_pattern-rejects.xml"/>
+        <property name="data.set" value="AceDB XML (Expr_pattern)"/>
+    </source>
+
+    <!-- Gene -->
+    <source name="wb-acedb-Gene" type="wormbase-acedb" dump="false">
+        <property name="source.class" value="Gene"/>
+        <property name="src.data.dir" location="&datadir;/wormbase-acedb/Gene/final" />
+        <property name="mapping.file" 
+            value="&build_config;/wormbase-acedb/Gene_mapping.properties" />
+        <property name="key.file"
+            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+        <property name="rejects.file" 
+            value="&build_output;/wormbase-acedb-Gene-rejects.xml"/>
+        <property name="data.set" value="AceDB XML (Gene)"/>
+    </source>
+
+    <!-- LifeStage -->
+    <source name="wb-acedb-Life_stage" type="wormbase-acedb" dump="false">
+        <property name="source.class" value="LifeStage"/>
+        <property name="src.data.dir" location="&datadir;/wormbase-acedb/Life_stage/final" />
+        <property name="mapping.file" 
+            value="&build_config;/wormbase-acedb/Life_stage_mapping.properties" />
+        <property name="key.file"
+            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+        <property name="rejects.file" 
+            value="&build_output;/wormbase-acedb-Life_stage-rejects.xml"/>
+        <property name="data.set" value="AceDB XML (Life_stage)"/>
+    </source>
+
+    <!-- Phenotype -->
+    <source name="wb-acedb-Phenotype" type="wormbase-acedb" dump="false">
+        <property name="source.class" value="Phenotype"/>
+        <property name="src.data.dir" location="&datadir;/wormbase-acedb/Phenotype/final" />
+        <property name="mapping.file" 
+            value="&build_config;/wormbase-acedb/Phenotype_mapping.properties" />
+        <property name="key.file"
+            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+        <property name="rejects.file" 
+            value="&build_output;/wormbase-acedb-Phenotype-rejects.xml"/>
+        <property name="data.set" value="AceDB XML (Phenotype)"/>
+    </source>
+
+    <!-- Protein -->
+    <source name="wb-acedb-Protein" type="wormbase-acedb" dump="false">
+        <property name="source.class" value="Protein"/>
+        <property name="src.data.dir" location="&datadir;/wormbase-acedb/Protein/final" />
+        <property name="mapping.file" 
+            value="&build_config;/wormbase-acedb/Protein_mapping.properties" />
+        <property name="key.file"
+            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+        <property name="rejects.file" 
+            value="&build_output;/wormbase-acedb-Protein-rejects.xml"/>
+        <property name="data.set" value="AceDB XML (Protein)"/>
+    </source>
+
+    <!-- RNAi -->
+    <source name="wb-acedb-RNAi" type="wormbase-acedb" dump="false">
+        <property name="source.class" value="RNAi"/>
+        <property name="src.data.dir" location="&datadir;/wormbase-acedb/RNAi/final" />
+        <property name="mapping.file" 
+            value="&build_config;/wormbase-acedb/RNAi_mapping.properties" />
+        <property name="key.file"
+            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+        <property name="rejects.file" 
+            value="&build_output;/wormbase-acedb-RNAi-rejects.xml"/>
+        <property name="data.set" value="AceDB XML (RNAi)"/>
+    </source>
+
+    <!-- Organism -->
+    <source name="wb-acedb-Species" type="wormbase-acedb" dump="false">
+        <property name="source.class" value="Organism"/>
+        <property name="src.data.dir" location="&datadir;/wormbase-acedb/Species/final" />
+        <property name="mapping.file" 
+            value="&build_config;/wormbase-acedb/Species_mapping.properties" />
+        <property name="key.file"
+            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+        <property name="rejects.file" 
+            value="&build_output;/wormbase-acedb-Species-rejects.xml"/>
+        <property name="data.set" value="AceDB XML (Species)"/>
+    </source>
+
+    <!-- Transcript -->
+    <source name="wb-acedb-Transcript" type="wormbase-acedb" dump="false">
+        <property name="source.class" value="Transcript"/>
+        <property name="src.data.dir" location="&datadir;/wormbase-acedb/Transcript/final" />
+        <property name="mapping.file" 
+            value="&build_config;/wormbase-acedb/Transcript_mapping.properties" />
+        <property name="key.file"
+            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+        <property name="rejects.file" 
+            value="&build_output;/wormbase-acedb-Transcript-rejects.xml"/>
+        <property name="data.set" value="AceDB XML (Transcript)"/>
+    </source>
+
+    <!-- Allele -->
+    <source name="wb-acedb-Variation" type="wormbase-acedb" dump="false">
+        <property name="source.class" value="Allele"/>
+        <property name="src.data.dir" location="&datadir;/wormbase-acedb/Variation/final" />
+        <property name="mapping.file" 
+            value="&build_config;/wormbase-acedb/Variation_mapping.properties" />
+        <property name="key.file"
+            value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+        <property name="rejects.file" 
+            value="&build_output;/wormbase-acedb-Variation-rejects.xml"/>
+        <property name="data.set" value="AceDB XML (Variation)"/>
+    </source>
+

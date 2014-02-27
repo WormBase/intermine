@@ -2,16 +2,18 @@
 *.jace
 *swp
 *log.txt
+*.nfs*
 delete.*
 DELETE.*
 notes
 
-datadir/fasta
-datadir/**/*.xml
-#datadir/**/test2.fa
 
-# We need genomic_model.xml to have that viewable online
+datadir
+datadir_old
+build_output
+
 wormmine/dbmodel/build/*
+
 
 # Standard patterns
 bin/

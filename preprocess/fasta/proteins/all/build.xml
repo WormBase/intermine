@@ -1,0 +1,24 @@
+<project name="process-protein-fasta" default="default" basedir=".">
+    
+    <!-- Expects input-file and output-file properties-->
+    
+    <property name="scripts" value="prep-wb-proteins.pl" />
+    
+    <target name="default" depends="run-scripts"/>
+    
+    <target name="run-scripts">
+        
+        <echo>
+            Running scripts: ${scripts}
+            Input file: ${input-file}
+            Output file: ${output-file}
+        </echo>
+        
+        <exec executable="perl" failonerror="true">
+            <arg value="${scripts}"/>
+            <arg value="${input-file}"/>
+            <arg value="${output-file}"/>
+        </exec>
+    </target>
+    
+</project>

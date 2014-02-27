@@ -1,0 +1,28 @@
+<project name="process" default="default" basedir="true">
+    
+    <target name="default" depends="process"/>
+    
+    <!-- Expects class, input-file, output-file -->
+    <target name="process">
+        <echo>
+            Processing ${class}
+            Input: ${input-file}
+            Output: ${output-file}
+        </echo>
+        <antcall target="purify" inheritall="false">
+            <param name="input-file" value="${input-file}"/>
+            <param name="output-file" value="${output-file}"/>    
+            <param name="purify-script" value="${purify-script}"/>
+        </antcall>
+    </target>
+    
+    <target name="purify">
+        <echo message="Purifying ${input-file}"/>
+        <exec executable="perl" failonerror="true">
+            <arg value="${purify-script}"/>
+            <arg value="${input-file}"/>
+            <arg value="${output-file}"/>
+        </exec>
+    </target>
+    
+</project>
