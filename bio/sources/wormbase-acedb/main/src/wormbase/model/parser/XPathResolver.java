@@ -33,10 +33,10 @@ public class XPathResolver {
     private MappingFileKey PIDKey = null;
     private XdmNode currentXMLItem;
     private LinkedHashMap<String, MappingFileKey> field2Key;
-    
+
 	/**
 	 * Parses the mapping file and resolves it's mappings on arbitrary chunks of XML.
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public XPathResolver(WMDebug wmd, String mappingFilePath) throws Exception{
 		this.wmd = wmd;
@@ -44,10 +44,10 @@ public class XPathResolver {
 		xpcomp = saxonProcessor.newXPathCompiler();
 		field2Key = new LinkedHashMap<String, MappingFileKey>();
 		key2Exec = new LinkedHashMap<MappingFileKey, XPathExecutable>();
-		
+
 		createDataMapping(mappingFilePath);
 	}
-	
+
 	/**
 	 * Returns net.sf.saxon.s9api.XdmNode constructed from XML string
 	 * @param xmlChunk
@@ -62,7 +62,7 @@ public class XPathResolver {
 									new java.io.ByteArrayInputStream(
 											xmlChunk.getBytes()))));
 	}
-	
+
 	/**
 	 * Populates internal MappingFileKey to XPathExecutable mapping from
 	 * properties file.
@@ -72,61 +72,71 @@ public class XPathResolver {
 	private void createDataMapping(String mappingFile ) throws Exception{
         Properties dataMapping = new Properties();
         FileReader mappingFR = new FileReader(mappingFile);
-        
+
+        /*
+         * Used to rely on "LinkedProperties" instead of "Properties", presumably
+         * because of the comment below. Why, how, and which LinkedProperties
+         * was used is unclear though. Change to "Properties" might bomb later.
+         *
+         * PROBLEM:
+         * Properties type is map, doesn't save order.
+         * Create parallel array to preserve order, use to will in linkedHashMaps defined above
+         *
+         */
     	try {
 			dataMapping.load(mappingFR);
 		} catch (FileNotFoundException e) {
 			wmd.debug("ERROR: "+mappingFile+" not found");
 			throw e;
 		}
-    	
+
 		wmd.debug("Parsing mapping file...");
         // Get enumerator of InterMine datapaths to map (ex: primaryIdentifier)
         Enumeration<Object> dataPathEnum = dataMapping.keys();
-        
+
     	wmd.debug("=== Mapping file entries ===");
         String rawPropKey;
-        
+
         // fill mapping file hash
         while( dataPathEnum.hasMoreElements() ){
         	rawPropKey = (String) dataPathEnum.nextElement(); // ex: "symbol"
         	if(rawPropKey.length() == 0){
         		continue;
         	}
-        	
+
         	MappingFileKey propKey = new MappingFileKey(rawPropKey);
-        	
+
         	wmd.debug("=== "+propKey.getRawKey()+" ===");
         	wmd.debug("cast type: "+propKey.getCastType());
         	wmd.debug("datapath: "+propKey.getDataPath());
 
         	String xpathQuery = dataMapping.getProperty(rawPropKey); // ex: "/Transcript/text()[1]"
-        	
+
         	// The XPath object compiles the XPath expression
         	XPathExecutable xpexec = xpcomp.compile( xpathQuery );
-	        
+
 	        field2Key.put(propKey.getDataPath(),propKey);
 	        key2Exec.put(propKey, xpexec);
         }
     	wmd.debug("=== ==================== ===");
 	}
-	
+
 	public void closeRejectsFile() throws IOException{
 		rejectsFW.close();
 	}
-	
+
 	/**
-	 * Evaluates the value of the given field in the current XML context.  
+	 * Evaluates the value of the given field in the current XML context.
 	 * @return String array of results, extra whitespace stripped
-	 * @throws SaxonApiException 
+	 * @throws SaxonApiException
 	 */
 	public String[] getFieldValue(String field) throws SaxonApiException{
 		// Prepare compiled xpath for execution
 		XPathSelector xpsel = key2Exec.get(field2Key.get(field)).load();
-		
+
 		// set context XML
 		xpsel.setContextItem(currentXMLItem);
-		
+
 		Vector<String> results = new Vector<String>();
 		// iterator() evaluates xpath on XML
 		Iterator<XdmItem> resultsIterator = xpsel.iterator();
@@ -134,7 +144,7 @@ public class XPathResolver {
 			XdmItem nextItem = resultsIterator.next();
 			results.add(StringUtils.strip(nextItem.getStringValue()));
 		}
-		
+
 		if(field2Key.get(field).isForcedBool()){
 			if(results.isEmpty()){
 				return new String[]{"false"};
@@ -142,14 +152,14 @@ public class XPathResolver {
 				return new String[]{"true"};
 			}
 		}
-		
+
 		return results.toArray(new String[]{});
 	}
-	
+
 	public MappingFileKey getMappingFileKey(String field){
 		return field2Key.get(field);
 	}
-	
+
 	public MappingFileKey[] getMappingFileFields(){
 		if(key2Exec != null){
 			return key2Exec.keySet().toArray(new MappingFileKey[]{});
@@ -165,7 +175,7 @@ public class XPathResolver {
 	 */
 	public void setXML(String xmlChunk) throws IOException{
 		try{
-			// Load XML into an XdmNode 
+			// Load XML into an XdmNode
 			// XdmNode is an XdmItem
 			currentXMLItem = XdmNodeFromString(xmlChunk);
 		}catch(SaxonApiException e){
@@ -175,10 +185,10 @@ public class XPathResolver {
 				currentXMLItem = XdmNodeFromString(repairedData);
 			}catch( Exception e1 ){
     			try{
-    				
+
     				if(rejectsFW != null){
 	    				wmd.log("### SANITATION FAILED: ADDING RECORD TO REJECTS FILE ###");
-	    				
+
 	    				// Add to rejects file
 		    			rejectsFW.write(xmlChunk);
 		    			rejectsFW.write("\n\n");
@@ -187,15 +197,15 @@ public class XPathResolver {
     				System.out.println("Something wrong with the FileWriter");
     				throw e2;
     			}
-    			
+
 			}
 		}
 	}
-	
+
 
 	public void setRejectFile(String rejectFilePath) throws IOException{
 		if(rejectFilePath != null)
 			rejectsFW = new FileWriter(rejectFilePath); // creates file if exists
-		
+
 	}
 }
