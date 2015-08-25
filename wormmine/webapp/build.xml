@@ -11,10 +11,10 @@
   	  depends="-pre-init">
     <unwar src="${dist.war}" dest="${build.dir}/webapp/">
       <patternset>
-  	<include name="WEB-INF/struts-config.xml"/>
+        <include name="WEB-INF/struts-config.xml"/>
         <include name="WEB-INF/tiles-defs.xml"/>
         <include name="WEB-INF/classes/InterMineWebApp.properties"/>  
-        <include name="WEB-INF/classes/model.properties"/>
+        <include name="WEB-INF/classes/model.properties"/>  
         <include name="WEB-INF/web.xml"/>
       </patternset>
     </unwar>
@@ -51,6 +51,7 @@
       <replacetoken><![CDATA[<!--@MODEL_INCLUDE@-->]]></replacetoken>
     </replace>
 
+    
  <!-- merge InterMine and model internationalisation properties files --> 
  <concat destfile="${build.dir}/webapp/WEB-INF/classes/InterMineWebApp.properties" append="yes"> 
    <fileset file="resources/model.properties"/> 
