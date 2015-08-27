@@ -89,7 +89,9 @@
       </li>
     </ul>
   <ul id="loginbar">
+	<!--
         <li><a href="#" onclick="showContactForm();return false;"><fmt:message key="feedback.link"/></a></li>
+	-->
         <c:if test="${PROFILE.loggedIn}">
             <li>
 
