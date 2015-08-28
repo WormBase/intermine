@@ -34,7 +34,7 @@
       </c:forEach>
     </div>
   </c:if>
-  <div id="header">
+  <div id="imheader">
     <a href="${WEB_PROPERTIES['project.sitePrefix']}" alt="Home" rel="NOFOLLOW"><img id="logo" src="model/images/logo.png" width="45px" height="43px" alt="Logo" /></a>
     <h1><html:link href="${WEB_PROPERTIES['project.sitePrefix']}/"><c:out value="${WEB_PROPERTIES['project.title']}" escapeXml="false"/></html:link></h1>
     <p id="version"><fmt:message key="header.version"/> <c:out value="${WEB_PROPERTIES['project.releaseVersion']}" escapeXml="false"/></span>
@@ -65,6 +65,7 @@
           <fmt:message key="menu.customQuery"/>&nbsp;
         </a>
       </li>
+      <!--
       <c:if test="${WEB_PROPERTIES['genomicRegionSearch.display'] == 'true'}">
           <li id="genomicRegionSearch" <c:if test="${tab == 'genomicRegionSearch'}">class="activelink"</c:if>>
             <a href="/${WEB_PROPERTIES['webapp.path']}/genomicRegionSearch.do">
@@ -77,6 +78,7 @@
           <fmt:message key="menu.dataCategories"/>
         </a>
       </li>
+      -->
       <li id="api"  <c:if test="${tab == 'api'}">class="activelink"</c:if>>
         <a href="/${WEB_PROPERTIES['webapp.path']}/api.do">
           <fmt:message key="menu.api"/>
