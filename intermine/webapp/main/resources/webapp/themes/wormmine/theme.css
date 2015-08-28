@@ -1,3 +1,6 @@
+/* This theme is mostly the original 'Grey' theme edited to work with
+   the WormBase styles */
+
 html, body {
     color: #000000;background-color: #FFF;}
 
@@ -19,13 +22,49 @@ h1 a:hover,h1 a:visited:hover  {
 
 /* =HEADER
 --------------------------*/
-div#header h1,
-div#header h1 a,
-div#header h1 a:link,
-div#header h1 a:visited,
-div#header p {
-    color:#000;
+/* =HEADER
+--------------------------*/
+#header a:link:hover {
+  text-decoration: none;
 }
+
+#header li {
+  margin:0;
+}
+
+#header {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    height: auto;
+    font-size: 100%;
+}
+
+#header h1, #header h1 a:link, #header h1 a:visited {
+    margin: 0px;
+    padding: 0px;
+    color: #FFF; 
+    font-weight: bold;
+    float: none;
+    font-size: 29px;
+}
+
+#header p {
+    margin: 0;
+    color: white;
+    font-size: 1em;
+    font-weight: normal;
+    float: none;
+}
+
+li.last {
+  height:6px;
+}
+
+#asdf {
+  color:red;
+}
+
 
 /*div.title h1 {
     color: #000;}
@@ -441,4 +480,50 @@ div.bagDetails-page div.widget table.table-striped tbody tr:hover td { backgroun
 
 .intermine .im-column-th .dropdown-menu:after {
   border-bottom-color: #1F7492;
+}
+
+
+/*Fix conflicts */
+
+input[type = "submit"].ui-icon-search,
+input[type = "button"].ui-icon-search {
+  background-image:url('/css/images/ui-icons_222222_256x240.png');
+  background-position: -160px -112px;
+  height:16px;
+}
+
+#pagecontentcontainer .button{
+  float:none;
+  border:none;
+  background:none;
+}
+#pagecontentcontainer .button:hover{
+  background:none;
+}
+
+#pagecontentcontainer textarea{
+  font-size:12px;
+}
+
+
+#imheader {
+    padding: 0;
+    margin: 0 0 10px 0;
+    height: 50px;
+    font-size: 12px;
+}
+
+#imheader h1, #imheader h1 a:link, #imheader h1 a:visited {
+    margin: 5px 0 0 10px;
+    padding: 0px;
+    font-size: 1.4em;
+    font-weight: bold;
+    float: left;
+}
+
+#imheader p {
+    margin: 20px 0 0 5px;
+    font-size: 1em;
+    font-weight: normal;
+    float: left;
 }
