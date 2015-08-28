@@ -87,9 +87,12 @@ li.last {
 }
 
 #pagecontent {
-  border-left:1px solid #000;
+/*  border-left:1px solid #000;
   border-right:1px solid #000;
-  border-bottom:1px solid #000;
+  border-bottom:1px solid #000; */
+    -webkit-box-shadow: 0px 0px 10px -5px rgba(0,0,0,0.28);
+    -moz-box-shadow: 0px 0px 10px -5px rgba(0,0,0,0.28);
+    box-shadow: 0px 0px 10px -5px rgba(0,0,0,0.28);
 }
 
 #loginbar  a:link, #loginbar a:visited, #loginbar{
@@ -519,11 +522,15 @@ input[type = "button"].ui-icon-search {
 }
 
 #imheader h1, #imheader h1 a:link, #imheader h1 a:visited {
-    margin: 5px 0 0 10px;
+    margin: 5px 0 0 5px;
     padding: 0px;
     font-size: 1.4em;
     font-weight: bold;
     float: left;
+}
+
+#logo {
+    margin: 8px 0 0 10px;
 }
 
 #imheader p {
