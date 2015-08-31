@@ -130,7 +130,11 @@ public class LocalMine implements ConfigurableMine
 
     @Override
     public String getDefaultValue() {
-        return defaultValues.iterator().next();
+	if (defaultValues.iterator().hasNext()){
+	    return defaultValues.iterator().next();
+	} else {
+	    return null;
+	}
     }
 
     @Override
