@@ -21,4 +21,19 @@
     <tile-name>model/proteins.jsp</tile-name>
     <aspect-source name="UniProt" url="http://www.uniprot.org"/>
   </aspect>
+  <aspect name="Expression">
+    <tile-name></tile-name>
+  </aspect>
+  <aspect name="Genetic Variations">
+    <tile-name></tile-name>
+  </aspect>
+  <aspect name="Phenotypes">
+    <tile-name></tile-name>
+  </aspect>
+  <aspect name="Gene Ontology">
+    <tile-name></tile-name>
+  </aspect>
+  <aspect name="Reagents">
+    <tile-name></tile-name>
+  </aspect>
 </aspects>
