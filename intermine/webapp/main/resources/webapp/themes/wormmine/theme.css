@@ -271,7 +271,7 @@ table.dbsources td.leftcol {
 .keywordSearchResults .resultTableContainer table.dbsources { border-left: 1px solid #DFDFDF; }
   .keywordSearchResults .resultTableContainer table.dbsources th { background:#000; color:#FFF; font-size:13px; padding:2px 8px; }
   .keywordSearchResults .resultTableContainer table.dbsources tr.keywordSearchResult { color:#000; }
-    .keywordSearchResults .resultTableContainer table.dbsources tr.keywordSearchResult td { line-height:12px; }
+    .keywordSearchResults .resultTableContainer table.dbsources tr.keywordSearchResult td { padding:0.5em; }
     .keywordSearchResults .resultTableContainer table.dbsources tr.keywordSearchResult div { margin:0; }
     .keywordSearchResults .resultTableContainer table.dbsources tr.keywordSearchResult.odd td { border-bottom:1px solid #DFDFDF;
       border-top:1px solid #DFDFDF; background:#FCFCFC; }

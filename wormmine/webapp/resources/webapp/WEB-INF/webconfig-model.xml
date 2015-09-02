@@ -75,8 +75,9 @@
       <fieldconfig fieldExpr="primaryIdentifier" label="WormBase Gene ID"/>
       <fieldconfig fieldExpr="symbol" label="Gene Name"/>
       <fieldconfig fieldExpr="secondaryIdentifier" label="Sequence Name"/>
-      <fieldconfig fieldExpr="briefDescription"/>
-      <fieldconfig fieldExpr="chromosomeLocation" displayer="/model/chromosomeLocDisplayer.jsp"/>
+<!--      <fieldconfig fieldExpr="briefDescription"/> -->
+      <fieldconfig fieldExpr="briefDescription" showInResults="false" showInInlineCollection="false" />
+<!--      <fieldconfig fieldExpr="chromosomeLocation" displayer="/model/chromosomeLocDisplayer.jsp"/> -->
       <fieldconfig fieldExpr="organism.name"/>
     </fields>
   </class>
