@@ -103,7 +103,7 @@
                        </label>
                    </td>
                    <td>
-                     <html:select property="extraFieldValue" styleId="extraConstraintSelect" disabled="false" >
+                     <html:select property="extraFieldValue" value="C. elegans" styleId="extraConstraintSelect" disabled="false" >
                            <html:option value="">Any</html:option>
                            <c:forEach items="${extraClassFieldValues}" var="value">
                              <html:option value="${value}">${value}</html:option>
