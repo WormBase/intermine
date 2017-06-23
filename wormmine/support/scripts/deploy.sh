@@ -7,7 +7,7 @@
 # TODO: not process XML files already processed
 
 #set the version to be accessed
-wbrel="WS259"
+wbrel="WS260"
 echo 'Release version' $wbrel
 
 
@@ -37,7 +37,7 @@ echo 'Release version' $wbrel
 declare -A species=(["c_elegans"]="PRJNA13758")
 
 #sourcedir='/mnt/data2/acedb_dumps/'$wbrel'' # <---- XML dump location
-sourcedir='/mnt/data2/acedb_dumps/WS259/WS259-test-data'
+sourcedir='/Users/nuin/AeroFS/intermine/'$wbrel'-test-data'
 
 #################### Main dirs ##################
 #                                               #
@@ -46,8 +46,8 @@ sourcedir='/mnt/data2/acedb_dumps/WS259/WS259-test-data'
 #  pp - pre-processing dir with perl and bash   #
 #                                               #
 #################### Species ####################
-intermine='/mnt/data2/intermine'
-#intermine='/Users/nuin/wormmine/' #local test
+# intermine='/mnt/data2/intermine'
+intermine='/Users/nuin/AeroFS/intermine/intermine/' #local test
 datadir=$intermine'/datadir'   # for now the datadir is inside the intermine directory
 acexmldir=$datadir'/wormbase-acedb'
 testlab=$intermine'/wormmine/support/scripts/testlab'
@@ -231,7 +231,7 @@ echo 'RNAi'
 mkdir -vp $datadir/wormbase-acedb/RNAi/XML
 mkdir -vp $datadir/wormbase-acedb/RNAi/mapping
 cp -v $sourcedir/RNAi.xml $acexmldir/RNAi/RNAi.xml
-cp -v $intermine'/wormmine/support/properties/RNAi_mapping.properties' $datadir'/wormbase-acedb/RNAi/mapping'
+cp -v $intermine'/wormmine/support/properties/rnai_mapping.properties' $datadir'/wormbase-acedb/RNAi/mapping'
 perl $testlab'/perl/preprocess/wb-acedb/RNAi/prep_RNAi.pl' $datadir'/wormbase-acedb/RNAi/RNAi.xml' $datadir'/wormbase-acedb/RNAi/XML/prepped_RNAi.xml'
 
 #################### variation ##################
@@ -242,22 +242,24 @@ cp -v $sourcedir/Variation.xml $acexmldir/variation/Variation.xml
 cp -v $intermine'/wormmine/support/properties/variation_mapping.properties' $datadir'/wormbase-acedb/variation/mapping'
 perl $testlab'/perl/preprocess/wb-acedb/variation/purify_variation.pl' $datadir'/wormbase-acedb/variation/Variation.xml' $datadir'/wormbase-acedb/variation/XML/prepped_variation.xml'
 
-#################### gene-class #################
-echo 'gene-class'
-mkdir -vp $datadir/wormbase-acedb/gene-class/XML
-mkdir -vp $datadir/wormbase-acedb/gene-class/mapping
-cp -v $sourcedir/Gene_class.xml $acexmldir/gene-class/Gene_class.xml
-cp -v $intermine'/wormmine/support/properties/gene_class_mapping.properties' $datadir'/wormbase-acedb/gene-class/mapping'
+#################### gene_class #################
+echo 'gene_class'
+mkdir -vp $datadir/wormbase-acedb/gene_class/XML
+mkdir -vp $datadir/wormbase-acedb/gene_class/mapping
+cp -v $sourcedir/Gene_class.xml $acexmldir/gene_class/Gene_class.xml
+cp -v $intermine'/wormmine/support/properties/gene_class_mapping.properties' $datadir'/wormbase-acedb/gene_class/mapping'
+perl $testlab'/perl/preprocess/wb-acedb/gene_class/prep_gene_class.pl' $datadir'/wormbase-acedb/gene_class/Gene_class.xml' $datadir'/wormbase-acedb/gene_class/XML/prepped_gene_class.xml'
 
 
 # panther
-echo 'panther'
-mkdir -p $datadir/panther
-wget -O $datadir'/panther/RefGenomeOrthologs.tar.gz' ftp://ftp.pantherdb.org/ortholog/current_release/RefGenomeOrthologs.tar.gz
-tar xzvf $datadir'/panther/RefGenomeOrthologs.tar.gz' -C $datadir'/panther'
-rm -v $datadir'/panther/RefGenomeOrthologs.tar.gz'
+# echo 'panther'
+# mkdir -p $datadir/panther
+# wget -O $datadir'/panther/RefGenomeOrthologs.tar.gz' ftp://ftp.pantherdb.org/ortholog/current_release/RefGenomeOrthologs.tar.gz
+# tar xzvf $datadir'/panther/RefGenomeOrthologs.tar.gz' -C $datadir'/panther'
+# rm -v $datadir'/panther/RefGenomeOrthologs.tar.gz'
 
 cd $intermine'/wormmine'
 pwd
 #../bio/scripts/project_build -b -v localhost wormmine_dump
+
 

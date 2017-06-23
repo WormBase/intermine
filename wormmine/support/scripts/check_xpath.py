@@ -70,6 +70,7 @@ if __name__ == '__main__':
 
 	xml_file = sys.argv[1]
 	mapping_file = sys.argv[2]
-	xml_class = wrap_xml(xml_file) + 's'
+	xml_class = sys.argv[3]
+	# xml_class = wrap_xml(xml_file) + 's'
 	xpaths = get_mapping_file(mapping_file)
 	check_xpath(sys.argv[1], xpaths, xml_class)

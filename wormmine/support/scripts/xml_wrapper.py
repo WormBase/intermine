@@ -10,44 +10,39 @@ import click
 @click.option('--wrap', default=True, help='Wrap AceDB XML in a root tag')
 @click.option('--unwrap', default=False, help='Unwrap AceDB from root tag')
 
-
-
-
-def wrap_xml(xml_file):
+def wrap_xml(xml_file, xml_class):
 	
 	xml_contents = open(xml_file).read().splitlines()
+	xml_class = xml_class + 's'
+	xml_eof = 0
+	while xml_eof < len(xml_contents):
+		try:
+			xml_class = re.search('<' + re.escape(xml_class) + '>', xml_contents[xml_eof], re.IGNORECASE).group(0)[:-1]
+			return 'Already wrapped'
+		except:
+			xml_eof += 1
+		if xml_eof > 100:
+			break
 
-	if len(xml_contents[0]) == 0:
+	xml_file = open(xml_file, 'r+')
+	xml_text = xml_file.read()
+	xml_file.seek(0, 0)
+	xml_file.write('<' + xml_class + '>\n' + xml_text + '</' + xml_class + '>\n')
+	xml_file.close()
 
-		xml_eof = 0
-		while xml_eof < len(xml_contents):
-			try:
-				xml_class = re.search('[A-Z]*>', xml_contents[xml_eof], re.IGNORECASE).group(0)[:-1]
-				break
-			except:
-				xml_eof += 1
+	return 'done'
 
-		xml_file = open(xml_file, 'r+')
-		xml_text = xml_file.read()
-		xml_file.seek(0, 0)
-		xml_file.write('<' + xml_class + 's>' + xml_text + '</' + xml_class + 's>')
-		xml_file.close()
-		return xml_class
-	else:
-		return os.path.basename(xml_file).replace('.xml', '').strip()
-
-
-def unwrap_xml(xml_file):
+def unwrap_xml(xml_file, xml_class):
 
 	xml_contents = open(xml_file).read().splitlines()
-	xml_class = os.path.basename(xml_file).replace('.xml', 's')
+	# xml_class = os.path.basename(xml_file).replace('.xml', 's')
 
 	xml_eof = 0
 	while xml_eof < len(xml_contents):
-		if xml_contents[xml_eof].find('<' + xml_class + '>') >= 0:
+		if xml_contents[xml_eof].find('<' + xml_class + 's>') >= 0:
 			del xml_contents[xml_eof]
 			print 'found', xml_eof
-		elif xml_contents[xml_eof].find('</' + xml_class + '>') >= 0:
+		elif xml_contents[xml_eof].find('</' + xml_class + 's>') >= 0:
 			del xml_contents[xml_eof]
 			print 'found', xml_eof
 		xml_eof += 1
@@ -62,6 +57,8 @@ def unwrap_xml(xml_file):
 if __name__ == '__main__':
 
 	xml_file = sys.argv[1]
+	xml_class = sys.argv[2]
 
-	# wrap_xml(xml_file)
-	unwrap_xml(xml_file)
+	print wrap_xml(xml_file, xml_class)
+	# unwrap_xml(xml_file, xml_class)
+
