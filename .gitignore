@@ -218,3 +218,4 @@ wget-log
 /bio/sources/wormbase-acedb/test/resources/Variation.xml
 /wormmine/support/scripts/test.xml
 /wormmine/support/scripts/testlab/perl/preprocess/wb-acedb/to_remove
+/wormmine/support/scripts/c_elegans.PRJNA13758.WS261.protein.fa

@@ -383,7 +383,6 @@
      </source>
 
 
-
 	<source name="entrez-organism" type="entrez-organism">
         <property name="src.data.file" location="&datadir;/entrez-organism/organisms.xml"/>
     </source>
