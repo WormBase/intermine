@@ -7,7 +7,7 @@
 # TODO: not process XML files already processed
 
 #set the version to be accessed
-wbrel="WS264"
+wbrel="WS265"
 echo 'Release version' $wbrel
 
 
@@ -37,8 +37,9 @@ echo 'Release version' $wbrel
 declare -A species=(["c_elegans"]="PRJNA13758")
 echo 'Deploying ' $species
 echo
-sourcedir='/mnt/data2/acedb_dumps/WS264/WS264-test-data'
+sourcedir='/mnt/data2/acedb_dumps/WS265/WS265-test-data'
 #sourcedir='/mnt/data2/acedb_dumps/'$wbrel'' # <---- XML dump location
+
 # example test data /mnt/data2/acedb_dumps/WS261/WS261-test-data
 # sourcedir='/Users/nuin/Dropbox/intermine/WS262-test-data/'
 
@@ -53,8 +54,8 @@ echo
 #################### Species ####################
 intermine='/mnt/data2/wormmine'
 # intermine='/Users/nuin/Dropbox/intermine/intermine'#local test
-#datadir=$intermine'/datadir_small'   # for now the datadir is inside the intermine directory
 datadir=$intermine'/datadir_small'   # for now the datadir is inside the intermine directory
+#datadir=$intermine'/datadir'$wbrel''   # for now the datadir is inside the intermine directory
 acexmldir=$datadir'/wormbase-acedb'
 testlab=$intermine'/wormmine/support/scripts/'
 compara=$intermine'/wormmine/support/compara'

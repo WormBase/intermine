@@ -3,9 +3,9 @@
 
 from sqlalchemy import create_engine
 
-# db_string = "postgres://postgres:interwormmine@localhost/intermine_prod_264_185_3"
-# db = create_engine(db_string)
-# connection = db.connect() 
+db_string = "postgres://postgres:interwormmine@localhost/intermine_prod_264_185_2"
+db = create_engine(db_string)
+connection = db.connect() 
 
 
 if __name__ == '__main__':
@@ -19,4 +19,4 @@ if __name__ == '__main__':
 		gene_names[temp[0]] = temp[1]
 
 	for gene in gene_names:
-		connection.execute("UPDATE gene SET name = %d, symbol = %d WHERE primaryidentifier = '%s'" % (gene_names[gene], gene_names[gene], gene))
+		connection.execute("UPDATE gene SET name = '%s', symbol = '%s' WHERE primaryidentifier = '%s'" % (gene_names[gene], gene_names[gene], gene))
