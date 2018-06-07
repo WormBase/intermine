@@ -38,6 +38,6 @@ mkdir -vp $datadir/wormbase-acedb/transcript/XML
 mkdir -vp $datadir/wormbase-acedb/transcript/mapping
 cp -v $sourcedir/Transcript.xml $acexmldir/transcript/Transcript.xml
 cp -v $intermine'/wormmine/support/properties/transcript_mapping.properties' $datadir'/wormbase-acedb/transcript/mapping'
-perl $testlab'/wb-acedb/purify_xace.pl' $datadir'/wormbase-acedb/trasncript/Transcript.xml' $datadir'/wormbase-acedb/transcript/purified_transcript.xml'
+perl $testlab'/wb-acedb/purify_xace.pl' $datadir'/wormbase-acedb/transcript/Transcript.xml' $datadir'/wormbase-acedb/transcript/purified_transcript.xml'
 perl $testlab'/wb-acedb/prep_wb-acedb-transcript.pl' $datadir'/wormbase-acedb/transcript/purified_transcript.xml' $datadir'/wormbase-acedb/transcript/XML/Transcript.xml'
 echo
