@@ -52,8 +52,8 @@
     </source>
 
  	<source name="go" type="go" dump="true">
-<!--		<property name="src.data.file" location="&datadir;/go/gene_ontology.1_2.obo"/> -->
-		<property name="src.data.file" location="&datadir;/go/go-test.obo"/> 
+		<property name="src.data.file" location="&datadir;/go/gene_ontology.1_2.obo"/> 
+<!--		<property name="src.data.file" location="&datadir;/go/go-test.obo"/> -->
 	</source> 
 
 <!--	 <source name="anatomy_ontology" type="anatomy_ontology">
@@ -83,6 +83,30 @@
 		<property name="src.data.dir"          location="&datadir;/fasta/c_elegans/genomic" />
 	</source> 
 
+        <source name="celegans-transcript-fasta" type="fasta">
+                <property name="fasta.taxonId"         value="&c_elegans_taxon_id;"/>
+                <property name="fasta.className"       value="org.intermine.model.bio.Transcript"/>
+                <property name="fasta.classAttribute"  value="primaryIdentifier"/>
+                <property name="fasta.dataSourceName"  value="WormBase FTP"/>
+                <property name="fasta.dataSetTitle"    value="WormBase C. elegans transcript sequence (Fasta)"/>
+                <property name="fasta.sequenceType"    value="dna"/>
+                <property name="fasta.includes"        value="*.fa*"/>
+                <property name="src.data.dir"          location="&datadir;/fasta/c_elegans/transcript" />
+        </source>
+		
+	<source name="celegans-cds-fasta" type="fasta">
+                <property name="fasta.taxonId"         value="&c_elegans_taxon_id;"/>
+                <property name="fasta.className"       value="org.intermine.model.bio.CDS"/>
+                <property name="fasta.classAttribute"  value="primaryIdentifier"/>
+                <property name="fasta.dataSourceName"  value="WormBase FTP"/>
+                <property name="fasta.dataSetTitle"    value="WormBase C. elegans transcript sequence (Fasta)"/>
+                <property name="fasta.sequenceType"    value="dna"/>
+                <property name="fasta.includes"        value="*.fa*"/>
+                <property name="src.data.dir"          location="&datadir;/fasta/c_elegans/cds" />
+        </source>
+
+
+
 
     <!-- FASTA Protein sequences -->
 	<source name="celegans-protein-fasta" type="fasta">
@@ -94,14 +118,14 @@
 		<property name="fasta.sequenceType"    	value="protein"/>
 		<property name="src.data.dir"          	location="&datadir;/fasta/c_elegans/proteins/prepped" />
 		<property name="fasta.includes"        	value="*.fa*"/> 
-	<!--	<property name="fasta.loaderClassName"
+		<property name="fasta.loaderClassName"
 			value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
-		<property name="fasta.PIDPrefix"		value="WP:"/> -->
+		<property name="fasta.PIDPrefix"		value="WP:"/>
 	</source>
 
 
 	<!-- CORE GENOMIC ANNOTATION IN GFF3 -->
-    <source name="celegans-gff3" type="malaria-gff" dump="false">
+    <source name="celegans-gff3" type="malaria-gff" dump="true">
         <property name="gff3.taxonId"           value="&c_elegans_taxon_id;"/>
         <property name="gff3.seqDataSourceName" value="WormBase"/>
         <property name="gff3.dataSourceName"    value="WormBase"/>
@@ -141,13 +165,11 @@
 		-->
 		<property name="rejects.file"
 			value="&datadir;/wormbase-acedb/gene/wormbase-acedb-gene-rejects.xml"/>
-
-
 		<property name="data.set" value="AceDB XML (Gene)"/>
 	</source>
 
 
-	<source name="wb-acedb-transcript" type="wormbase-acedb" dump="false">
+	<source name="wb-acedb-transcript" type="wormbase-acedb" dump="true">
 		<property name="src.data.dir" location="&datadir;/wormbase-acedb/transcript/XML" />
 
 		<property name="mapping.file"
@@ -223,7 +245,7 @@
 
 
 
-	<source name="wb-acedb-life_stage" type="wormbase-acedb" dump="false">
+	<source name="wb-acedb-life_stage" type="wormbase-acedb" dump="true">
 		<property name="src.data.dir" location="&datadir;/wormbase-acedb/life_stage/XML" />
 		<property name="mapping.file"
 				value = "&datadir;/wormbase-acedb/life_stage/mapping/life_stage_mapping.properties" />
@@ -260,7 +282,7 @@
 		<property name="data.set" value="AceDB XML (Protein)"/>
 	</source>
 
-  <source name="wb-acedb-strain" type="wormbase-acedb" dump="false">
+  <source name="wb-acedb-strain" type="wormbase-acedb" dump="true">
         <property name="src.data.dir" location="&datadir;/wormbase-acedb/strain/XML" />
         <property name="mapping.file"
                 value="&datadir;/wormbase-acedb/strain/mapping/strain_mapping.properties" />
@@ -289,7 +311,7 @@
 			value="&datadir;/wormbase-acedb/variation/wormbase-acedb-variation-rejects.xml"/>
 		<property name="data.set" value="AceDB XML (Variation)"/>
 		<property name="debug" value="false"/>
-	</source>
+	</source> 
 
     <source name="wb-acedb-RNAi" type="wormbase-acedb" dump="false">
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/RNAi/XML" />
@@ -303,7 +325,7 @@
           <property name="data.set" value="AceDB XML (RNAi)"/>
       </source>
 
-    <source name="wb-acedb-gene-class" type="wormbase-acedb" dump="false">
+    <source name="wb-acedb-gene-class" type="wormbase-acedb" dump="true">
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/gene_class/XML" />
           <property name="mapping.file"
               value="&datadir;/wormbase-acedb/gene_class/mapping/gene_class_mapping.properties" />
