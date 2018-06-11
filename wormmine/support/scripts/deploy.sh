@@ -102,6 +102,45 @@ do
   perl $testlab'/fasta/wb-proteins/prep-wb-proteins.pl' "$spe"."${species["$spe"]}"."$wbrel".protein.fa ../prepped/"$spe"."${species["$spe"]}"."$wbrel".protein.fa
   echo 
 
+  echo 'Getting CDS FASTA'
+  mkdir -vp $datadir"/fasta/"$spe"/cds/raw"
+  mkdir -vp $datadir"/fasta/"spe"/cds/final"
+  cd $datadir"/fasta/"$spe"/cds/raw"
+  if [ ! -f "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa ]; then
+    echo "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa 'not found'
+    echo 'transferring' "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa
+    wget -q --show-progress -O "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz "ftp://ftp.wormbase.org/pub/wormbase/releases/"$wbrel"/species/"$spe"/"${species["$spe"]}"/"$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz"
+    gunzip -v "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz
+  else:
+    echo "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz 'found, not transferring'
+  fi
+  echo 'Pre-processing CDS FASTA file'
+    sed -i 's/>/>CDS:/g' "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa
+    sed -i 's/gene=.*//g' "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa
+    cp "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa $datadir"/fasta/"spe"/cds/final"
+  echo 
+
+
+  echo 'Getting Transcript FASTA'
+  mkdir -vp $datadir"/fasta/"$spe"/transcript/raw"
+  mkdir -vp $datadir"/fasta/"spe"/transcript/final"
+  cd $datadir"/fasta/"$spe"/cds/raw"
+  if [ ! -f "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa ]; then
+    echo "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa 'not found'
+    echo 'transferring' "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa
+    wget -q --show-progress -O "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa.gz "ftp://ftp.wormbase.org/pub/wormbase/releases/"$wbrel"/species/"$spe"/"${species["$spe"]}"/"$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa.gz"
+    gunzip -v "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa.gz
+  else:
+    echo "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa.gz 'found, not transferring'
+  fi
+  echo 'Pre-processing CDS FASTA file'
+    sed -i 's/>/>Transcript:/g' "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa
+    sed -i 's/gene=.*//g' "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa
+    cp "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa $datadir"/fasta/"spe"/transcript/final"
+  echo 
+
+
+
   ##################### get gff annotations ####################
   echo 'Getting gff data'
   mkdir -vp $datadir'/wormbase-gff3/raw'
