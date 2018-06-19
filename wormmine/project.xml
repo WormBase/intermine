@@ -56,9 +56,9 @@
 <!--		<property name="src.data.file" location="&datadir;/go/go-test.obo"/> -->
 	</source> 
 
-<!--	 <source name="anatomy_ontology" type="anatomy_ontology">
+	 <source name="anatomy_ontology" type="anatomy_ontology">
             <property name="src.data.file" location="&datadir;/ontology/anatomy_ontology.obo"/>
-        </source> --> 
+        </source>
 
 	<source name="go-annotation" type="go-annotation" dump="false">
 		<property name="ontologyfile" location="&datadir;/go/gene_ontology.1_2.obo"/>
@@ -68,7 +68,20 @@
 <!--	<source name="anat-annotation" type="anat-annotation" dump="false">
                 <property name="ontologyfile" location="&datadir;/ontology/anatomy_ontology.obo"/>
                 <property name="src.data.dir" location="&datadir;/anatomy_annotation"/>
-        </source> -->
+        </source>
+-->
+
+	<!-- CORE GENOMIC ANNOTATION IN GFF3 -->
+    <source name="celegans-gff3" type="malaria-gff" dump="true">
+        <property name="gff3.taxonId"           value="&c_elegans_taxon_id;"/>
+        <property name="gff3.seqDataSourceName" value="WormBase"/>
+        <property name="gff3.dataSourceName"    value="WormBase"/>
+	<property name="gff3.seqClsName"        value="Chromosome"/>
+        <property name="gff3.dataSetTitle"      value="C. elegans genomic annotations (GFF3 Gene)"/>
+        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/final"/>
+        <property name="gff3.allowedClasses"     value="gene,mrna,exon,cds"/>
+        <property name="gff3.IDMappingFile"      value="&datadir;/wormbase-gff3/mapping/id_mapping.tab"/>
+    </source>
 
 
 	<!-- FASTA DNA sequences -->
@@ -99,7 +112,7 @@
                 <property name="fasta.className"       value="org.intermine.model.bio.CDS"/>
                 <property name="fasta.classAttribute"  value="primaryIdentifier"/>
                 <property name="fasta.dataSourceName"  value="WormBase FTP"/>
-                <property name="fasta.dataSetTitle"    value="WormBase C. elegans transcript sequence (Fasta)"/>
+                <property name="fasta.dataSetTitle"    value="WormBase C. elegans CDS sequence (Fasta)"/>
                 <property name="fasta.sequenceType"    value="dna"/>
                 <property name="fasta.includes"        value="*.fa*"/>
                 <property name="src.data.dir"          location="&datadir;/fasta/c_elegans/cds" />
@@ -122,19 +135,6 @@
 			value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
 		<property name="fasta.PIDPrefix"		value="WP:"/>
 	</source>
-
-
-	<!-- CORE GENOMIC ANNOTATION IN GFF3 -->
-    <source name="celegans-gff3" type="malaria-gff" dump="true">
-        <property name="gff3.taxonId"           value="&c_elegans_taxon_id;"/>
-        <property name="gff3.seqDataSourceName" value="WormBase"/>
-        <property name="gff3.dataSourceName"    value="WormBase"/>
-	<property name="gff3.seqClsName"        value="Chromosome"/>
-        <property name="gff3.dataSetTitle"      value="C. elegans genomic annotations (GFF3 Gene)"/>
-        <property name="src.data.dir"           location="&datadir;/wormbase-gff3/final"/>
-        <property name="gff3.allowedClasses"     value="gene,mrna,exon,cds"/>
-        <property name="gff3.IDMappingFile"      value="&datadir;/wormbase-gff3/mapping/id_mapping.tab"/>
-    </source>
 
 
 	<!-- WormBase aceDB data loader.  Base dir is wormmine/integrate -->
