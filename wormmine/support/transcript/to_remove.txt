@@ -6,6 +6,7 @@ Transcript:B0035.17
 Transcript:B0286.7
 Transcript:B0361.12
 Transcript:B0395.4
+Transcript:B0462.6
 Transcript:C01B12.11
 Transcript:C01B12.12
 Transcript:C04E12.13
@@ -59,6 +60,7 @@ Transcript:F07A11.16
 Transcript:F07A11.8
 Transcript:F08F3.11
 Transcript:F08G12.12
+Transcript:F09A5.15
 Transcript:F09A5.5
 Transcript:F09A5.6
 Transcript:F09A5.8
@@ -216,7 +218,6 @@ Transcript:Y56A3A.34
 Transcript:Y56A3A.40
 Transcript:Y57A10A.42
 Transcript:Y59A8B.39
-Transcript:Y59E1B.1
 Transcript:Y59E1B.10
 Transcript:Y59E1B.11
 Transcript:Y59E1B.12
@@ -241,6 +242,7 @@ Transcript:Y71A12B.20
 Transcript:Y71F9AL.22
 Transcript:Y71F9AL.23
 Transcript:Y71G12B.29
+Transcript:Y73B6A.17
 Transcript:Y73B6A.7
 Transcript:Y73B6BL.290
 Transcript:Y87G2A.21
@@ -256,3 +258,4 @@ Transcript:ZK930.10
 Transcript:ZK930.11
 Transcript:ZK930.8
 Transcript:ZK930.9
+

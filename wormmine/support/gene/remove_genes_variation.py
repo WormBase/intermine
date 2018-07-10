@@ -2,7 +2,7 @@
 
 from sqlalchemy import create_engine
 
-db_string = "postgres://postgres:interwormmine@localhost/intermine_prod_264_185_3"
+db_string = "postgres://postgres:interwormmine@localhost/intermine_prod_265_185"
 db = create_engine(db_string)
 connection = db.connect()
 

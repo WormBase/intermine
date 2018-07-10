@@ -1,3 +1,16 @@
+<Species>Trichuris muris
+  <NCBITaxonomyID>
+    <Int>70415</Int>
+  </NCBITaxonomyID>
+</Species>
+
+<Species>Caenorhabditis nigoni
+  <NCBITaxonomyID>
+    <Int>1611254</Int>
+  </NCBITaxonomyID>
+</Species>
+
+
 <Species>Danio rerio
   <NCBITaxonomyID>
     <Int>7955</Int>
@@ -16,6 +29,18 @@
   </NCBITaxonomyID>
 </Species>
 
+
+<Species>Saccharomyces cerevisiae S288c
+  <NCBITaxonomyID>
+    <Int>559292</Int>
+  </NCBITaxonomyID>
+</Species>
+
+<Species>Mus musculus
+  <NCBITaxonomyID>
+    <Int>10090</Int>
+  </NCBITaxonomyID>
+</Species>
 
 <Species>Caenorhabditis tropicalis
   <NCBITaxonomyID>
