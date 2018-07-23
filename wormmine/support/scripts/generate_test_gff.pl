@@ -4,7 +4,7 @@ use warnings;
 
 use XML::Simple;
 use File::Temp qw/ tempfile /;
-#use Data::Dumper;
+use Data::Dumper;
 
 #Usage: ./generate_test_gff.pl Gene.xml c_elegans.PRJNA13758.WS254.annotations.gff3 > test.gff
 #
@@ -15,11 +15,20 @@ use File::Temp qw/ tempfile /;
 
 my $genexml = $ARGV[0];
 my $gffin   = $ARGV[1];
+my $compressgenexml = 0;
 
 unless ($gffin) {
     print "\nUsage: ./generate_test_gff.pl <Gene.xml> <elegans.gff>\n\n"; 
     exit(0);
 }
+
+#if Gene.xml is compressed, uncompress it
+if ($genexml =~ /^(.*)\.gz$/) {
+    $compressgenexml = 1;
+    system('gunzip', $genexml);
+    $genexml = $1;
+}
+
 
 # make the xml file happy for XML::Simple
 my ($fh, $filename) = tempfile(undef, UNLINK => 0);
@@ -31,6 +40,7 @@ print $fh "<stuff>\n";
 open GENE, $genexml or die $!;
 while (<GENE>) {
     print $fh $_ unless $_=~/2_point/; #XML::Simple doesn't appear to like tags that start with numbers  
+#    warn $_ unless $_=~/2_point/; 
 }
 print $fh "</stuff>\n";
 close GENE;
@@ -52,22 +62,51 @@ for (@{$$p1{'Gene'}}) {
     $ids{$$_{'Identity'}{'Name'}{'Public_name'}{'Gene_name'}}++ if uniquename($$_{'Identity'}{'Name'}{'Public_name'}{'Gene_name'});
     $ids{$$_{'Identity'}{'Name'}{'Sequence_name'}{'Gene_name'}}++ if uniquename($$_{'Identity'}{'Name'}{'Sequence_name'}{'Gene_name'});
 
-    for my $id (@{ $$_{'Identity'}{'Name'}{'Molecular_name'}{'Gene_name'}  }) {
+    #warn $$_{'Identity'}{'Name'}{'Molecular_name'};
+    #warn $$_{'Identity'}{'Name'}{'Molecular_name'}{'Gene_name'};
+    #warn @{ $$_{'Identity'}{'Name'}{'Molecular_name'}{'Gene_name'}  };
+    #warn ref($$_{'Identity'}{'Name'}{'Molecular_name'});
+    if (ref $$_{'Identity'}{'Name'}{'Molecular_name'}{'Gene_name'} ne 'ARRAY') {
+        my $id = $$_{'Identity'}{'Name'}{'Molecular_name'}{'Gene_name'};
         $ids{$id}++  if (&uniquename($id));
     }
-
-    for my $var (@{ $$_{'Gene_info'}{'Allele'}{'Variation'} }) {
-        my $name = ref $var ? $$var{'content'} : $var;
-        $name =~ s/\s+//g;
-        chomp $name;
-        $ids{$name}++  if (&uniquename($name));
+    else {
+        for my $id (@{ $$_{'Identity'}{'Name'}{'Molecular_name'}{'Gene_name'}  }) {
+            $ids{$id}++  if (&uniquename($id));
+        }
     }
 
-    for my $rna (@{ $$_{'Experimental_info'}{'RNAi_result'}{'RNAi'} }) {
+
+    #warn Dumper($$_{'Gene_info'}{'Allele'}{'Variation'});
+    #warn ref $$_{'Gene_info'}{'Allele'}{'Variation'};
+    if (ref $$_{'Gene_info'}{'Allele'}{'Variation'} eq 'HASH') {
+      for my $key (keys $$_{'Gene_info'}{'Allele'}{'Variation'} ) {
+        warn $key;
+        my $name = ref $key ? $$key{'content'} : $key;
+        $name =~ s/\s+//g;
+        chomp $name;
+        warn $name;
+        $ids{$name}++  if (&uniquename($name));
+      }
+    }
+    elsif (ref $$_{'Gene_info'}{'Allele'}{'Variation'} eq 'ARRAY') {
+      for my $con ( @{ $$_{'Gene_info'}{'Allele'}{'Variation'} } ) {
+        #warn $con;
+        my $name = ref $con ? $$con{'content'} : $con;
+        $name =~ s/\s+//g;
+        chomp $name;
+        #warn $name;
+        $ids{$name}++  if (&uniquename($name));
+      }
+    }
+
+    if (defined $$_{'Experimental_info'}{'RNAi_result'}{'RNAi'} && ref $$_{'Experimental_info'}{'RNAi_result'}{'RNAi'} eq 'ARRAY') {
+      for my $rna (@{ $$_{'Experimental_info'}{'RNAi_result'}{'RNAi'} }) {
         my $name = $$rna{'content'};
         $name =~ s/\s+//g;
         chomp $name;
         $ids{$name}++  if (&uniquename($name));
+      }
     }
 
 #    for my $key (keys %ids) {
@@ -122,6 +161,9 @@ for my $key (keys %ids) {
 }
 
 print sort keys %gff;
+
+system('gzip',$genexml) if $compressgenexml;
+
 exit(0);
 
 #my $str = "(";
