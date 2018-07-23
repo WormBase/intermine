@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Dump data from ACeDB in XML format.
 
 CWD="`pwd`"
