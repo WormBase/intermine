@@ -71,6 +71,15 @@
         </source>
 -->
 
+         <source name="disease_ontology" type="disease_ontology">
+            <property name="src.data.file" location="&datadir;/ontology/disease_ontology.obo"/>
+        </source>
+
+	 <source name="phenotype_ontology" type="phenotype_ontology">
+            <property name="src.data.file" location="&datadir;/ontology/phenotype_ontology.obo"/>
+        </source>
+
+
 	<!-- CORE GENOMIC ANNOTATION IN GFF3 -->
     <source name="celegans-gff3" type="malaria-gff" dump="true">
         <property name="gff3.taxonId"           value="&c_elegans_taxon_id;"/>

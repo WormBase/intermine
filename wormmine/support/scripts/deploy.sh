@@ -7,7 +7,7 @@
 # TODO: not process XML files already processed
 
 #set the version to be accessed
-wbrel="WS265"
+wbrel="WS266"
 echo 'Release version' $wbrel
 
 
@@ -37,8 +37,8 @@ echo 'Release version' $wbrel
 declare -A species=(["c_elegans"]="PRJNA13758")
 echo 'Deploying ' $species
 echo
-sourcedir='/mnt/data2/acedb_dumps/WS265/WS265-test-data'
-#sourcedir='/mnt/data2/acedb_dumps/'$wbrel'' # <---- XML dump location
+#sourcedir='/mnt/data2/acedb_dumps/WS265/WS265-test-data'
+sourcedir='/mnt/data2/acedb_dumps/'$wbrel'' # <---- XML dump location
 
 # example test data /mnt/data2/acedb_dumps/WS261/WS261-test-data
 # sourcedir='/Users/nuin/Dropbox/intermine/WS262-test-data/'
@@ -54,8 +54,8 @@ echo
 #################### Species ####################
 intermine='/mnt/data2/wormmine'
 # intermine='/Users/nuin/Dropbox/intermine/intermine'#local test
-datadir=$intermine'/datadir_small'   # for now the datadir is inside the intermine directory
-#datadir=$intermine'/datadir'$wbrel''   # for now the datadir is inside the intermine directory
+#datadir=$intermine'/datadir_small'   # for now the datadir is inside the intermine directory
+datadir=$intermine'/datadir'$wbrel''   # for now the datadir is inside the intermine directory
 acexmldir=$datadir'/wormbase-acedb'
 testlab=$intermine'/wormmine/support/scripts/'
 compara=$intermine'/wormmine/support/compara'
@@ -111,7 +111,7 @@ do
     echo 'transferring' "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa
     wget -q --show-progress -O "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz "ftp://ftp.wormbase.org/pub/wormbase/releases/"$wbrel"/species/"$spe"/"${species["$spe"]}"/"$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz"
     gunzip -v "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz
-  else:
+  else
     echo "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz 'found, not transferring'
   fi
   echo 'Pre-processing CDS FASTA file'
@@ -130,7 +130,7 @@ do
     echo 'transferring' "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa
     wget -q --show-progress -O "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa.gz "ftp://ftp.wormbase.org/pub/wormbase/releases/"$wbrel"/species/"$spe"/"${species["$spe"]}"/"$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa.gz"
     gunzip -v "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa.gz
-  else:
+  else
     echo "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa.gz 'found, not transferring'
   fi
   echo 'Pre-processing CDS FASTA file'

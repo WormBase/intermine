@@ -6,23 +6,23 @@
 # TODO: not process XML files already processed
 
 #set the version to be accessed
-wbrel="WS265"
+wbrel="WS266"
 echo 'Release version' $wbrel
 
 
 declare -A species=(["c_elegans"]="PRJNA13758")
 echo 'Deploying ' $species
 echo
-sourcedir='/mnt/data2/acedb_dumps/WS265/WS265-test-data'
-#sourcedir='/mnt/data2/acedb_dumps/'$wbrel'' # <---- XML dump location
+#sourcedir='/mnt/data2/acedb_dumps/WS265/WS265-test-data'
+sourcedir='/mnt/data2/acedb_dumps/'$wbrel'' # <---- XML dump location
 
 
 echo 'Source directory is at' $sourcedir
 echo
 intermine='/mnt/data2/wormmine'
 
-datadir=$intermine'/datadir_small'   # for now the datadir is inside the intermine directory
-#datadir=$intermine'/datadir'$wbrel''   # for now the datadir is inside the intermine directory
+#datadir=$intermine'/datadir_small'   # for now the datadir is inside the intermine directory
+datadir=$intermine'/datadir'$wbrel''   # for now the datadir is inside the intermine directory
 acexmldir=$datadir'/wormbase-acedb'
 testlab=$intermine'/wormmine/support/scripts/'
 compara=$intermine'/wormmine/support/compara'
@@ -50,6 +50,8 @@ do
     gunzip -v raw/"$spe"."${species["$spe"]}"."$wbrel".gff.gz
     echo 'Starting GFF3 pre-processing'
 
+
+    echo "$intermine"/wormmine/support/scripts/gff3/scrape_gff3.sh $datadir/wormbase-gff3/raw/"$spe"."${species["$spe"]}"."$wbrel".gff $datadir/wormbase-gff3/final/"$spe"."${species["$spe"]}"."$wbrel".gff
     bash "$intermine"/wormmine/support/scripts/gff3/scrape_gff3.sh $datadir/wormbase-gff3/raw/"$spe"."${species["$spe"]}"."$wbrel".gff $datadir/wormbase-gff3/final/"$spe"."${species["$spe"]}"."$wbrel".gff
 
     cd $datadir"/wormbase-gff3/final"
