@@ -1,0 +1,5 @@
+<project name="phenotype_ontology" default="default" basedir=".">
+  <description>build, test, package phenotype_ontology</description>
+  
+  <import file="../../../imbuild/source.xml"/>
+</project>
