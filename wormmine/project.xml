@@ -140,9 +140,6 @@
 		<property name="fasta.sequenceType"    	value="protein"/>
 		<property name="src.data.dir"          	location="&datadir;/fasta/c_elegans/proteins/prepped" />
 		<property name="fasta.includes"        	value="*.fa*"/> 
-		<property name="fasta.loaderClassName"
-			value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
-		<property name="fasta.PIDPrefix"		value="WP:"/>
 	</source>
 
 
