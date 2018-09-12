@@ -51,11 +51,14 @@ do
     echo 'Starting GFF3 pre-processing'
 
 
-    echo "$intermine"/wormmine/support/scripts/gff3/scrape_gff3.sh $datadir/wormbase-gff3/raw/"$spe"."${species["$spe"]}"."$wbrel".gff $datadir/wormbase-gff3/final/"$spe"."${species["$spe"]}"."$wbrel".gff
-    bash "$intermine"/wormmine/support/scripts/gff3/scrape_gff3.sh $datadir/wormbase-gff3/raw/"$spe"."${species["$spe"]}"."$wbrel".gff $datadir/wormbase-gff3/final/"$spe"."${species["$spe"]}"."$wbrel".gff
+    echo "$intermine"/wormmine/support/gff3/scrape_gff3.sh $datadir/wormbase-gff3/raw/"$spe"."${species["$spe"]}"."$wbrel".gff $datadir/wormbase-gff3/final/"$spe"."${species["$spe"]}"."$wbrel".gff
+    bash "$intermine"/wormmine/support/gff3/scrape_gff3.sh $datadir/wormbase-gff3/raw/"$spe"."${species["$spe"]}"."$wbrel".gff $datadir/wormbase-gff3/final/"$spe"."${species["$spe"]}"."$wbrel".gff
 
     cd $datadir"/wormbase-gff3/final"
-    python $testlab"/gff3/index.py" "$spe"."${species["$spe"]}"."$wbrel".gff
+    python "$intermine"/wormmine/support/gff3/index.py "$spe"."${species["$spe"]}"."$wbrel".gff
+
+    # sed -i 's/Gene://g' c_elegans.PRJNA13758.WS263_index.gff
+
     rm "$spe"."${species["$spe"]}"."$wbrel".gff
 
     echo 'Done #########################'
