@@ -22,6 +22,7 @@
 		<collection name="RNAiResult" referenced-type="RNAi" reverse-reference="inhibitsGene"/>
 		<collection name="geneClass"  referenced-type="GeneClass" reverse-reference="genes"/>
 		<collection name="formerGeneClass"  referenced-type="GeneClass" reverse-reference="formerGenes"/>
+		<collection name="variations" referenced-type="Allele" reverse-reference="genes" />
 	</class>
 
     <class name="Transcript" is-interface="true">
@@ -91,6 +92,7 @@
 	  <!--<collection name="strains" referenced-type="Strain" reverse-reference="variations" /> -->
 	  <collection name="fromLabs" referenced-type="Laboratory" reverse-reference="variations" />
 	  <collection name="geneClass" referenced-type="GeneClass" reverse-reference="variations" />
+	  <collection name="gene" referenced-type="Gene" reverse-reference="variations" />
 	</class>
 
 	<class name="Phenotype" extends="OntologyTerm" is-interface="true">

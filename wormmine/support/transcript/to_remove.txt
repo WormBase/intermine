@@ -115,6 +115,8 @@ Transcript:F59G1.6
 Transcript:H25K10.142
 Transcript:K01A6.22
 Transcript:K01F9.1
+Transcript:K01F9.1a
+Transcript:K01F9.1b
 Transcript:K01F9.3
 Transcript:K01F9.5
 Transcript:K02B9.5
@@ -158,6 +160,7 @@ Transcript:T12E12.8
 Transcript:T14G12.7
 Transcript:T16G12.11
 Transcript:T19E7.28
+Transcript:T20F5.1
 Transcript:T21B4.13
 Transcript:T21D12.13
 Transcript:T22A3.9
