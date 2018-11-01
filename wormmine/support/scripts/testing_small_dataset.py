@@ -166,7 +166,6 @@ query.add_view("primaryIdentifier", "symbol", "sequence.length")
 query.add_constraint("symbol", "=", "ZC416.4", code = "A")
 
 for row in query.rows():
-    print(row['length'])
     try:
         assert (row['length'] >= 999)
         print('Query #13 Returned correct length - PASSED')
@@ -271,7 +270,7 @@ except:
 query = service.new_query("Protein")
 query.add_view("primaryAccession", "primaryIdentifier", "secondaryIdentifier", "symbol")
 query.add_constraint("organism.name", "=", "Caenorhabditis elegans", code = "A")
-query.add_constraint("primaryAccession", "NOT LIKE", "WP:CE*", code = "B")
+query.add_constraint("primaryAccession", "NOT LIKE", "CE*", code = "B")
 
 try:
     assert (len(query.rows()) == 0)
@@ -285,7 +284,7 @@ except:
 query = service.new_query("Protein")
 query.add_view("primaryAccession", "primaryIdentifier", "secondaryIdentifier", "symbol")
 query.add_constraint("organism.name", "=", "Caenorhabditis elegans", code = "A")
-query.add_constraint("primaryIdentifier", "NOT LIKE", "WP:CE*", code = "B")
+query.add_constraint("primaryIdentifier", "NOT LIKE", "CE*", code = "B")
 
 try:
     assert (len(query.rows()) == 0)
@@ -430,7 +429,7 @@ query.add_view(
     "CDSs.symbol"
 )
 query.add_sort_order("Protein.primaryIdentifier", "ASC")
-query.add_constraint("primaryAccession", "=", "WP:CE46852", code = "A")
+query.add_constraint("primaryAccession", "=", "CE46852", code = "A")
 
 try:
     assert (len(query.rows()) == 1)
@@ -443,7 +442,7 @@ except:
 query = service.new_query("CDS")
 query.add_view("primaryIdentifier", "symbol", "protein.primaryAccession",
     "protein.primaryIdentifier")
-query.add_constraint("protein.primaryAccession", "=", "WP:CE46852", code = "A")
+query.add_constraint("protein.primaryAccession", "=", "CE46852", code = "A")
 
 try:
     assert (len(query.rows()) == 1)
@@ -464,4 +463,44 @@ try:
 except:
     print('Query #35 Returned %i - FAILED' % len(query.rows()))
 
+# # ############################################### #
+
+
+query = service.new_query("Organism")
+query.add_view("name", "taxonId")
+print('Query #36')
+result = {}
+for row in query.rows():
+    result[row["name"]] = row["taxonId"]
+
+for i in result:
+    print('\t' + i + '\t' + str(result[i]))
+
+
+# # ############################################### #
+
+query = service.new_query("Chromosome")
+query.add_view("primaryIdentifier", "organism.name")
+query.add_constraint("organism.name", "=", "Caenorhabditis elegans", code = "A")
+print('Query #37')
+
+result = {}
+for row in query.rows():
+    result[row["primaryIdentifier"]] = row["organism.name"]
+
+for i in result:
+    print('\t' + i + '\t' + str(result[i]))
+
+# # ############################################### #
+
+
+query = service.new_query("Allele")
+query.add_view("primaryIdentifier", "symbol", "phenotype.identifier", "phenotype.name")
+query.add_constraint("primaryIdentifier", "=", "WBVar00143949", code = "A")
+
+try:
+    assert (len(query.rows()) == 81)
+    print('Query #38 Returned %i - PASSED' % (len(query.rows())))
+except:
+    print('Query #38 Returned %i - FAILED' % len(query.rows()))
 
