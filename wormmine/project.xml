@@ -75,7 +75,7 @@
             <property name="src.data.file" location="&datadir;/ontology/disease_ontology.obo"/>
         </source>
 
-	 <source name="phenotype_ontology" type="phenotype_ontology">
+	 <source name="phenotype_ontology" type="phenotype">
             <property name="src.data.file" location="&datadir;/ontology/phenotype_ontology.obo"/>
         </source>
 
@@ -141,6 +141,53 @@
 		<property name="src.data.dir"          	location="&datadir;/fasta/c_elegans/proteins/prepped" />
 		<property name="fasta.includes"        	value="*.fa*"/> 
 	</source>
+
+	<source name="ovolvulus-protein-fasta" type="fasta">
+                <property name="fasta.taxonId"          value="&o_volvulus_taxon_id;"/>
+                <property name="fasta.className"        value="org.intermine.model.bio.Protein"/>
+                <property name="fasta.classAttribute"   value="primaryAccession"/>
+                <property name="fasta.dataSourceName"   value="WormBase FTP"/>
+                <property name="fasta.dataSetTitle"     value="WormBase O. volvulus protein sequence (Fasta)"/>
+                <property name="fasta.sequenceType"     value="protein"/>
+                <property name="src.data.dir"           location="&datadir;/fasta/o_volvulus/protein/" />
+                <property name="fasta.includes"         value="*.fa*"/>
+        </source>
+
+        <source name="b_malayi-protein-fasta" type="fasta">
+                <property name="fasta.taxonId"          value="&b_malayi_taxon_id;"/>
+                <property name="fasta.className"        value="org.intermine.model.bio.Protein"/>
+                <property name="fasta.classAttribute"   value="primaryAccession"/>
+                <property name="fasta.dataSourceName"   value="WormBase FTP"/>
+                <property name="fasta.dataSetTitle"     value="WormBase B. malayi protein sequence (Fasta)"/>
+                <property name="fasta.sequenceType"     value="protein"/>
+                <property name="src.data.dir"           location="&datadir;/fasta/b_malayi/protein/" />
+                <property name="fasta.includes"         value="*.fa*"/>
+        </source>
+
+        <source name="c_angaria-protein-fasta" type="fasta">
+                <property name="fasta.taxonId"          value="&c_angaria_taxon_id;"/>
+                <property name="fasta.className"        value="org.intermine.model.bio.Protein"/>
+                <property name="fasta.classAttribute"   value="primaryAccession"/>
+                <property name="fasta.dataSourceName"   value="WormBase FTP"/>
+                <property name="fasta.dataSetTitle"     value="WormBase C. angaria protein sequence (Fasta)"/>
+                <property name="fasta.sequenceType"     value="protein"/>
+                <property name="src.data.dir"           location="&datadir;/fasta/c_angaria/protein/" />
+                <property name="fasta.includes"         value="*.fa*"/>
+	</source?
+
+
+
+
+<!--                   ["c_brenneri"]="PRJNA20035"
+                   ["c_briggsae"]="PRJNA10731"
+                   ["c_japonica"]="PRJNA12591"
+                   ["c_remanei"]="PRJNA53967"
+                   ["c_tropicalis"]="PRJNA53597"
+                   ["p_pacificus"]="PRJNA12644"
+                   ["p_redivivus"]="PRJNA186477"
+                   ["s_ratti"]="PRJEB125"
+                   ["c_sinica"]="PRJNA194557")
+-->
 
 
 	<!-- WormBase aceDB data loader.  Base dir is wormmine/integrate -->
@@ -301,6 +348,17 @@
 
     </source> 
 
+    <source name="wb-acedb-RNAi" type="wormbase-acedb" dump="false">
+          <property name="src.data.dir" location="&datadir;/wormbase-acedb/RNAi/XML" />
+          <property name="mapping.file"
+              value="&datadir;/wormbase-acedb/RNAi/mapping/RNAi_mapping.properties" />
+          <property name="key.file"
+              value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
+          <property name="source.class" value="RNAi"/>
+          <property name="rejects.file"
+              value="&datadir;/wormbase-acedb-RNAi-rejects.xml"/>
+          <property name="data.set" value="AceDB XML (RNAi)"/>
+      </source>
 
 	<source name="wb-acedb-variation" type="wormbase-acedb" dump="true">
 		<property name="src.data.dir" location="&datadir;/wormbase-acedb/variation/XML" />
@@ -318,18 +376,6 @@
 		<property name="data.set" value="AceDB XML (Variation)"/>
 		<property name="debug" value="false"/>
 	</source> 
-
-    <source name="wb-acedb-RNAi" type="wormbase-acedb" dump="false">
-          <property name="src.data.dir" location="&datadir;/wormbase-acedb/RNAi/XML" />
-          <property name="mapping.file"
-              value="&datadir;/wormbase-acedb/RNAi/mapping/RNAi_mapping.properties" />
-          <property name="key.file"
-              value="../../bio/sources/wormbase-acedb/resources/wormbase-acedb_keys.properties"/>
-          <property name="source.class" value="RNAi"/>
-          <property name="rejects.file"
-              value="&datadir;/wormbase-acedb-RNAi-rejects.xml"/>
-          <property name="data.set" value="AceDB XML (RNAi)"/>
-      </source>
 
     <source name="wb-acedb-gene-class" type="wormbase-acedb" dump="true">
           <property name="src.data.dir" location="&datadir;/wormbase-acedb/gene_class/XML" />
