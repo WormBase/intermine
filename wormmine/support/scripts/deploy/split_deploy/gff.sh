@@ -6,16 +6,14 @@
 # TODO: not process XML files already processed
 
 #set the version to be accessed
-wbrel="WS266"
+wbrel="WS268"
 echo 'Release version' $wbrel
 
 
 declare -A species=(["c_elegans"]="PRJNA13758")
 echo 'Deploying ' $species
 echo
-#sourcedir='/mnt/data2/acedb_dumps/WS265/WS265-test-data'
 sourcedir='/mnt/data2/acedb_dumps/'$wbrel'' # <---- XML dump location
-
 
 echo 'Source directory is at' $sourcedir
 echo
@@ -55,7 +53,7 @@ do
     bash "$intermine"/wormmine/support/scripts/gff3/scrape_gff3.sh $datadir/wormbase-gff3/raw/"$spe"."${species["$spe"]}"."$wbrel".gff $datadir/wormbase-gff3/final/"$spe"."${species["$spe"]}"."$wbrel".gff
 
     cd $datadir"/wormbase-gff3/final"
-    python $testlab"/gff3/index.py" "$spe"."${species["$spe"]}"."$wbrel".gff
+    python $testlab"/gff3/exon_processing.py" "$spe"."${species["$spe"]}"."$wbrel".gff
     rm "$spe"."${species["$spe"]}"."$wbrel".gff
 
     echo 'Done #########################'

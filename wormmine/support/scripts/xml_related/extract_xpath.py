@@ -20,11 +20,15 @@ def extract_xpaths(xml_file):
 
 
 	xpaths = []
+        xpaths2 = set([])
 	for node in tree.iter():
 		xpath = tree.getpath(node)
 		new_xpath = re.sub(r'\[[0-9]*\]', '', xpath)
-		xpaths.append(new_xpath) 
-
+		xpaths.append(new_xpath)
+                xpaths2.add(new_xpath) 
+                print xpath
+                if  len(xpaths2) >= 124:
+                    break
 	uxpaths = []
 	[uxpaths.append(item) for item in xpaths if item not in uxpaths]
 	print len(uxpaths)

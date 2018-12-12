@@ -349,7 +349,8 @@ except:
 query = service.new_query("Protein")
 query.add_view("primaryAccession", "primaryIdentifier", "secondaryIdentifier", "symbol")
 query.add_sort_order("Protein.primaryIdentifier", "ASC")
-query.add_constraint("primaryAccession", "IS NULL", code = "A")
+query.add_constraint("primaryIdentifier", "IS NULL", code = "A")
+
 
 try:
     assert (len(query.rows()) == 0)

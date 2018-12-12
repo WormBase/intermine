@@ -24,10 +24,10 @@ public class WormBaseProteinFastaLoaderTask extends FastaLoaderTask {
             flymineSequence, BioEntity bioEntity, Organism organism, DataSet dataSet)
         throws ObjectStoreException {
         String name = bioJavaSequence.getName();
-        String[] ids = name.split("\\|");
+        /**String[] ids = name.split("\\|");*/
         
-        bioEntity.setFieldValue("primaryIdentifier", "WP:" + ids[0]);
-       	bioEntity.setFieldValue("secondaryIdentifier", ids[1]);
+        bioEntity.setFieldValue("primaryIdentifier", name);
+       	/**bioEntity.setFieldValue("primaryAccession", name);*/
        
         
         //System.out.println("JDJDLOG::"+name);

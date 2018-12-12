@@ -47,9 +47,9 @@ do
 
   #################### get the protein data ####################
   echo 'Getting protein data'
-  # mkdir -vp $datadir"/fasta/"$spe"/proteins/raw"
-  # mkdir -vp $datadir"/fasta/"$spe"/proteins/prepped"
-  # cd $datadir"/fasta/"$spe"/proteins/raw"
+  mkdir -vp $datadir"/fasta/"$spe"/proteins/raw"
+  mkdir -vp $datadir"/fasta/"$spe"/proteins/prepped"
+  cd $datadir"/fasta/"$spe"/proteins/raw"
   if [ ! -f "$spe"."${species["$spe"]}"."$wbrel".protein.fa ]; then
     echo "$spe"."${species["$spe"]}"."$wbrel".protein.fa 'not downloaded, downloading'
     echo 'transferring ' "$spe"."${species["$spe"]}"."$wbrel".protein.fa
@@ -59,18 +59,7 @@ do
     echo "$spe"."${species["$spe"]}"."$wbrel".protein.fa 'found, not transferring'
   fi
   echo 'Pre-processing protein FASTA file'
-  # put prepped dir here
-  # if [ $spe -eq "c_angaria" ];then
-
-    # awk '{ if (NF > 1) {split($2,res,"="); print ">"res[2]} else {print}}' < "$spe"."${species["$spe"]}"."$wbrel".protein.fa > "spe"."${species["$spe"]}"."$wbrel".protein.final.fa
-   
-  # else
-    awk '{ if (NF > 1) {split($2,res,"="); print ">"res[2]} else {print}}' < "$spe"."${species["$spe"]}"."$wbrel".protein.fa > "$spe"."${species["$spe"]}"."$wbrel".protein.final.fa
-  # fi
-
-
-#   perl $testlab'/fasta/wb-proteins/prep-wb-proteins.pl' "$spe"."${species["$spe"]}"."$wbrel".protein.fa ../prepped/"$spe"."${species["$spe"]}"."$wbrel".protein.fa
-#   echo 
+  awk '{ if (NF > 1) {split($2,res,"="); print ">"res[2]} else {print}}' < "$spe"."${species["$spe"]}"."$wbrel".protein.fa > ../"$spe"."${species["$spe"]}"."$wbrel".protein.final.fa
 
 done
 
