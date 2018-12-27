@@ -1,6 +1,6 @@
 from intermine.webservice import Service
 
-service = Service("http://intermine.wormbase.org/tools/wormmine/service")
+service = Service("http://im-dev1.wormbase.org/tools/wormmine/service")
 
 
 query = service.new_query("Gene")
@@ -475,7 +475,7 @@ for row in query.rows():
     result[row["name"]] = row["taxonId"]
 
 for i in result:
-    print('\t' + i + '\t' + str(result[i]))
+    print('\t' + str(i) + '\t' + str(result[i]))
 
 # # ############################################### #
 

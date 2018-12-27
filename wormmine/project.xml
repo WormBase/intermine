@@ -151,7 +151,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase O. volvulus protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/o_volvulus/protein/" />
-		<property name="fasta.loaderClassName"	value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
         </source>
 
@@ -163,7 +162,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase B. malayi protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/b_malayi/protein/" />
-                <property name="fasta.loaderClassName"  value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
         </source>
 
@@ -175,7 +173,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase C. angaria protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/c_angaria/protein/" />
-                <property name="fasta.loaderClassName"  value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
 	     </source> -->
 
@@ -188,7 +185,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase C. brenneri protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/c_brenneri/protein/" />
-                <property name="fasta.loaderClassName"  value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
 		</source>
 
@@ -200,7 +196,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase C. briggsae protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/c_briggsae/protein/" />
-                <property name="fasta.loaderClassName"  value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
 		</source>
 
@@ -212,7 +207,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase C. japonica protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/c_japonica/protein/" />
-                <property name="fasta.loaderClassName"  value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
 		</source>
 
@@ -224,7 +218,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase C. remanei protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/c_remanei/protein/" />
-                <property name="fasta.loaderClassName"  value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
 		</source>
 
@@ -236,7 +229,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase C. tropicalis protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/c_tropicalis/protein/" />
-                <property name="fasta.loaderClassName"  value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
 		</source> -->
 
@@ -248,7 +240,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase P. pacificus protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/p_pacificus/protein/" />
-                <property name="fasta.loaderClassName"  value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
 		</source>
 
@@ -260,7 +251,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase P. redivivus protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/p_redivivus/protein/" />
-                <property name="fasta.loaderClassName"  value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
 		</source> -->
 
@@ -272,7 +262,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase S. ratti protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/s_ratti/protein/" />
-                <property name="fasta.loaderClassName"  value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
 		</source>
 
@@ -284,7 +273,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase T. muris protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/t_muris/protein/" />
-                <property name="fasta.loaderClassName"  value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
                 </source>
 
@@ -297,7 +285,6 @@
                 <property name="fasta.dataSetTitle"     value="WormBase C. sinica protein sequence (Fasta)"/>
                 <property name="fasta.sequenceType"     value="protein"/>
                 <property name="src.data.dir"           location="&datadir;/fasta/c_sinica/protein/" />
-                <property name="fasta.loaderClassName"  value="org.intermine.bio.dataconversion.WormBaseProteinFastaLoaderTask"/>
                 <property name="fasta.includes"         value="*.fa*"/>
 		</source> -->
 
