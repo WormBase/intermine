@@ -58,7 +58,7 @@ intermine='/Users/nuin/Projects/intermine'
 datadir=$intermine'/datadir'$wbrel''   # for now the datadir is inside the intermine directory
 acexmldir=$datadir'/wormbase-acedb'
 testlab=$intermine'/wormmine/support/scripts/'
-compara=$intermine'/wormmine/support/compara'
+compara=$intermine'/wormmine/support/scripts/deploy/compara'
 
 echo 'WormMine datadir is at ' $intermine
 echo 'AceDB directory is at ' $acexmldir
@@ -410,12 +410,14 @@ echo
 # ################### panther ######################
 echo 'panther'
 mkdir -p $datadir'/panther'
-if [ ! -f $datadir'/panther/RefGenomeOrthologs' ] || [ ! -f $datadir'/panther/RefGenomeOrthologsFixed' ];then
+if [ ! -f $datadir'/panther/RefGenomeOrthologsFixed' ];then
   wget -O $datadir'/panther/RefGenomeOrthologs.tar.gz' ftp://ftp.pantherdb.org/ortholog/current_release/RefGenomeOrthologs.tar.gz
   tar xzvf $datadir'/panther/RefGenomeOrthologs.tar.gz' -C $datadir'/panther'
   cd $datadir'/panther'
   echo 'Processing Panther file'
   grep -vwFf $testlab/deploy/panther/lines_to_remove.txt -v RefGenomeOrthologs > RefGenomeOrthologsFixed
+  mv RefGenomeOrthologs.tar.gz $datadir
+  rm -v 
 else
   echo 'Panther already deployed'
 fi
@@ -444,39 +446,45 @@ ln -s $datadir'/worm/wormid' $datadir'/idresolver/wormid'
 echo
 
 
-# ################### compara #####################
-# echo 'compara - Human'
-# mkdir -p $datadir'/ensembl/compara'
+################### compara #####################
+echo 'compara - Human'
+mkdir -p $datadir'/ensembl/compara'
 # perl $compara'/compara.pl' $compara'/human.xml' > $datadir'/ensemble/compara/6239_9606'
+python $compara/compara.py $compara'/human.xml' > $datadir'/ensembl/compara/6239_9606'
 
-# echo 'compara - Zebra'
-# mkdir -p $datadir'/ensembl/compara'
-# perl $compara'/compara.pl' $compara'/zebra.xml' > $datadir'/ensemble/compara/6239_7955'
+echo 'compara - Zebra'
+mkdir -p $datadir'/ensembl/compara'
+# perl $compara'/compara.pl' $compara'/zebra.xml' > $datadir'/ensembl/compara/6239_7955'
+python $compara/compara.py $compara'/zebra.xml' > $datadir'/ensembl/compara/6239_7955'
 
-# echo 'compara - Mouse'
-# mkdir -p $datadir'/ensembl/compara'
-# perl $compara'/compara.pl' $compara'/mus.xml' > $datadir'/ensemble/compara/6239_10090'
+echo 'compara - Mouse'
+mkdir -p $datadir'/ensembl/compara'
+# perl $compara'/compara.pl' $compara'/mus.xml' > $datadir'/ensembl/compara/6239_10090'
+python $compara/compara.py $compara'/mus.xml' > $datadir'/ensembl/compara/6239_10090'
 
-# echo 'compara - Drosophila'
-# mkdir -p $datadir'/ensembl/compara'
-# perl $compara'/compara.pl' $compara'/drosophila.xml' > $datadir'/ensemble/compara/6239_7227'
+echo 'compara - Drosophila'
+mkdir -p $datadir'/ensembl/compara'
+# perl $compara'/compara.pl' $compara'/drosophila.xml' > $datadir'/ensembl/compara/6239_7227'
+python $compara/compara.py $compara'/drosophila.xml' > $datadir'/ensembl/compara/6239_7227'
 
-# echo 'compara - Rat'
-# mkdir -p $datadir'/ensembl/compara'
-# perl $compara'/compara.pl' $compara'/rat.xml' > $datadir'/ensemble/compara/6239_10116'
-
-# echo 'compara - Yeast'
-# mkdir -p $datadir'/ensembl/compara'
-# perl $compara'/compara.pl' $compara'/yeast.xml' > $datadir'/ensemble/compara/6239_4932'
-
+echo 'compara - Rat'
+mkdir -p $datadir'/ensembl/compara'
+# perl $compara'/compara.pl' $compara'/rat.xml' > $datadir'/ensembl/compara/6239_10116'
+python $compara/compara.py $compara'/rat.xml' > $datadir'/ensembl/compara/6239_10116'
 
 
-# echo
-# echo 'Success: deployment and pre-processing complete'
-# echo
+echo 'compara - Yeast'
+mkdir -p $datadir'/ensembl/compara'
+# perl $compara'/compara.pl' $compara'/yeast.xml' > $datadir'/ensembl/compara/6239_4932'
+python $compara/compara.py $compara'/yeast.xml' > $datadir'/ensembl/compara/6239_4932'
 
-# echo 'Starting build'
-# # cd $intermine'/wormmine'
-# # pwd
-# #../bio/scripts/project_build -b -v localhost wormmine_dump
+
+echo
+echo 'Success: deployment and pre-processing complete'
+echo
+
+echo 'Starting build'
+# cd $intermine'/wormmine'
+# pwd
+#../bio/scripts/project_build -b -v localhost wormmine_dump
 
