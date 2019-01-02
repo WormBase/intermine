@@ -425,12 +425,8 @@ except:
 # # ############################################### #
 
 query = service.new_query("Protein")
-query.add_view(
-    "primaryAccession", "primaryIdentifier", "CDSs.primaryIdentifier",
-    "CDSs.symbol"
-)
-query.add_sort_order("Protein.primaryIdentifier", "ASC")
-query.add_constraint("primaryAccession", "=", "CE46852", code = "A")
+query.add_view("primaryIdentifier", "CDSs.primaryIdentifier", "CDSs.symbol")
+query.add_constraint("primaryIdentifier", "=", "CE46852", code = "A")
 
 try:
     assert (len(query.rows()) == 1)
@@ -441,9 +437,8 @@ except:
 # # ############################################### #
 
 query = service.new_query("CDS")
-query.add_view("primaryIdentifier", "symbol", "protein.primaryAccession",
-    "protein.primaryIdentifier")
-query.add_constraint("protein.primaryAccession", "=", "CE46852", code = "A")
+query.add_view("primaryIdentifier", "symbol", "protein.primaryIdentifier")
+query.add_constraint("protein.primaryIdentifier", "=", "CE46852", code = "A")
 
 try:
     assert (len(query.rows()) == 1)
@@ -466,7 +461,6 @@ except:
 
 # # ############################################### #
 
-
 query = service.new_query("Organism")
 query.add_view("name", "taxonId")
 print('Query #36')
@@ -475,7 +469,7 @@ for row in query.rows():
     result[row["name"]] = row["taxonId"]
 
 for i in result:
-    print('\t' + str(i) + '\t' + str(result[i]))
+    print('\t' + i + '\t' + str(result[i]))
 
 # # ############################################### #
 
@@ -489,7 +483,10 @@ for row in query.rows():
     result[row["primaryIdentifier"]] = row["organism.name"]
 
 for i in result:
-    print('\t' + i + '\t' + str(result[i]))
+    try:
+        print('\t' + i + '\t' + str(result[i]))
+    except:
+        print('\t' + i)
 
 # # ############################################### #
 
@@ -503,3 +500,18 @@ try:
     print('Query #38 Returned %i - PASSED' % (len(query.rows())))
 except Exception as e:
     print('Query #38 Returned %i - FAILED' % len(query.rows()))
+
+# # ############################################### #
+
+query = service.new_query("ExpressionPattern")
+query.add_view(
+    "primaryIdentifier", "gene.primaryIdentifier", "gene.secondaryIdentifier",
+    "gene.symbol"
+)
+query.add_constraint("primaryIdentifier", "=", "Expr3417", code = "A")
+
+try:
+    assert len(query.rows()) >= 47
+    print('Query #39 Returned %i - PASSED' % (len(query.rows())))
+except Exception as e:
+    print('Query #39 Returned %i - FAILED' % len(query.rows()))
