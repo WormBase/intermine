@@ -1,5 +1,8 @@
-gff = open('expanded_gff.gff').read().splitlines()
-new_gff = open('expandedID_gff.gff', 'w')
+import sys
+
+
+gff = open(sys.argv[1]).read().splitlines()
+new_gff = open(sys.argv[1].replace('gff', 'index.gff'), 'w')
 tracker = 0
 index = 0
 for line in gff:
