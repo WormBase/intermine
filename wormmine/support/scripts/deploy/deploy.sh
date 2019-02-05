@@ -72,20 +72,6 @@ for spe in "${!species[@]}"
 do
   echo species: $spe ${species["$spe"]}
 
-  #################### get the genomic data ####################
-  echo 'Getting genomic data'
-  mkdir -vp $datadir'/fasta/'$spe"/genomic"
-  cd $datadir'/fasta/'$spe"/genomic"
-  if [ ! -f "$spe"."${species["$spe"]}"."$wbrel".genomic.fa ]; then
-    echo "$spe"."${species["$spe"]}"."$wbrel".genomic.fa 'not found'
-    echo 'transferring ' "$spe"."${species["$spe"]}"."$wbrel".genomic.fa.gz
-    wget -q --show-progress -O "$spe"."${species["$spe"]}"."$wbrel".genomic.fa.gz "ftp://ftp.wormbase.org/pub/wormbase/releases/"$wbrel"/species/"$spe"/"${species["$spe"]}"/"$spe"."${species["$spe"]}"."$wbrel".genomic.fa.gz"
-    gunzip  -v "$spe"."${species["$spe"]}"."$wbrel".genomic.fa.gz
-  else
-    echo "$spe"."${species["$spe"]}"."$wbrel".genomic.fa 'found, not transferring'
-  fi
-  echo
-
   #################### get the protein data ####################
   echo 'Getting protein data'
   mkdir -vp $datadir"/fasta/"$spe"/proteins/raw"
@@ -105,22 +91,30 @@ do
     awk '{ if (NF > 1) {split($2,res,"="); print ">"res[2]} else {print}}' < "$spe"."${species["$spe"]}"."$wbrel".protein.fa > $datadir"/fasta/"$spe"/proteins/prepped/""$spe"."${species["$spe"]}"."$wbrel".protein.final.fa
   echo 
 
-  echo 'Getting CDS FASTA'
-  mkdir -vp $datadir"/fasta/"$spe"/cds/raw"
-  mkdir -vp $datadir"/fasta/"$spe"/cds/final"
-  cd $datadir"/fasta/"$spe"/cds/raw"
-  if [ ! -f "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa ]; then
-    echo "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa 'not found'
-    echo 'transferring' "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa
-    wget -q --show-progress -O "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz "ftp://ftp.wormbase.org/pub/wormbase/releases/"$wbrel"/species/"$spe"/"${species["$spe"]}"/"$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz"
-    gunzip -v "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz
+
+done
+
+
+declare -A species=(["c_elegans"]="PRJNA13758")
+
+for spe in "${!species[@]}"
+do
+  echo species: $spe ${species["$spe"]}
+
+  #################### get the genomic data ####################
+  echo 'Getting genomic data'
+  mkdir -vp $datadir'/fasta/'$spe"/genomic"
+  cd $datadir'/fasta/'$spe"/genomic"
+  if [ ! -f "$spe"."${species["$spe"]}"."$wbrel".genomic.fa ]; then
+    echo "$spe"."${species["$spe"]}"."$wbrel".genomic.fa 'not found'
+    echo 'transferring ' "$spe"."${species["$spe"]}"."$wbrel".genomic.fa.gz
+    wget -q --show-progress -O "$spe"."${species["$spe"]}"."$wbrel".genomic.fa.gz "ftp://ftp.wormbase.org/pub/wormbase/releases/"$wbrel"/species/"$spe"/"${species["$spe"]}"/"$spe"."${species["$spe"]}"."$wbrel".genomic.fa.gz"
+    gunzip  -v "$spe"."${species["$spe"]}"."$wbrel".genomic.fa.gz
   else
-    echo "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz 'found, not transferring'
+    echo "$spe"."${species["$spe"]}"."$wbrel".genomic.fa 'found, not transferring'
   fi
-  echo 'Pre-processing CDS FASTA file'
-    sed 's/>/>CDS:/g' "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa > "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.prepped.fa
-    sed 's/gene=.*//g' "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.prepped.fa > ../final/"$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.prepped.fa
-  echo 
+  echo
+
 
   echo 'Getting Transcript FASTA'
   mkdir -vp $datadir"/fasta/"$spe"/transcript/raw"
@@ -138,6 +132,25 @@ do
     sed  's/>/>Transcript:/g' "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.fa > "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.prepped.fa
     sed 's/gene=.*//g' "$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.prepped.fa > ../final/"$spe"."${species["$spe"]}"."$wbrel".mRNA_transcripts.prepped.fa
   echo 
+
+
+  echo 'Getting CDS FASTA'
+  mkdir -vp $datadir"/fasta/"$spe"/cds/raw"
+  mkdir -vp $datadir"/fasta/"$spe"/cds/final"
+  cd $datadir"/fasta/"$spe"/cds/raw"
+  if [ ! -f "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa ]; then
+    echo "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa 'not found'
+    echo 'transferring' "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa
+    wget -q --show-progress -O "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz "ftp://ftp.wormbase.org/pub/wormbase/releases/"$wbrel"/species/"$spe"/"${species["$spe"]}"/"$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz"
+    gunzip -v "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz
+  else
+    echo "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa.gz 'found, not transferring'
+  fi
+  echo 'Pre-processing CDS FASTA file'
+    sed 's/>/>CDS:/g' "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.fa > "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.prepped.fa
+    sed 's/gene=.*//g' "$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.prepped.fa > ../final/"$spe"."${species["$spe"]}"."$wbrel".CDS_transcripts.prepped.fa
+  echo 
+
 
   #################### get gff annotations ####################
   echo 'Getting gff data'
@@ -162,7 +175,11 @@ do
     echo 'Done #########################'
   fi
   echo
-done
+
+
+
+
+
 
 #################### gene ontology ####################
 mkdir -vp $datadir"/go/"
