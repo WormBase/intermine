@@ -162,10 +162,10 @@ do
   fi
   if [ ! -f final/"$spe"."${species2["$spe"]}"."$wbrel".prepped.gff ]; then
     echo 'Starting GFF3 pre-processing'
-    # bash "$intermine"/wormmine/support/scripts/gff3/scrape_gff3.sh $datadir/wormbase-gff3/raw/"$spe"."${species2["$spe"]}"."$wbrel".gff $datadir/wormbase-gff3/final/"$spe"."${species2["$spe"]}"."$wbrel".gff
+    bash "$intermine"/wormmine/support/scripts/gff3/scrape_gff3.sh $datadir/wormbase-gff3/raw/"$spe"."${species2["$spe"]}"."$wbrel".gff $datadir/wormbase-gff3/final/"$spe"."${species2["$spe"]}"."$wbrel".gff
 
     cd $datadir"/wormbase-gff3/final"
-    python $testlab"/gff3/index.py" "$spe"."${species2["$spe"]}"."$wbrel".gff
+    python $testlab"/gff3/exon_processing.py" "$spe"."${species2["$spe"]}"."$wbrel".gff
     rm "$spe"."${species2["$spe"]}"."$wbrel".gff
 
     echo 'Done #########################'
