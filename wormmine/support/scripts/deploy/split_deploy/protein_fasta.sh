@@ -33,7 +33,6 @@ intermine='/mnt/data2/wormmine'
 datadir=$intermine'/datadir'$wbrel''   # for now the datadir is inside the intermine directory
 acexmldir=$datadir'/wormbase-acedb'
 testlab=$intermine'/wormmine/support/scripts/'
-compara=$intermine'/wormmine/support/compara'
 
 echo 'WormMine datadir is at ' $intermine
 echo 'AceDB directory is at ' $acexmldir
@@ -47,9 +46,8 @@ do
 
   #################### get the protein data ####################
   echo 'Getting protein data'
-  mkdir -vp $datadir"/fasta/"$spe"/proteins/raw"
-  mkdir -vp $datadir"/fasta/"$spe"/proteins/prepped"
-  cd $datadir"/fasta/"$spe"/proteins/raw"
+  mkdir -vp $datadir"/fasta/"$spe"/protein/raw"
+  cd $datadir"/fasta/"$spe"/protein/raw"
   if [ ! -f "$spe"."${species["$spe"]}"."$wbrel".protein.fa ]; then
     echo "$spe"."${species["$spe"]}"."$wbrel".protein.fa 'not downloaded, downloading'
     echo 'transferring ' "$spe"."${species["$spe"]}"."$wbrel".protein.fa
@@ -59,7 +57,14 @@ do
     echo "$spe"."${species["$spe"]}"."$wbrel".protein.fa 'found, not transferring'
   fi
   echo 'Pre-processing protein FASTA file'
-  awk '{ if (NF > 1) {split($2,res,"="); print ">"res[2]} else {print}}' < "$spe"."${species["$spe"]}"."$wbrel".protein.fa > ../"$spe"."${species["$spe"]}"."$wbrel".protein.final.fa
+
+./wormmine/support/scripts/deploy/fasta/wb-proteins/prep-wb-proteins.pl
+
+  perl $testlab'/deploy/fasta/wb-proteins/prep-wb-proteins.pl' "$spe"."${species["$spe"]}"."$wbrel".protein.fa "$spe""${species["$spe"]}"."$wbrel".protein.prepped.fa
+  awk '{ if ($1 ~ /^>/) {split($1,res,"|"); gsub("wormpep=", "", res[1]); print ""res[1]} else {print}}' < "$spe""${species["$spe"]}"."$wbrel".protein.prepped.fa > ../"$spe""${species["$spe"]}"."$wbrel".protein.prepped.fa
+
+
+
 
 done
 
