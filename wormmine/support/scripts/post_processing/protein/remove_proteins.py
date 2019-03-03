@@ -10,8 +10,8 @@ connection = db.connect()
 
 if __name__ == '__main__':
 
-    transcript_ids = open('to_remove_cds.txt').read().splitlines()
+    gene_ids = open('to_remove.txt').read().splitlines()
 
-    for i in transcript_ids:
+    for i in gene_ids:
         print(i)
-        connection.execute("DELETE from cds WHERE primaryidentifier = '%s'" % (i))
+        connection.execute("DELETE from PROTEIN WHERE primaryidentifier = '%s'" % (i))

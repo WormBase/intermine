@@ -83,9 +83,10 @@ except:
 # ############################################### #
 
 query = service.new_query("Allele")
-query.add_view("primaryIdentifier", "symbol", "gene.primaryIdentifier",
-              "gene.secondaryIdentifier", "gene.symbol")
-query.add_constraint("symbol", "=", "gk962622", code = "A")
+query.add_view(
+    "primaryIdentifier", "genes.primaryIdentifier", "genes.secondaryIdentifier"
+)
+query.add_constraint("primaryIdentifier", "=", "WBVar01498288", code = "A")
 
 try:
     assert (len(query.rows()) == 75)
