@@ -3,7 +3,7 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
-db_string = "postgres://postgres:interwormmine@localhost/intermine_dev_18_269_4"
+db_string = "postgres://postgres:interwormmine@localhost/intermine_dev_2_269_1"
 db = create_engine(db_string)
 connection = db.connect()
 
