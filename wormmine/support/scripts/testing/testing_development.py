@@ -464,31 +464,31 @@ except:
 
 query = service.new_query("Organism")
 query.add_view("name", "taxonId")
-print('Query #36')
-result = {}
-for row in query.rows():
-    result[row["name"]] = row["taxonId"]
-
-for i in result:
-    print('\t' + i + '\t' + str(result[i]))
+#print('Query #36')
+#result = {}
+#for row in query.rows():
+#    result[row["name"]] = row["taxonId"]
+#
+#for i in result:
+#    print('\t' + i + '\t' + str(result[i]))
 
 # # ############################################### #
 
-query = service.new_query("Chromosome")
-query.add_view("primaryIdentifier", "organism.name")
-query.add_constraint("organism.name", "=", "Caenorhabditis elegans", code = "A")
-print('Query #37')
-
-result = {}
-for row in query.rows():
-    result[row["primaryIdentifier"]] = row["organism.name"]
-
-for i in result:
-    try:
-        print('\t' + i + '\t' + str(result[i]))
-    except:
-        print('\t' + i)
-
+#query = service.new_query("Chromosome")
+#query.add_view("primaryIdentifier", "organism.name")
+#query.add_constraint("organism.name", "=", "Caenorhabditis elegans", code = "A")
+#print('Query #37')
+#
+#result = {}
+#for row in query.rows():
+#    result[row["primaryIdentifier"]] = row["organism.name"]
+#
+#for i in result:
+#    try:
+#        print('\t' + i + '\t' + str(result[i]))
+#    except:
+#        print('\t' + i)
+#
 # # ############################################### #
 
 
@@ -506,8 +506,8 @@ except Exception as e:
 
 query = service.new_query("ExpressionPattern")
 query.add_view(
-    "primaryIdentifier", "gene.primaryIdentifier", "gene.secondaryIdentifier",
-    "gene.symbol"
+    "primaryIdentifier", "genes.primaryIdentifier", "genes.secondaryIdentifier",
+    "genes.symbol"
 )
 query.add_constraint("primaryIdentifier", "=", "Expr3417", code = "A")
 
